@@ -18,4 +18,7 @@ public class FeignSupportConfig {
      * @return
      */
     @Bean
-    public Re
+    public RequestInterceptor requestInterceptor() {
+        return new MyRequestInterceptor();
+    }
+}
