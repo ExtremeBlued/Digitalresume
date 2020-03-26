@@ -9,4 +9,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 import java.util.List;
 
 @Configuration
-public class WebMvcConfigurer extends WebMvc
+public class WebMvcConfigurer extends WebMvcConfigurationSupport {
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
+        converter.setFeatures(
+                SerializerFeature.WriteMapNullValue,
+                SerializerFeature.WriteNullStringAsEmpty,
+                SerializerFeature.WriteNullBooleanAsFalse,
+                SerializerFeature.WriteNullNumberAsZero,
+                SerializerFeature.PrettyFormat
+        );
+        converters.add(converter);
+    }
+}
