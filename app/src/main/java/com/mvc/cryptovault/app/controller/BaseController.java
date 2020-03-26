@@ -15,4 +15,24 @@ import java.math.BigInteger;
  */
 public class BaseController {
 
- 
+    @Autowired
+    protected AssetService assetService;
+    @Autowired
+    protected MessageService messageService;
+    @Autowired
+    protected ProjectService projectService;
+    @Autowired
+    protected TokenService tokenService;
+    @Autowired
+    protected TransactionService transactionService;
+    @Autowired
+    protected UserService userService;
+
+    @Autowired
+    protected StringRedisTemplate redisTemplate;
+    protected RestTemplate restTemplate = new RestTemplate();
+
+    protected Result mockResult = new Result(500, "服务器错误", null);
+
+    protected BigInteger getUserId() {
+     
