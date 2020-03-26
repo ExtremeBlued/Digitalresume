@@ -53,3 +53,99 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
         InterceptorRegistration addInterceptor = registry.addInterceptor(new ServiceAuthRestInterceptor());
+        // 排除配置
+        addInterceptor.excludePathPatterns("/error");
+        addInterceptor.excludePathPatterns("/login**");
+        addInterceptor.excludePathPatterns("/webjars/**");
+        addInterceptor.excludePathPatterns("/static/");
+        addInterceptor.excludePathPatterns("/");
+        addInterceptor.excludePathPatterns("/csrf");
+        // 拦截配置
+        addInterceptor.addPathPatterns("/**");
+        String[] urls = {
+                "/v2/api-docs",
+                "/swagger-resources/**",
+                "/cache/**",
+                "/api/log/save",
+                "/swagger-resources",
+                "/swagger-ui.html"
+        };
+        addInterceptor.excludePathPatterns(urls);
+    }
+
+    @Bean
+    public Docket createRestApi() {
+        //可以添加多个header或参数
+        ParameterBuilder aParameterBuilder = new ParameterBuilder();
+        ParameterBuilder aParameterBuilder2 = new ParameterBuilder();
+        aParameterBuilder
+                .parameterType("header")
+                .name("Authorization")
+                .description("token")
+                .modelRef(new ModelRef("string"))
+                .required(false).build();
+        aParameterBuilder2
+                .parameterType("header")
+                .name("Accept-Language")
+                .description("国际化设置,目前只支持zh-cn/en-US,如需扩展参考官方字段说明")
+                .modelRef(new ModelRef("string"))
+                .required(false).build();
+        List<Parameter> aParameters = new ArrayList<>();
+        aParameters.add(aParameterBuilder.build());
+        aParameters.add(aParameterBuilder2.build());
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo())
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.mvc.cryptovault.app"))
+                .paths(PathSelectors.any())
+                .build().globalOperationParameters(aParameters);
+    }
+
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title("app接口API")
+                .description("myapp")
+                .version("1.0")
+                .build();
+    }
+
+    @Bean
+    public LocaleResolver localeResolver() {
+        AcceptHeaderLocaleResolver slr = new AcceptHeaderLocaleResolver();
+        // 默认语言
+        slr.setDefaultLocale(Locale.US);
+        return slr;
+    }
+
+    @Bean
+    public LocaleChangeInterceptor localeChangeInterceptor() {
+        LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
+        // 参数名
+        return lci;
+    }
+
+
+    @Override
+    @Bean
+    public Validator getValidator() {
+        ResourceBundleMessageSource rbms = new ResourceBundleMessageSource();
+        rbms.setDefaultEncoding("UTF-8");
+        rbms.setBasenames("messages");
+        LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+        validator.setValidationMessageSource(rbms);
+        return validator;
+    }
+
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
+        converter.setFeatures(
+                SerializerFeature.WriteMapNullValue,
+                SerializerFeature.WriteNullStringAsEmpty,
+                SerializerFeature.WriteNullBooleanAsFalse,
+                SerializerFeature.WriteNullNumberAsZero,
+                SerializerFeature.PrettyFormat
+        );
+        converters.add(converter);
+    }
+}
