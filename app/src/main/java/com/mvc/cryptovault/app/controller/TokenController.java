@@ -41,4 +41,15 @@ public class TokenController extends BaseController {
 
     @ApiOperation("获取币种比值,用于计算资产总值.以CNY为基础货币.建议缓存")
     @GetMapping("base")
-    @SwaggerMock("${token.b
+    @SwaggerMock("${token.base}")
+    public Result<List<TokenRatioVO>> getBase() {
+        return new Result<>(tokenService.getBase());
+    }
+
+    @ApiOperation("获取汇率，每12小时刷新.客户端控制调用频率")
+    @GetMapping("exchange/rate")
+    public Result<List<ExchangeRateVO>> getExchangeRate() {
+        return new Result<>(tokenService.getExchangeRate());
+    }
+
+}
