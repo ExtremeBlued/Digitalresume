@@ -21,4 +21,24 @@ import java.util.List;
  * 令牌相关
  *
  * @author qiyichen
- * @create 2018/11
+ * @create 2018/11/7 11:02
+ */
+
+@Api(tags = "令牌相关")
+@RequestMapping("token")
+@RestController
+public class TokenController extends BaseController {
+
+    @Autowired
+    TokenService tokenService;
+
+    @ApiOperation("获取币种列表,需要传入时间戳,必须缓存.添加移除时本地记录并保存顺序.如果返回内容为空则代表无变化,否则需要刷新本地数据库(全量刷新).搜索时本地搜索")
+    @GetMapping
+    @SwaggerMock("${token.all}")
+    public Result<List<TokenDetailVO>> getTokens(@RequestParam(required = false) BigInteger timestamp) throws Exception {
+        return new Result<>(tokenService.getTokens(timestamp));
+    }
+
+    @ApiOperation("获取币种比值,用于计算资产总值.以CNY为基础货币.建议缓存")
+    @GetMapping("base")
+    @SwaggerMock("${token.b
