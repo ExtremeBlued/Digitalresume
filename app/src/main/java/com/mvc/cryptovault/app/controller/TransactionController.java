@@ -26,4 +26,20 @@ import java.util.List;
 public class TransactionController extends BaseController {
 
     @ApiOperation("获取交易对,很少变动,本地必须缓存")
-    @GetMappi
+    @GetMapping("pair")
+    @SwaggerMock("${transaction.pair}")
+    public Result<List<PairVO>> getPair(@ModelAttribute @Valid PairDTO pairDTO) {
+        return new Result<>(transactionService.getPair(getUserId(), pairDTO));
+    }
+
+    @ApiOperation("获取挂单列表")
+    @GetMapping()
+    @SwaggerMock("${transaction.list}")
+    public Result<List<OrderVO>> getTransactions(@ModelAttribute OrderDTO dto) {
+        return new Result<>(transactionService.getTransactions(getUserId(), dto));
+    }
+
+    @ApiOperation("获取7日交易K线")
+    @GetMapping("pair/kline")
+    @SwaggerMock("${transaction.kline}")
+    public Result<KLineVO> getKLine(@RequestParam BigInteger
