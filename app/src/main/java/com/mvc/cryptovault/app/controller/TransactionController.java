@@ -42,4 +42,20 @@ public class TransactionController extends BaseController {
     @ApiOperation("获取7日交易K线")
     @GetMapping("pair/kline")
     @SwaggerMock("${transaction.kline}")
-    public Result<KLineVO> getKLine(@RequestParam BigInteger
+    public Result<KLineVO> getKLine(@RequestParam BigInteger pairId) {
+        return new Result<>(transactionService.getKLine(getUserId(), pairId));
+    }
+
+    @ApiOperation("筛选已参与订单")
+    @GetMapping("partake")
+    @SwaggerMock("${transaction.all}")
+    public Result<List<MyOrderVO>> getUserTransactions(@ModelAttribute @Valid MyTransactionDTO dto) {
+        return new Result<>(transactionService.getUserTransactions(getUserId(), dto));
+    }
+
+    @ApiOperation("发起挂单")
+    @PostMapping("")
+    @SwaggerMock("${transaction.buy}")
+    public Result<Boolean> buy(@RequestBody TransactionBuyDTO dto) {
+        return new Result<>(transactionService.buy(getUserId(), dto));
+    
