@@ -12,4 +12,23 @@ import org.springframework.stereotype.Component;
  * @create 2018/12/19 12:43
  */
 @Component
-public class SmsJob impleme
+public class SmsJob implements CommandLineRunner {
+    @Autowired
+    SmsService smsService;
+
+    @Override
+    @Async
+    public void run(String... args) throws Exception {
+        while (true) {
+            try {
+                Thread.sleep(20);
+                String cellphone = SmsService.queue.poll();
+                if (StringUtils.isNotBlank(cellphone)) {
+                    Boolean result = smsService.sendSms(cellphone);
+                    if (!result) {
+                        SmsService.queue.add(cellphone);
+                    }
+                }
+            } catch (InterruptedException e) {
+            }
+  
