@@ -26,3 +26,57 @@ import javax.validation.Valid;
  */
 @Api(tags = "用户相关")
 @RequestMapping("user")
+@RestController
+public class UserController extends BaseController {
+
+    @Autowired
+    SmsService smsService;
+
+    @ApiOperation("用户登录,缓存登录令牌.登录规则后续确定")
+    @PostMapping("login")
+    @SwaggerMock("${user.login}")
+    @NotLogin
+    public Result<TokenVO> login(HttpServletResponse response, @RequestBody @Valid UserDTO userDTO) {
+        String key = RedisConstant.SMS_VALI_PRE + userDTO.getUsername();
+        Boolean result = smsService.checkSmsValiCode(userDTO.getUsername(), userDTO.getValidCode());
+//        Assert.isTrue(result, MessageConstants.getMsg("SMS_ERROR"));
+        TokenVO vo = userService.login(userDTO);
+        redisTemplate.delete(key);
+        return new Result(vo);
+    }
+
+    @PostMapping("refresh")
+    @ApiOperation("刷新令牌")
+    Result<String> refresh() throws LoginException {
+        String result = userService.refresh();
+        return new Result(result);
+    }
+
+    @ApiOperation("用户信息获取")
+    @GetMapping("info")
+    @SwaggerMock("${user.info}")
+    public Result<UserSimpleVO> getInfo() {
+        UserSimpleVO user = userService.getUserById(getUserId());
+        return new Result<>(user);
+    }
+
+    @ApiOperation("用户分组信息获取,用户推送设置(tag),内容为英文逗号分隔开的id列表")
+    @GetMapping("tag")
+    public Result<String> getTag() {
+        String result = userService.getTag(getUserId());
+        return new Result<>(result);
+    }
+
+    @ApiOperation("获取登录验证码,1分钟1个手机号只能获取1次")
+    @GetMapping("sms")
+    @NotLogin
+    public Result<Boolean> getSms(@RequestParam String cellphone) {
+        Boolean exist = userService.getUserByCellphone(cellphone);
+        if (exist) {
+            //只有存在的账户才发送
+//            smsService.getSmsValiCode(cellphone);
+        }
+        return new Result<>(true);
+    }
+
+}
