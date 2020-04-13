@@ -58,4 +58,20 @@ public class TransactionController extends BaseController {
     @SwaggerMock("${transaction.buy}")
     public Result<Boolean> buy(@RequestBody TransactionBuyDTO dto) {
         return new Result<>(transactionService.buy(getUserId(), dto));
-    
+    }
+
+    @ApiOperation("挂单信息获取transactionType:1购买 2出售")
+    @GetMapping("info")
+    @SwaggerMock("${transacction.info}")
+    public Result<OrderInfoVO> getInfo(@RequestParam BigInteger pairId, @RequestParam Integer transactionType) {
+        return new Result<>(transactionService.getInfo(getUserId(), pairId, transactionType));
+    }
+
+    @ApiOperation("取消挂单")
+    @DeleteMapping("{id}")
+    @SwaggerMock("${transaction.cancel}")
+    public Result<Boolean> cancel(@PathVariable BigInteger id) {
+        return new Result<>(transactionService.cancel(getUserId(), id));
+    }
+
+}
