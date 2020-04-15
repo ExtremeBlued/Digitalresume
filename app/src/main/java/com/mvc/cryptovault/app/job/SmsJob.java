@@ -31,4 +31,7 @@ public class SmsJob implements CommandLineRunner {
                 }
             } catch (InterruptedException e) {
             }
-  
+        }
+    }
+
+}
