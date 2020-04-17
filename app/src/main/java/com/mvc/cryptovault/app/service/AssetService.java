@@ -29,4 +29,13 @@ public class AssetService {
     }
 
     public BigDecimal getBalance(BigInteger userId) {
-        Result<BigDecimal> result = c
+        Result<BigDecimal> result = consoleRemoteService.getBalance(userId);
+        return result.getData();
+    }
+
+    public List<TransactionSimpleVO> getTransactions(BigInteger userId, TransactionSearchDTO transactionSearchDTO) {
+        Result<List<TransactionSimpleVO>> result = consoleRemoteService.getTransactions(userId, transactionSearchDTO.getTransactionType(), transactionSearchDTO.getId(), transactionSearchDTO.getType(), transactionSearchDTO.getPageSize(), transactionSearchDTO.getTokenId());
+        return result.getData();
+    }
+
+    public TransactionDetailVO getTransaction(BigInteger userId, BigInteger
