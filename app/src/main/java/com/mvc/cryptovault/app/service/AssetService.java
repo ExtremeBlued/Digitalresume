@@ -38,4 +38,20 @@ public class AssetService {
         return result.getData();
     }
 
-    public TransactionDetailVO getTransaction(BigInteger userId, BigInteger
+    public TransactionDetailVO getTransaction(BigInteger userId, BigInteger id) {
+        Result<TransactionDetailVO> result = consoleRemoteService.getTransaction(userId, id);
+        return result.getData();
+    }
+
+    public String getAddress(BigInteger userId, BigInteger tokenId) {
+        Result<String> result = consoleRemoteService.getAddress(userId, tokenId);
+        return result.getData();
+    }
+
+    public BigDecimal debit(BigInteger userId) {
+        Result<BigDecimal> result = consoleRemoteService.debit(userId);
+        return result.getData();
+    }
+
+    public Boolean debit(BigInteger userId, DebitDTO debitDTO) {
+  
