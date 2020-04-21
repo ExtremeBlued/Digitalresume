@@ -54,4 +54,17 @@ public class AssetService {
     }
 
     public Boolean debit(BigInteger userId, DebitDTO debitDTO) {
-  
+        Result<Boolean> result = consoleRemoteService.debit(userId, debitDTO);
+        return result.getData();
+    }
+
+    public TransactionTokenVO getTransactionInfo(BigInteger userId, BigInteger tokenId) {
+        Result<TransactionTokenVO> result = consoleRemoteService.getTransactionInfo(userId, tokenId);
+        return result.getData();
+    }
+
+    public Boolean sendTransaction(BigInteger userId, TransactionDTO transactionDTO) {
+        Boolean regResult = false;
+        if(transactionDTO.getTokenId().equals(BigInteger.valueOf(4))){
+            //usdt
+            regResult = tr
