@@ -67,4 +67,16 @@ public class AssetService {
         Boolean regResult = false;
         if(transactionDTO.getTokenId().equals(BigInteger.valueOf(4))){
             //usdt
-            regResult = tr
+            regResult = transactionDTO.getAddress().matches(USDT_REG_ARR);
+        } else {
+            //ETH OR ERC20
+            regResult = transactionDTO.getAddress().matches(ETH_REG);
+        }
+        Assert.isTrue(regResult, MessageConstants.getMsg("ADDRESS_FAIL"));
+        Result<Boolean> result = consoleRemoteService.sendTransaction(userId, transactionDTO);
+        return result.getData();
+    }
+
+    public Boolean updateVisible(BigInteger userId, AssertVisibleDTO assertVisibleDTO) {
+        Result<Boolean> result = consoleRemoteService.updateVisible(userId, assertVisibleDTO);
+        return resu
