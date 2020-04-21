@@ -79,4 +79,7 @@ public class AssetService {
 
     public Boolean updateVisible(BigInteger userId, AssertVisibleDTO assertVisibleDTO) {
         Result<Boolean> result = consoleRemoteService.updateVisible(userId, assertVisibleDTO);
-        return resu
+        return result.getData();
+    }
+
+}
