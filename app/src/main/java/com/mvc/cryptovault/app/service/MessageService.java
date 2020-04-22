@@ -11,4 +11,18 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.L
+import java.util.List;
+
+@Service
+public class MessageService {
+
+    @Autowired
+    ConsoleRemoteService messageRemoteService;
+
+    public List<MessageVO> getlist(BigInteger userId, BigInteger timestamp, Integer type, Integer pageSize) {
+        Result<PageInfo<AppMessage>> listData = messageRemoteService.getlist(userId, timestamp, type, pageSize);
+        List<MessageVO> result = new ArrayList<>(listData.getData().getList().size());
+        for (AppMessage message : listData.getData().getList()) {
+            MessageVO vo = new MessageVO();
+            BeanUtils.copyProperties(message, vo);
+            vo.setMessageType(message.g
