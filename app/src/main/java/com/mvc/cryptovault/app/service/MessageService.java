@@ -25,4 +25,16 @@ public class MessageService {
         for (AppMessage message : listData.getData().getList()) {
             MessageVO vo = new MessageVO();
             BeanUtils.copyProperties(message, vo);
-            vo.setMessageType(message.g
+            vo.setMessageType(message.getContentType());
+            vo.setMessageId(message.getContentId());
+            vo.setRead(message.getIsRead());
+            result.add(vo);
+        }
+        return result;
+    }
+
+    public Boolean read(BigInteger userId, BigInteger id) {
+        Result<Boolean> result = messageRemoteService.read(userId, id);
+        return result.getData();
+    }
+}
