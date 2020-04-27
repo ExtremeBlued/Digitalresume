@@ -30,3 +30,19 @@ public class ProjectService {
         for (AppProject appProject : listData.getData().getList()) {
             ProjectSimpleVO vo = new ProjectSimpleVO();
             BeanUtils.copyProperties(appProject, vo);
+            vo.setProjectId(appProject.getId());
+            vo.setTokenId(appProject.getTokenId());
+            vo.setTokenName(appProject.getTokenName());
+            vo.setTotal(appProject.getProjectTotal());
+            result.add(vo);
+        }
+        return result;
+    }
+
+    public List<PurchaseVO> getReservation(BigInteger userId, ReservationDTO reservationDTO) {
+        Result<PageInfo<PurchaseVO>> listData = projectRemoteService.getReservation(userId, reservationDTO);
+        return listData.getData().getList();
+    }
+
+    public ProjectBuyVO getPurchaseInfo(BigInteger userId, BigInteger id) {
+     
