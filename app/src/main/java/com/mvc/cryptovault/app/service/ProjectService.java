@@ -45,4 +45,13 @@ public class ProjectService {
     }
 
     public ProjectBuyVO getPurchaseInfo(BigInteger userId, BigInteger id) {
-     
+        Result<ProjectBuyVO> data = projectRemoteService.getPurchaseInfo(userId, id);
+        return data.getData();
+    }
+
+    public Boolean buy(BigInteger userId, BigInteger id, ProjectBuyDTO dto) {
+        Result<Boolean> result = projectRemoteService.buy(userId, id, dto);
+        return result.getData();
+    }
+
+}
