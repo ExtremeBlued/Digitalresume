@@ -45,4 +45,11 @@ public class TransactionService {
 
     public OrderInfoVO getInfo(BigInteger userId, BigInteger pairId, Integer transactionType) {
         Result<OrderInfoVO> result = transactionRemoteService.getInfo(userId, pairId, transactionType);
-        return result.g
+        return result.getData();
+    }
+
+    public Boolean cancel(BigInteger userId, BigInteger id) {
+        Result<Boolean> result = transactionRemoteService.cancel(userId, id);
+        return result.getData();
+    }
+}
