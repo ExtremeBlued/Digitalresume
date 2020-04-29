@@ -33,4 +33,16 @@ public class TransactionService {
         return result.getData();
     }
 
-    public Li
+    public List<MyOrderVO> getUserTransactions(BigInteger userId, MyTransactionDTO dto) {
+        Result<List<MyOrderVO>> result = transactionRemoteService.getUserTransactions(userId, dto);
+        return result.getData();
+    }
+
+    public Boolean buy(BigInteger userId, TransactionBuyDTO dto) {
+        Result<Boolean> result = transactionRemoteService.buy(userId, dto);
+        return result.getData();
+    }
+
+    public OrderInfoVO getInfo(BigInteger userId, BigInteger pairId, Integer transactionType) {
+        Result<OrderInfoVO> result = transactionRemoteService.getInfo(userId, pairId, transactionType);
+        return result.g
