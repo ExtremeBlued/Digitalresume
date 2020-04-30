@@ -46,4 +46,21 @@ public class UserService {
         Assert.isTrue(passwordCheck, MessageConstants.getMsg("USER_PASS_WRONG"));
         String token = JwtHelper.createToken(userDTO.getUsername(), user.getId());
         String refreshToken = JwtHelper.createRefresh(userDTO.getUsername(), user.getId());
-        vo.setRefreshToken(refresh
+        vo.setRefreshToken(refreshToken);
+        vo.setToken(token);
+        vo.setUserId(user.getId());
+        return vo;
+    }
+
+    public String refresh() throws LoginException {
+        BigInteger userId = (BigInteger) BaseContextHandler.get("userId");
+        String username = (String) BaseContextHandler.get("username");
+        Result<AppUser> userResult = userRemoteService.getUserByUsername(username);
+        AppUser user = userResult.getData();
+        if (user.getStatus() == 0) {
+            throw new LoginException();
+        }
+        return JwtHelper.createToken(username, userId);
+    }
+
+    public String ge
