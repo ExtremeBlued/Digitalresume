@@ -25,3 +25,17 @@ public class UserService {
     @Autowired
     StringRedisTemplate redisTemplate;
 
+    public UserSimpleVO getUserById(BigInteger userId) {
+        UserSimpleVO vo = new UserSimpleVO();
+        Result<AppUser> userResult = userRemoteService.getUserById(userId);
+        AppUser user = userResult.getData();
+        vo.setHeadImage(user.getHeadImage());
+        vo.setNickname(user.getNickname());
+        String username = user.getCellphone().substring(0, 3) + "****" + user.getCellphone().substring(7);
+        vo.setUsername(username);
+        return vo;
+    }
+
+    public TokenVO login(UserDTO userDTO) {
+        TokenVO vo = new TokenVO();
+        Result<AppUser> userResult = userRemoteServ
