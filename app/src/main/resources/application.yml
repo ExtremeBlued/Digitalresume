@@ -44,4 +44,12 @@ feign.hystrix.enabled: true
 
 hystrix.command.default.execution:
   isolation:
-    thread.timeoutInMilli
+    thread.timeoutInMilliseconds: 500
+  timeout.enabled: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8762/eureka/
+#swaggermock.switchOn: true
+#swaggermock.retry: 5000
