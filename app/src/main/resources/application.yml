@@ -1,0 +1,14 @@
+spring:
+  redis:
+    database: 1
+    host: 192.168.15.31
+    timeout: 1000ms
+    jedis:
+      pool:
+        max-idle: 8
+        max-active: 8
+        min-idle: 0
+  devtools:
+    restart:
+      enabled: true
+      additional-path

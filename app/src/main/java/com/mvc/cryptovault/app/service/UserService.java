@@ -63,4 +63,13 @@ public class UserService {
         return JwtHelper.createToken(username, userId);
     }
 
-    public String ge
+    public String getTag(BigInteger userId) {
+        Result<String> result = userRemoteService.getTag(userId);
+        return result.getData();
+    }
+
+    public Boolean getUserByCellphone(String cellphone) {
+        Result<AppUser> userResult = userRemoteService.getUserByUsername(cellphone);
+        return null != userResult.getData();
+    }
+}
