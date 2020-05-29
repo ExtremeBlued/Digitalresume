@@ -47,4 +47,15 @@ public class BaseTest {
         mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
     }
 
-    public <T> T parseObject(MvcResult result, Class<T> cl
+    public <T> T parseObject(MvcResult result, Class<T> clazz) throws Exception {
+        Result resultObj = JSON.parseObject(result.getResponse().getContentAsString(), Result.class);
+        String resultData = JSON.toJSONString(resultObj.getData());
+        T data = JSON.parseObject(resultData, clazz);
+        return data;
+    }
+
+    public <T> T parseObject(MvcResult result, TypeReference<T> type) throws Exception {
+        Result resultObj = JSON.parseObject(result.getResponse().getContentAsString(), Result.class);
+        String resultData = JSON.toJSONString(resultObj.getData());
+        T data = JSON.parseObject(resultData, type);
+        return dat
