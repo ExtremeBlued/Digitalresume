@@ -265,3 +265,52 @@ public class AssetControllerTest extends BaseTest {
                 .header("Authorization", getToken().getToken())
                 .content(JSON.toJSONString(transactionDTO))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
+                .andReturn();
+
+        //预先获取余额
+        result = mockMvc.perform(MockMvcRequestBuilders.get(host + "/asset")
+                .header("Authorization", getToken().getToken())
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
+                .andExpect(MockMvcResultMatchers.jsonPath("data").isNotEmpty())
+                .andReturn();
+        List<TokenBalanceVO> data = parseObject(result, new TypeReference<List<TokenBalanceVO>>() {
+        });
+        BigDecimal balance = data.stream().filter(obj -> obj.getTokenId().equals(BigInteger.valueOf(3))).collect(Collectors.toList()).get(0).getValue();
+        //密码正确
+        transactionDTO.setPassword("123456");
+        result = mockMvc.perform(MockMvcRequestBuilders.post(host + "/asset/transaction")
+                .header("Authorization", getToken().getToken())
+                .content(JSON.toJSONString(transactionDTO))
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
+                .andReturn();
+        //检查交易列表中是否生成了订单（最新1条记录的交易额应该和随机生成的值相同）
+        result = mockMvc.perform(MockMvcRequestBuilders.get(host + "/asset/transactions")
+                .header("Authorization", getToken().getToken())
+                .param("transactionType", "1")
+                .param("id", "0")
+                .param("pageSize", "1")
+                .param("type", "0")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
+                .andExpect(MockMvcResultMatchers.jsonPath("data").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("data[0].id").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("data[0].value", BigDecimal.class).value(value))
+                .andReturn();
+        //检查余额是否扣减
+        result = mockMvc.perform(MockMvcRequestBuilders.get(host + "/asset")
+                .header("Authorization", getToken().getToken())
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
+                .andExpect(MockMvcResultMatchers.jsonPath("data").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("data[2].value", BigDecimal.class).value(balance.subtract(new BigDecimal(String.valueOf(value)))))
+                .andReturn();
+    }
+}
