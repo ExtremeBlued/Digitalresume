@@ -71,4 +71,12 @@ public class BaseTest {
                     .contentType(MediaType.APPLICATION_JSON_UTF8))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andExpect(MockMvcResultMatchers.jsonPath("data.userId").exists())
-     
+                    .andExpect(MockMvcResultMatchers.jsonPath("data.token").exists())
+                    .andExpect(MockMvcResultMatchers.jsonPath("data.refreshToken").exists())
+                    .andDo(print())
+                    .andReturn();
+            vo = parseObject(result, TokenVO.class);
+        }
+        return vo;
+    }
+}
