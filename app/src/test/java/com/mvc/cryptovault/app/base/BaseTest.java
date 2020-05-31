@@ -58,4 +58,17 @@ public class BaseTest {
         Result resultObj = JSON.parseObject(result.getResponse().getContentAsString(), Result.class);
         String resultData = JSON.toJSONString(resultObj.getData());
         T data = JSON.parseObject(resultData, type);
-        return dat
+        return data;
+    }
+
+    public TokenVO getToken() throws Exception {
+        if (vo == null) {
+            UserDTO userDTO = new UserDTO();
+            userDTO.setPassword("123456");
+            userDTO.setUsername("18888888888");
+            MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(host + "/user/login")
+                    .content(JSON.toJSONString(userDTO))
+                    .contentType(MediaType.APPLICATION_JSON_UTF8))
+                    .andExpect(MockMvcResultMatchers.status().isOk())
+                    .andExpect(MockMvcResultMatchers.jsonPath("data.userId").exists())
+     
