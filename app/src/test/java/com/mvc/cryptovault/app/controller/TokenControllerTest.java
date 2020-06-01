@@ -28,4 +28,13 @@ public class TokenControllerTest extends BaseTest {
                 .andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
                 .andExpect(MockMvcResultMatchers.jsonPath("data").isNotEmpty())
                 .andExpect(MockMvcResultMatchers.jsonPath("data[0].tokenName").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("data[0].tokenImag
+                .andExpect(MockMvcResultMatchers.jsonPath("data[0].tokenImage").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("data[0].tokenCnName").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("data[0].tokenEnName").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("data[0].tokenId").exists())
+                .andReturn();
+        //增量更新,取最后一条数据的前一个时间戳,返回结果应该为1条
+        List<TokenDetailVO> data = parseObject(result, new TypeReference<List<TokenDetailVO>>() {
+        });
+        Long timestamp = data.get(data.size() - 2).getTimestamp();
+        result = mockMvc.perform(MockMvcRequestBuilders.get(host + "/
