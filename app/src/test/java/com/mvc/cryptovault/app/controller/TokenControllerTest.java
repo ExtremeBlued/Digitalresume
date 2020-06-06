@@ -37,4 +37,18 @@ public class TokenControllerTest extends BaseTest {
         List<TokenDetailVO> data = parseObject(result, new TypeReference<List<TokenDetailVO>>() {
         });
         Long timestamp = data.get(data.size() - 2).getTimestamp();
-        result = mockMvc.perform(MockMvcRequestBuilders.get(host + "/
+        result = mockMvc.perform(MockMvcRequestBuilders.get(host + "/token")
+                .header("Authorization", getToken().getToken())
+                .param("timestamp", timestamp.toString())
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
+                .andExpect(MockMvcResultMatchers.jsonPath("data").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("data", hasSize(1)))
+                .andReturn();
+    }
+
+    @Test
+    public void getBase() throws Exception {
+        //查询所有
+        Mvc
