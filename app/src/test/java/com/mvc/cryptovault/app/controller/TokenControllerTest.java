@@ -59,4 +59,9 @@ public class TokenControllerTest extends BaseTest {
                 .andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
                 .andExpect(MockMvcResultMatchers.jsonPath("data").isNotEmpty())
                 .andExpect(MockMvcResultMatchers.jsonPath("data[0].tokenName").exists())
-                .andExpect(MockMvcResult
+                .andExpect(MockMvcResultMatchers.jsonPath("data[0].ratio").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("data[0].tokenId").exists())
+                .andReturn();
+    }
+
+}
