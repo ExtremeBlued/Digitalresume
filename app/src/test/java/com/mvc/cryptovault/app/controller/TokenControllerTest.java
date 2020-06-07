@@ -51,4 +51,12 @@ public class TokenControllerTest extends BaseTest {
     @Test
     public void getBase() throws Exception {
         //查询所有
-        Mvc
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(host + "/token/base")
+                .header("Authorization", getToken().getToken())
+                .param("timestamp", "0")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
+                .andExpect(MockMvcResultMatchers.jsonPath("data").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("data[0].tokenName").exists())
+                .andExpect(MockMvcResult
