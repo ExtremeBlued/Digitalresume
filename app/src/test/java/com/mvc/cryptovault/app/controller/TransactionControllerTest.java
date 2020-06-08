@@ -38,4 +38,14 @@ public class TransactionControllerTest extends BaseTest {
     @Test
     public void getTransactions() throws Exception {
         MvcResult result = null;
-        res
+        result = mockMvc.perform(MockMvcRequestBuilders.get(host + "/transaction")
+                .header("Authorization", getToken().getToken())
+                .param("pairId", "1")
+                .param("transactionType", "1")
+                .param("id", "0")
+                .param("type", "0")
+                .param("pageSize", "999")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
+                .andExpect(MockMvcResultMatchers.jsonPath("
