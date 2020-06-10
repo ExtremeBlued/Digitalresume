@@ -48,4 +48,11 @@ public class TransactionControllerTest extends BaseTest {
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
                 .andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
-                .andExpect(MockMvcResultMatchers.jsonPath("
+                .andExpect(MockMvcResultMatchers.jsonPath("data").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("data[0].headImage").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("data[0].limitValue").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("data[0].nickname").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("data[0].total").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("data[0].id").isNotEmpty())
+                .andReturn();
+        var data = parseObject(result, new 
