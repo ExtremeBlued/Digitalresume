@@ -55,4 +55,18 @@ public class TransactionControllerTest extends BaseTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("data[0].total").isNotEmpty())
                 .andExpect(MockMvcResultMatchers.jsonPath("data[0].id").isNotEmpty())
                 .andReturn();
-        var data = parseObject(result, new 
+        var data = parseObject(result, new TypeReference<List<OrderVO>>() {
+        });
+        BigInteger upId = data.get(1).getId();
+        BigInteger downId = data.get(data.size() - 2).getId();
+        //上拉
+        result = mockMvc.perform(MockMvcRequestBuilders.get(host + "/transaction")
+                .header("Authorization", getToken().getToken())
+                .param("pairId", "1")
+                .param("transactionType", "1")
+                .param("id", upId.toString())
+                .param("type", "0")
+                .param("pageSize", "999")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+           
