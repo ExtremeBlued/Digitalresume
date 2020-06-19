@@ -106,4 +106,15 @@ public class TransactionControllerTest extends BaseTest {
         result = mockMvc.perform(MockMvcRequestBuilders.get(host + "/transaction/partake")
                 .header("Authorization", getToken().getToken())
                 .param("pairId", "1")
-               
+                .param("status", "0")
+                .param("transactionType", "1")
+                .param("id", "0")
+                .param("type", "0")
+                .param("pageSize", "999")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
+                .andReturn();
+        var data = parseObject(result, new TypeReference<List<MyOrderVO>>() {
+        });
+        BigInteger upId = data.get(1)
