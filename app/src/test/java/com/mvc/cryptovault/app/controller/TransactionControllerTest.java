@@ -80,4 +80,17 @@ public class TransactionControllerTest extends BaseTest {
                 .param("id", downId.toString())
                 .param("type", "1")
                 .param("pageSize", "999")
-                .contentType(
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
+                .andExpect(MockMvcResultMatchers.jsonPath("data", Matchers.hasSize(1)))
+                .andReturn();
+    }
+
+    @Test
+    public void getKLine() throws Exception {
+        MvcResult result = null;
+        result = mockMvc.perform(MockMvcRequestBuilders.get(host + "/transaction/pair/kline")
+                .header("Authorization", getToken().getToken())
+                .param("pairId", "1")
+       
