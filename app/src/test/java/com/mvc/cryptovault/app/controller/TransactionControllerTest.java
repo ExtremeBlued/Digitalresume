@@ -130,4 +130,16 @@ public class TransactionControllerTest extends BaseTest {
                 .param("pageSize", "999")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
-                .andExpect(MockMvcResult
+                .andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
+                .andExpect(MockMvcResultMatchers.jsonPath("data", Matchers.hasSize(1)))
+                .andReturn();
+        //下拉
+        result = mockMvc.perform(MockMvcRequestBuilders.get(host + "/transaction/partake")
+                .header("Authorization", getToken().getToken())
+                .param("pairId", "1")
+                .param("status", "0")
+                .param("transactionType", "1")
+                .param("id", downId.toString())
+                .param("type", "1")
+                .param("pageSize", "999")
+                .c
