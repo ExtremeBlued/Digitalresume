@@ -117,4 +117,17 @@ public class TransactionControllerTest extends BaseTest {
                 .andReturn();
         var data = parseObject(result, new TypeReference<List<MyOrderVO>>() {
         });
-        BigInteger upId = data.get(1)
+        BigInteger upId = data.get(1).getId();
+        BigInteger downId = data.get(data.size() - 2).getId();
+        //上拉
+        result = mockMvc.perform(MockMvcRequestBuilders.get(host + "/transaction/partake")
+                .header("Authorization", getToken().getToken())
+                .param("pairId", "1")
+                .param("status", "0")
+                .param("transactionType", "1")
+                .param("id", upId.toString())
+                .param("type", "0")
+                .param("pageSize", "999")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(MockMvcResult
