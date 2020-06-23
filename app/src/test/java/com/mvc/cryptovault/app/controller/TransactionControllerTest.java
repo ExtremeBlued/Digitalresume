@@ -142,4 +142,19 @@ public class TransactionControllerTest extends BaseTest {
                 .param("id", downId.toString())
                 .param("type", "1")
                 .param("pageSize", "999")
-                .c
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
+                .andExpect(MockMvcResultMatchers.jsonPath("data", Matchers.hasSize(1)))
+                .andReturn();
+    }
+
+    @Test
+    public void buy() throws Exception {
+        MvcResult result = null;
+        Double value = Math.random();
+        TransactionBuyDTO dto = new TransactionBuyDTO();
+        dto.setPassword("123456");
+        dto.setId(BigInteger.ZERO);
+        dto.setPairId(BigInteger.ONE);
+ 
