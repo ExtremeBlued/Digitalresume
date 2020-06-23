@@ -157,4 +157,15 @@ public class TransactionControllerTest extends BaseTest {
         dto.setPassword("123456");
         dto.setId(BigInteger.ZERO);
         dto.setPairId(BigInteger.ONE);
- 
+        dto.setPrice(BigDecimal.ONE);
+        dto.setTransactionType(1);
+        dto.setValue(BigDecimal.valueOf(value));
+        //查询挂单信息
+        result = mockMvc.perform(MockMvcRequestBuilders.get(host + "/transaction/info")
+                .header("Authorization", getToken().getToken())
+                .param("transactionType", "1")
+                .param("pairId", "1")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
+                .andExpect(Mo
