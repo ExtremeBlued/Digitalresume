@@ -174,4 +174,16 @@ public class TransactionControllerTest extends BaseTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("data.price").isNotEmpty())
                 .andExpect(MockMvcResultMatchers.jsonPath("data.min").isNotEmpty())
                 .andExpect(MockMvcResultMatchers.jsonPath("data.max").isNotEmpty())
-                .andExpect(MockMvcResultMatchers.jsonPath("data.value").isN
+                .andExpect(MockMvcResultMatchers.jsonPath("data.value").isNotEmpty())
+                .andReturn();
+        OrderInfoVO vo = parseObject(result, OrderInfoVO.class);
+        //直接挂空买单
+        result = mockMvc.perform(MockMvcRequestBuilders.post(host + "/transaction")
+                .header("Authorization", getToken().getToken())
+                .content(JSON.toJSONString(dto))
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
+                .andReturn();
+        //检查挂单后资金变动
+        result = mockM
