@@ -186,4 +186,13 @@ public class TransactionControllerTest extends BaseTest {
                 .andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
                 .andReturn();
         //检查挂单后资金变动
-        result = mockM
+        result = mockMvc.perform(MockMvcRequestBuilders.get(host + "/transaction/info")
+                .header("Authorization", getToken().getToken())
+                .param("transactionType", "1")
+                .param("pairId", "1")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
+                .andExpect(MockMvcResultMatchers.jsonPath("data").isNotEmpty())
+                //购买后基础币种余额 = 初始余额-（购买数量*购买价格）
+                .andExpect(MockMvcResultMatchers.jsonPath
