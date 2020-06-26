@@ -215,4 +215,15 @@ public class TransactionControllerTest extends BaseTest {
                 .andDo(print())
                 .andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
                 .andExpect(MockMvcResultMatchers.jsonPath("data").isNotEmpty())
-                .andExpect(MockMvcResultMatchers.jsonPath("data.balance"
+                .andExpect(MockMvcResultMatchers.jsonPath("data.balance").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("data.tokenBalance").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("data.price").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("data.min").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("data.max").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("data.value").isNotEmpty())
+                .andReturn();
+    }
+
+    @Test
+    public void cancel() throws Exception {
+        MvcResult result =
