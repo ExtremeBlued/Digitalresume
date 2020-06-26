@@ -195,4 +195,14 @@ public class TransactionControllerTest extends BaseTest {
                 .andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
                 .andExpect(MockMvcResultMatchers.jsonPath("data").isNotEmpty())
                 //购买后基础币种余额 = 初始余额-（购买数量*购买价格）
-                .andExpect(MockMvcResultMatchers.jsonPath
+                .andExpect(MockMvcResultMatchers.jsonPath("data.balance", BigDecimal.class).value(vo.getBalance().subtract(BigDecimal.valueOf(value).multiply(dto.getPrice()))))
+                .andExpect(MockMvcResultMatchers.jsonPath("data.tokenBalance").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("data.price").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("data.min").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("data.max").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("data.value").isNotEmpty())
+                .andReturn();
+    }
+
+    @Test
+    publi
