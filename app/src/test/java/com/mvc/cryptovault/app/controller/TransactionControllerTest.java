@@ -258,4 +258,12 @@ public class TransactionControllerTest extends BaseTest {
                 .param("transactionType", "1")
                 .param("pairId", "1")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
-           
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
+                .andExpect(MockMvcResultMatchers.jsonPath("data").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("data.balance").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("data.tokenBalance").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("data.price").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("data.min").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("data.max").isNotEmpty())
+                .andRetur
