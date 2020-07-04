@@ -226,4 +226,14 @@ public class TransactionControllerTest extends BaseTest {
 
     @Test
     public void cancel() throws Exception {
-        MvcResult result =
+        MvcResult result = null;
+        //检查余额
+        result = mockMvc.perform(MockMvcRequestBuilders.get(host + "/transaction/info")
+                .header("Authorization", getToken().getToken())
+                .param("transactionType", "1")
+                .param("pairId", "1")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
+                .andExpect(MockMvcResultMatchers.jsonPath("data").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPa
