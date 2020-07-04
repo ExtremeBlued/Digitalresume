@@ -246,4 +246,16 @@ public class TransactionControllerTest extends BaseTest {
         BigDecimal balance = vo.getBalance();
         //取消挂单
         result = mockMvc.perform(MockMvcRequestBuilders.delete(host + "/transaction/5")
-             
+                .header("Authorization", getToken().getToken())
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
+                .andReturn();
+        //检查余额是否重置()
+        //检查余额
+        result = mockMvc.perform(MockMvcRequestBuilders.get(host + "/transaction/info")
+                .header("Authorization", getToken().getToken())
+                .param("transactionType", "1")
+                .param("pairId", "1")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+           
