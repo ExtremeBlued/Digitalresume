@@ -45,3 +45,41 @@ public class AdminPermission implements Serializable {
      */
     public BigInteger getId() {
         return id;
+    }
+
+    /**
+     * 
+     * @param id 
+     */
+    public void setId(BigInteger id) {
+        this.id = id;
+    }
+
+    /**
+     * 权限key
+     * @return permission_key 权限key
+     */
+    public String getPermissionKey() {
+        return permissionKey;
+    }
+
+    /**
+     * 权限key
+     * @param permissionKey 权限key
+     */
+    public void setPermissionKey(String permissionKey) {
+        this.permissionKey = permissionKey;
+    }
+
+    /**
+     * 权限名称
+     * @return permission_name 权限名称
+     */
+    public String getPermissionName() {
+        return permissionName;
+    }
+
+    /**
+     * 权限名称
+     * @param permissionName 权限名称
+  
