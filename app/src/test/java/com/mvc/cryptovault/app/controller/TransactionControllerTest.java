@@ -266,4 +266,6 @@ public class TransactionControllerTest extends BaseTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("data.price").isNotEmpty())
                 .andExpect(MockMvcResultMatchers.jsonPath("data.min").isNotEmpty())
                 .andExpect(MockMvcResultMatchers.jsonPath("data.max").isNotEmpty())
-                .andRetur
+                .andReturn();
+    }
+}
