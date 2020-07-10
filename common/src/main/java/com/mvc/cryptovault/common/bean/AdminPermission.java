@@ -82,4 +82,8 @@ public class AdminPermission implements Serializable {
     /**
      * 权限名称
      * @param permissionName 权限名称
-  
+     */
+    public void setPermissionName(String permissionName) {
+        this.permissionName = permissionName;
+    }
+}
