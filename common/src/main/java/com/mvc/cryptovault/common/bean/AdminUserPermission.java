@@ -50,4 +50,17 @@ public class AdminUserPermission implements Serializable {
 
     /**
      * 权限id
-     * @return per
+     * @return permission_id 权限id
+     */
+    public BigInteger getPermissionId() {
+        return permissionId;
+    }
+
+    /**
+     * 权限id
+     * @param permissionId 权限id
+     */
+    public void setPermissionId(BigInteger permissionId) {
+        this.permissionId = permissionId;
+    }
+}
