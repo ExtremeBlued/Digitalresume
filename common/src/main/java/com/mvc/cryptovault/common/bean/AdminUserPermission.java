@@ -14,4 +14,40 @@ import java.math.BigInteger;
 @Table(name = "admin_user_permission")
 @Data
 public class AdminUserPermission implements Serializable {
-  
+    /**
+     * 用户id
+     */
+    @Id
+    @Column(name = "user_id")
+    private BigInteger userId;
+
+    /**
+     * 权限id
+     */
+    @Column(name = "permission_id")
+    private BigInteger permissionId;
+
+    /**
+     * admin_user_permission
+     */
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * 用户id
+     * @return user_id 用户id
+     */
+    public BigInteger getUserId() {
+        return userId;
+    }
+
+    /**
+     * 用户id
+     * @param userId 用户id
+     */
+    public void setUserId(BigInteger userId) {
+        this.userId = userId;
+    }
+
+    /**
+     * 权限id
+     * @return per
