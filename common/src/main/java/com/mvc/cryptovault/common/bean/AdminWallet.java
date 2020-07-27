@@ -14,4 +14,39 @@ import java.math.BigInteger;
  */
 @Table(name = "admin_wallet")
 @Data
-public class AdminWallet implements Ser
+public class AdminWallet implements Serializable {
+    /**
+     *
+     */
+    @Id
+    @Column(name = "id")
+    private BigInteger id;
+
+    /**
+     * 是否为热钱包
+     */
+    @Column(name = "is_hot")
+    private Integer isHot;
+
+    /**
+     * 用户昵称
+     */
+    @Column(name = "address")
+    private String address;
+
+    /**
+     *
+     */
+    @Column(name = "balance")
+    private BigDecimal balance;
+
+    /**
+     * 1ETH 2BTC
+     */
+    @Column(name = "block_type")
+    private Integer blockType;
+
+    @Column(name = "pv_key")
+    private String pvKey;
+
+}
