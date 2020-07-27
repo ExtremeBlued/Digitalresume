@@ -1,0 +1,119 @@
+
+package com.mvc.cryptovault.common.bean;
+
+import lombok.Data;
+
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
+/**
+ * app_order_detail
+ */
+@Table(name = "app_order_detail")
+@Data
+public class AppOrderDetail implements Serializable {
+    /**
+     * 
+     */
+    @Id
+    @Column(name = "order_id")
+    private BigInteger orderId;
+
+    /**
+     * 
+     */
+    @Column(name = "created_at")
+    private Long createdAt;
+
+    /**
+     * 
+     */
+    @Column(name = "updated_at")
+    private Long updatedAt;
+
+    /**
+     * 交易金额变动
+     */
+    @Column(name = "value")
+    private BigDecimal value;
+
+    /**
+     * 交易手续费
+     */
+    @Column(name = "fee")
+    private BigDecimal fee;
+
+    /**
+     * 交易hash
+     */
+    @Column(name = "hash")
+    private String hash;
+
+    /**
+     * 
+     */
+    @Column(name = "to_address")
+    private String toAddress;
+
+    /**
+     * 
+     */
+    @Column(name = "from_address")
+    private String fromAddress;
+
+    /**
+     * app_order_detail
+     */
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * 
+     * @return order_id 
+     */
+    public BigInteger getOrderId() {
+        return orderId;
+    }
+
+    /**
+     * 
+     * @param orderId 
+     */
+    public void setOrderId(BigInteger orderId) {
+        this.orderId = orderId;
+    }
+
+    /**
+     * 交易金额变动
+     * @return value 交易金额变动
+     */
+    public BigDecimal getValue() {
+        return value;
+    }
+
+    /**
+     * 交易金额变动
+     * @param value 交易金额变动
+     */
+    public void setValue(BigDecimal value) {
+        this.value = value;
+    }
+
+    /**
+     * 交易手续费
+     * @return fee 交易手续费
+     */
+    public BigDecimal getFee() {
+        return fee;
+    }
+
+    /**
+     * 交易手续费
+     * @param fee 交易手续费
+     */
+    public void setFee(BigDecimal fee) {
+        this.fee = fee;
+    }
