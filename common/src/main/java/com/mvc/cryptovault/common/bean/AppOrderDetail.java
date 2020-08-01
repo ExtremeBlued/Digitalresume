@@ -117,3 +117,52 @@ public class AppOrderDetail implements Serializable {
     public void setFee(BigDecimal fee) {
         this.fee = fee;
     }
+
+    /**
+     * 交易hash
+     * @return hash 交易hash
+     */
+    public String getHash() {
+        return hash;
+    }
+
+    /**
+     * 交易hash
+     * @param hash 交易hash
+     */
+    public void setHash(String hash) {
+        this.hash = hash;
+    }
+
+    /**
+     * 
+     * @return to_address 
+     */
+    public String getToAddress() {
+        return toAddress;
+    }
+
+    /**
+     * 
+     * @param toAddress 
+     */
+    public void setToAddress(String toAddress) {
+        this.toAddress = toAddress;
+    }
+
+    /**
+     * 
+     * @return from_address 
+     */
+    public String getFromAddress() {
+        return fromAddress;
+    }
+
+    /**
+     * 
+     * @param fromAddress 
+     */
+    public void setFromAddress(String fromAddress) {
+        this.fromAddress = fromAddress;
+    }
+}
