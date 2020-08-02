@@ -43,4 +43,42 @@ public class AppProjectUserTransaction implements Serializable {
     /**
      * 修改时间
      */
-    @Column(name = "updated
+    @Column(name = "updated_at")
+    private Long updatedAt;
+
+    /**
+     * 交易对id
+     */
+    @Column(name = "pair_id")
+    private BigInteger pairId;
+
+    /**
+     * 结果-0等待 1成功 4取消 9失败
+     */
+    @Column(name = "result")
+    private Integer result;
+
+    /**
+     * 参与数量
+     */
+    @Column(name = "value")
+    private BigDecimal value;
+
+    /**
+     * 参与金额
+     */
+    @Column(name = "payed")
+    private BigDecimal payed;
+
+    /**
+     * 参与数量
+     */
+    @Column(name = "success_value")
+    private BigDecimal successValue;
+
+    /**
+     * 参与金额
+     */
+    @Column(name = "success_payed")
+    private BigDecimal successPayed;
+
