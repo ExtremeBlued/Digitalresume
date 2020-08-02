@@ -82,3 +82,41 @@ public class AppProjectUserTransaction implements Serializable {
     @Column(name = "success_payed")
     private BigDecimal successPayed;
 
+    /**
+     * 排序位置
+     */
+    @Column(name = "`index`")
+    private Integer index;
+
+    /**
+     * 订单id
+     */
+    @Column(name = "project_order_number")
+    private String projectOrderNumber;
+
+    /**
+     * app_project_user_transaction
+     */
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * 
+     * @return id 
+     */
+    public BigInteger getId() {
+        return id;
+    }
+
+    /**
+     * 
+     * @param id 
+     */
+    public void setId(BigInteger id) {
+        this.id = id;
+    }
+
+    /**
+     * 用户id
+     * @return user_id 用户id
+     */
+    public BigInteger 
