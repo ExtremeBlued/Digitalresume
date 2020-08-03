@@ -155,4 +155,37 @@ public class AppProjectUserTransaction implements Serializable {
         return pairId;
     }
 
-    
+    /**
+     * 交易对id
+     * @param pairId 交易对id
+     */
+    public void setPairId(BigInteger pairId) {
+        this.pairId = pairId;
+    }
+
+    /**
+     * 结果-等待 1成功 4取消 9失败
+     * @return result 结果-0等待 1成功 4取消 9失败
+     */
+    public Integer getResult() {
+        return result;
+    }
+
+    /**
+     * 结果-等待 1成功 4取消 9失败
+     * @param result 结果-等待 1成功 4取消 9失败
+     */
+    public void setResult(Integer result) {
+        this.result = result;
+    }
+
+    /**
+     * 参与金额
+     * @return value 参与金额
+     */
+    public BigDecimal getValue() {
+        return value;
+    }
+
+    /**
+     * 参与金额
