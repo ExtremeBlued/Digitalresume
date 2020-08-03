@@ -119,4 +119,40 @@ public class AppProjectUserTransaction implements Serializable {
      * 用户id
      * @return user_id 用户id
      */
-    public BigInteger 
+    public BigInteger getUserId() {
+        return userId;
+    }
+
+    /**
+     * 用户id
+     * @param userId 用户id
+     */
+    public void setUserId(BigInteger userId) {
+        this.userId = userId;
+    }
+
+    /**
+     * 项目id
+     * @return project_id 项目id
+     */
+    public BigInteger getProjectId() {
+        return projectId;
+    }
+
+    /**
+     * 项目id
+     * @param projectId 项目id
+     */
+    public void setProjectId(BigInteger projectId) {
+        this.projectId = projectId;
+    }
+
+    /**
+     * 交易对id
+     * @return pair_id 交易对id
+     */
+    public BigInteger getPairId() {
+        return pairId;
+    }
+
+    
