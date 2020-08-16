@@ -268,3 +268,18 @@ public class AppUserTransaction implements Serializable {
     }
 
     /**
+     * 订单状态 0未完成 1全部完成 4取消
+     * @return status 订单状态 0未完成 1全部完成 4取消
+     */
+    public Integer getStatus() {
+        return status;
+    }
+
+    /**
+     * 订单状态 0未完成 1全部完成 4取消
+     * @param status 订单状态 0未完成 1全部完成 4取消
+     */
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+}
