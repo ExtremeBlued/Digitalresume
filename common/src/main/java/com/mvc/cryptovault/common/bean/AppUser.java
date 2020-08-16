@@ -110,3 +110,61 @@ public class AppUser implements Serializable {
      * @param cellphone 用户手机
      */
     public void setCellphone(String cellphone) {
+        this.cellphone = cellphone;
+    }
+
+    /**
+     * 登录密码
+     *
+     * @return password 登录密码
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * 登录密码
+     *
+     * @param password 登录密码
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    /**
+     * 交易密码
+     *
+     * @return transaction_password 交易密码
+     */
+    public String getTransactionPassword() {
+        return transactionPassword;
+    }
+
+    /**
+     * 交易密码
+     *
+     * @param transactionPassword 交易密码
+     */
+    public void setTransactionPassword(String transactionPassword) {
+        this.transactionPassword = transactionPassword;
+    }
+
+    /**
+     * 昵称
+     *
+     * @return nickname 昵称
+     */
+    public String getNickname() {
+        return nickname;
+    }
+
+    /**
+     * 昵称
+     *
+     * @param nickname 昵称
+     */
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+}
