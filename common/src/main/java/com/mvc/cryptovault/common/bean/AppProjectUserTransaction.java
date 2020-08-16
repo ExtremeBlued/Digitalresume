@@ -189,3 +189,25 @@ public class AppProjectUserTransaction implements Serializable {
 
     /**
      * 参与金额
+     * @param value 参与金额
+     */
+    public void setValue(BigDecimal value) {
+        this.value = value;
+    }
+
+    /**
+     * 订单id
+     * @return project_order_number 订单id
+     */
+    public String getProjectOrderNumber() {
+        return projectOrderNumber;
+    }
+
+    /**
+     * 订单id
+     * @param projectOrderNumber 订单id
+     */
+    public void setProjectOrderNumber(String projectOrderNumber) {
+        this.projectOrderNumber = projectOrderNumber;
+    }
+}
