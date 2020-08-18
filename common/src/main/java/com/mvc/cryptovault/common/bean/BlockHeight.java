@@ -69,3 +69,10 @@ public class BlockHeight implements Serializable {
 
     /**
      * 当前高度
+     *
+     * @param height 当前高度
+     */
+    public void setHeight(Integer height) {
+        this.height = height;
+    }
+}
