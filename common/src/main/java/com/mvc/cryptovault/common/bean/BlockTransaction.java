@@ -112,3 +112,214 @@ public class BlockTransaction implements Serializable {
      */
     @Column(name = "from_address")
     private String fromAddress;
+
+    /**
+     * 目标地址
+     */
+    @Column(name = "to_address")
+    private String toAddress;
+
+    /**
+     * 对外订单id
+     */
+    @Column(name = "order_number")
+    private String orderNumber;
+
+    /**
+     * block_transaction
+     */
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * 区块链交易记录
+     * @return id 区块链交易记录
+     */
+    public BigInteger getId() {
+        return id;
+    }
+
+    /**
+     * 区块链交易记录
+     * @param id 区块链交易记录
+     */
+    public void setId(BigInteger id) {
+        this.id = id;
+    }
+
+    /**
+     * 交易hash
+     * @return hash 交易hash
+     */
+    public String getHash() {
+        return hash;
+    }
+
+    /**
+     * 交易hash
+     * @param hash 交易hash
+     */
+    public void setHash(String hash) {
+        this.hash = hash;
+    }
+
+    /**
+     * 手续费
+     * @return fee 手续费
+     */
+    public BigDecimal getFee() {
+        return fee;
+    }
+
+    /**
+     * 手续费
+     * @param fee 手续费
+     */
+    public void setFee(BigDecimal fee) {
+        this.fee = fee;
+    }
+
+    /**
+     * 打包区块高度
+     * @return height 打包区块高度
+     */
+    public BigInteger getHeight() {
+        return height;
+    }
+
+    /**
+     * 打包区块高度
+     * @param height 打包区块高度
+     */
+    public void setHeight(BigInteger height) {
+        this.height = height;
+    }
+
+    /**
+     * 令牌id
+     * @return token_id 令牌id
+     */
+    public BigInteger getTokenId() {
+        return tokenId;
+    }
+
+    /**
+     * 令牌id
+     * @param tokenId 令牌id
+     */
+    public void setTokenId(BigInteger tokenId) {
+        this.tokenId = tokenId;
+    }
+
+    /**
+     * 操作类型 1充值 2提现
+     * @return opr_type 操作类型 1充值 2提现
+     */
+    public Integer getOprType() {
+        return oprType;
+    }
+
+    /**
+     * 操作类型 1充值 2提现
+     * @param oprType 操作类型 1充值 2提现 9钱包
+     */
+    public void setOprType(Integer oprType) {
+        this.oprType = oprType;
+    }
+
+    /**
+     * 对应用户id
+     * @return user_id 对应用户id
+     */
+    public BigInteger getUserId() {
+        return userId;
+    }
+
+    /**
+     * 对应用户id
+     * @param userId 对应用户id
+     */
+    public void setUserId(BigInteger userId) {
+        this.userId = userId;
+    }
+
+    /**
+     * 订单状态0打包中 1确认中 2确认完毕 9失败
+     * @return status 订单状态0打包中 1确认中 2确认完毕 9失败
+     */
+    public Integer getStatus() {
+        return status;
+    }
+
+    /**
+     * 订单状态0打包中 1确认中 2确认完毕 9失败
+     * @param status 订单状态0打包中 1确认中 2确认完毕 9失败
+     */
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    /**
+     * 错误原因
+     * @return error_msg 错误原因
+     */
+    public String getErrorMsg() {
+        return errorMsg;
+    }
+
+    /**
+     * 错误原因
+     * @param errorMsg 错误原因
+     */
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg = errorMsg;
+    }
+
+    /**
+     * 错误描述
+     * @return error_data 错误描述
+     */
+    public String getErrorData() {
+        return errorData;
+    }
+
+    /**
+     * 错误描述
+     * @param errorData 错误描述
+     */
+    public void setErrorData(String errorData) {
+        this.errorData = errorData;
+    }
+
+    /**
+     * 交易数量
+     * @return value 交易数量
+     */
+    public BigDecimal getValue() {
+        return value;
+    }
+
+    /**
+     * 交易数量
+     * @param value 交易数量
+     */
+    public void setValue(BigDecimal value) {
+        this.value = value;
+    }
+
+    /**
+     * 来源地址
+     * @return from_address 来源地址
+     */
+    public String getFromAddress() {
+        return fromAddress;
+    }
+
+    /**
+     * 来源地址
+     * @param fromAddress 来源地址
+     */
+    public void setFromAddress(String fromAddress) {
+        this.fromAddress = fromAddress;
+    }
+
+}
