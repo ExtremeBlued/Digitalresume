@@ -16,4 +16,12 @@ public class BlockUsdtWithdrawQueue {
     private BigInteger id;
     private String orderId;
     private String fromAddress;
-    
+    private BigDecimal fee;
+    private String toAddress;
+    private BigDecimal value;
+    /**
+     * 0等待 1进入队列 2成功 9失败
+     */
+    private Integer status;
+    private Long startedAt;
+}
