@@ -15,4 +15,16 @@ import java.math.BigInteger;
 @Table(name = "common_address")
 @Data
 public class CommonAddress implements Serializable {
-    private static final long serialVersionUID = -7228504157787988027
+    private static final long serialVersionUID = -7228504157787988027L;
+
+    @Id
+    private BigInteger id;
+    private String tokenType;
+    private String address;
+    private Integer used;
+    private BigDecimal balance;
+    private BigInteger userId;
+    private String addressType;
+    private Integer approve;
+
+}
