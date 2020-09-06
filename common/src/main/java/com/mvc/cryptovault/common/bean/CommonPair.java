@@ -58,4 +58,44 @@ public class CommonPair implements Serializable {
      * 手续费
      */
     @Column(name = "fee")
-    private Floa
+    private Float fee;
+
+    /**
+     * common_pair
+     */
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * 交易对id
+     *
+     * @return id 交易对id
+     */
+    public BigInteger getId() {
+        return id;
+    }
+
+    /**
+     * 交易对id
+     *
+     * @param id 交易对id
+     */
+    public void setId(BigInteger id) {
+        this.id = id;
+    }
+
+    /**
+     * 交易对名称
+     *
+     * @return pair_name 交易对名称
+     */
+    public String getPairName() {
+        return pairName;
+    }
+
+    /**
+     * 交易对名称
+     *
+     * @param pairName 交易对名称
+     */
+    public void setPairName(String pairName) {
+        this.pairName = pair
