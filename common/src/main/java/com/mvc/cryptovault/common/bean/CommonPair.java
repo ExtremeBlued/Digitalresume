@@ -98,4 +98,40 @@ public class CommonPair implements Serializable {
      * @param pairName 交易对名称
      */
     public void setPairName(String pairName) {
-        this.pairName = pair
+        this.pairName = pairName;
+    }
+
+    /**
+     * 基础货币令牌id
+     *
+     * @return base_token_id 基础货币令牌id
+     */
+    public BigInteger getBaseTokenId() {
+        return baseTokenId;
+    }
+
+    /**
+     * 基础货币令牌id
+     *
+     * @param baseTokenId 基础货币令牌id
+     */
+    public void setBaseTokenId(BigInteger baseTokenId) {
+        this.baseTokenId = baseTokenId;
+    }
+
+    /**
+     * 兑换货币id
+     *
+     * @return token_id 兑换货币id
+     */
+    public BigInteger getTokenId() {
+        return tokenId;
+    }
+
+    /**
+     * 兑换货币id
+     *
+     * @param tokenId 兑换货币id
+     */
+    public void setTokenId(BigInteger tokenId) {
+        t
