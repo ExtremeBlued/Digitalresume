@@ -134,4 +134,24 @@ public class CommonPair implements Serializable {
      * @param tokenId 兑换货币id
      */
     public void setTokenId(BigInteger tokenId) {
-        t
+        this.tokenId = tokenId;
+    }
+
+    /**
+     * 手续费
+     *
+     * @return fee 手续费
+     */
+    public Float getFee() {
+        return fee;
+    }
+
+    /**
+     * 手续费
+     *
+     * @param fee 手续费
+     */
+    public void setFee(Float fee) {
+        this.fee = fee;
+    }
+}
