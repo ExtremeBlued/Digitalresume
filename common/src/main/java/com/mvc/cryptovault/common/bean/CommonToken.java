@@ -54,3 +54,40 @@ public class CommonToken implements Serializable {
     private String tokenType;
 
     /**
+     * hash前缀
+     */
+    @Column(name = "link")
+    private String link;
+
+    /**
+     * 令牌位数，代币使用
+     */
+    @Column(name = "token_decimal")
+    private Integer tokenDecimal;
+
+    /**
+     * 合约类型（代币属性）
+     */
+    @Column(name = "token_contract_address")
+    private String tokenContractAddress;
+
+    /**
+     * 排序id
+     */
+    @Column(name = "index_id")
+    private Integer indexId;
+
+    /**
+     * 是否展示
+     */
+    @Column(name = "visible")
+    private Integer visible;
+
+    /**
+     * 是否可冲提
+     */
+    @Column(name = "withdraw")
+    private Integer withdraw;
+
+    /**
+     * 
