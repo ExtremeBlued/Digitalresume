@@ -90,4 +90,41 @@ public class CommonToken implements Serializable {
     private Integer withdraw;
 
     /**
-     * 
+     * 是否可冲提
+     */
+    @Column(name = "recharge")
+    private Integer recharge;
+
+    /**
+     * 提现手续费（对用户，区块链手续费另行设置）
+     */
+    @Column(name = "fee")
+    private Float fee;
+
+    /**
+     * 实际转账手续费（用于区块链转账)
+     */
+    @Column(name = "transafer_fee")
+    private Float transaferFee;
+
+    /**
+     * 单笔提币下限
+     */
+    @Column(name = "withdraw_min")
+    private BigDecimal withdrawMin;
+
+    /**
+     * 单笔提币上限
+     */
+    @Column(name = "withdraw_max")
+    private BigDecimal withdrawMax;
+
+    /**
+     * 每日提币上限
+     */
+    @Column(name = "withdraw_day")
+    private BigDecimal withdrawDay;
+
+    /**
+     * 删除标记位
+ 
