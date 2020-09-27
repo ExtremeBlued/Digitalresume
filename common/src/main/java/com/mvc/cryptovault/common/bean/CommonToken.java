@@ -127,4 +127,36 @@ public class CommonToken implements Serializable {
 
     /**
      * 删除标记位
- 
+     */
+    @Column(name = "delete_status")
+    private Integer deleteStatus;
+
+    @Column(name = "created_at")
+    private Long createdAt;
+
+    @Column(name = "updated_at")
+    private Long updatedAt;
+
+    /**
+     * 保留金额
+     */
+    private Float hold;
+    /**
+     * common_token
+     */
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * 
+     * @return id 
+     */
+    public BigInteger getId() {
+        return id;
+    }
+
+    /**
+     * 
+     * @param id 
+     */
+    public void setId(BigInteger id) {
+        this.id 
