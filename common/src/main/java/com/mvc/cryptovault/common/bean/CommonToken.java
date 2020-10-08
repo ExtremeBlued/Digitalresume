@@ -159,4 +159,39 @@ public class CommonToken implements Serializable {
      * @param id 
      */
     public void setId(BigInteger id) {
-        this.id 
+        this.id = id;
+    }
+
+    /**
+     * 令牌名称
+     * @return token_name 令牌名称
+     */
+    public String getTokenName() {
+        return tokenName;
+    }
+
+    /**
+     * 令牌名称
+     * @param tokenName 令牌名称
+     */
+    public void setTokenName(String tokenName) {
+        this.tokenName = tokenName;
+    }
+
+    /**
+     * 令牌图片地址
+     * @return token_image 令牌图片地址
+     */
+    public String getTokenImage() {
+        return tokenImage;
+    }
+
+    /**
+     * 令牌图片地址
+     * @param tokenImage 令牌图片地址
+     */
+    public void setTokenImage(String tokenImage) {
+        this.tokenImage = tokenImage;
+    }
+
+    /
