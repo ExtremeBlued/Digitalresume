@@ -194,4 +194,33 @@ public class CommonToken implements Serializable {
         this.tokenImage = tokenImage;
     }
 
-    /
+    /**
+     * 令牌类型，如ETH,BTC
+     * @return token_type 令牌类型，如ETH,BTC
+     */
+    public String getTokenType() {
+        return tokenType;
+    }
+
+    /**
+     * 令牌类型，如ETH,BTC
+     * @param tokenType 令牌类型，如ETH,BTC
+     */
+    public void setTokenType(String tokenType) {
+        this.tokenType = tokenType;
+    }
+
+    /**
+     * 令牌位数，代币使用
+     * @return token_decimal 令牌位数，代币使用
+     */
+    public Integer getTokenDecimal() {
+        return tokenDecimal;
+    }
+
+    /**
+     * 令牌位数，代币使用
+     * @param tokenDecimal 令牌位数，代币使用
+     */
+    public void setTokenDecimal(Integer tokenDecimal) {
+        this.tokenDecim
