@@ -223,4 +223,35 @@ public class CommonToken implements Serializable {
      * @param tokenDecimal 令牌位数，代币使用
      */
     public void setTokenDecimal(Integer tokenDecimal) {
-        this.tokenDecim
+        this.tokenDecimal = tokenDecimal;
+    }
+
+    /**
+     * 合约类型（代币属性）
+     * @return token_contract_address 合约类型（代币属性）
+     */
+    public String getTokenContractAddress() {
+        return tokenContractAddress;
+    }
+
+    /**
+     * 合约类型（代币属性）
+     * @param tokenContractAddress 合约类型（代币属性）
+     */
+    public void setTokenContractAddress(String tokenContractAddress) {
+        this.tokenContractAddress = tokenContractAddress;
+    }
+
+    /**
+     * 排序id
+     * @return index_id 排序id
+     */
+    public Integer getIndexId() {
+        return indexId;
+    }
+
+    /**
+     * 排序id
+     * @param indexId 排序id
+     */
+    public void s
