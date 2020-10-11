@@ -254,4 +254,38 @@ public class CommonToken implements Serializable {
      * 排序id
      * @param indexId 排序id
      */
-    public void s
+    public void setIndexId(Integer indexId) {
+        this.indexId = indexId;
+    }
+
+    /**
+     * 是否可冲提
+     * @return withdraw 是否可冲提
+     */
+    public Integer getWithdraw() {
+        return withdraw;
+    }
+
+    /**
+     * 是否可冲提
+     * @param withdraw 是否可冲提
+     */
+    public void setWithdraw(Integer withdraw) {
+        this.withdraw = withdraw;
+    }
+
+    /**
+     * 是否可冲提
+     * @return recharge 是否可冲提
+     */
+    public Integer getRecharge() {
+        return recharge;
+    }
+
+    /**
+     * 是否可冲提
+     * @param recharge 是否可冲提
+     */
+    public void setRecharge(Integer recharge) {
+        this.recharge = recharge;
+ 
