@@ -288,4 +288,34 @@ public class CommonToken implements Serializable {
      */
     public void setRecharge(Integer recharge) {
         this.recharge = recharge;
- 
+    }
+
+    /**
+     * 提现手续费（对用户，区块链手续费另行设置）
+     * @return fee 提现手续费（对用户，区块链手续费另行设置）
+     */
+    public Float getFee() {
+        return fee;
+    }
+
+    /**
+     * 提现手续费（对用户，区块链手续费另行设置）
+     * @param fee 提现手续费（对用户，区块链手续费另行设置）
+     */
+    public void setFee(Float fee) {
+        this.fee = fee;
+    }
+
+    /**
+     * 实际转账手续费（用于区块链转账)
+     * @return transafer_fee 实际转账手续费（用于区块链转账)
+     */
+    public Float getTransaferFee() {
+        return transaferFee;
+    }
+
+    /**
+     * 实际转账手续费（用于区块链转账)
+     * @param transaferFee 实际转账手续费（用于区块链转账)
+     */
+    public void setTransaferFee(Float transaferFee) {
