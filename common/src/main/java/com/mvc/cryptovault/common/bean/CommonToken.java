@@ -350,4 +350,23 @@ public class CommonToken implements Serializable {
      * 单笔提币上限
      * @param withdrawMax 单笔提币上限
      */
-    public void setWithdrawMax(B
+    public void setWithdrawMax(BigDecimal withdrawMax) {
+        this.withdrawMax = withdrawMax;
+    }
+
+    /**
+     * 每日提币上限
+     * @return withdraw_day 每日提币上限
+     */
+    public BigDecimal getWithdrawDay() {
+        return withdrawDay;
+    }
+
+    /**
+     * 每日提币上限
+     * @param withdrawDay 每日提币上限
+     */
+    public void setWithdrawDay(BigDecimal withdrawDay) {
+        this.withdrawDay = withdrawDay;
+    }
+}
