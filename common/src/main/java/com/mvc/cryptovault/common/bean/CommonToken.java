@@ -319,3 +319,35 @@ public class CommonToken implements Serializable {
      * @param transaferFee 实际转账手续费（用于区块链转账)
      */
     public void setTransaferFee(Float transaferFee) {
+        this.transaferFee = transaferFee;
+    }
+
+    /**
+     * 单笔提币下限
+     * @return withdraw_min 单笔提币下限
+     */
+    public BigDecimal getWithdrawMin() {
+        return withdrawMin;
+    }
+
+    /**
+     * 单笔提币下限
+     * @param withdrawMin 单笔提币下限
+     */
+    public void setWithdrawMin(BigDecimal withdrawMin) {
+        this.withdrawMin = withdrawMin;
+    }
+
+    /**
+     * 单笔提币上限
+     * @return withdraw_max 单笔提币上限
+     */
+    public BigDecimal getWithdrawMax() {
+        return withdrawMax;
+    }
+
+    /**
+     * 单笔提币上限
+     * @param withdrawMax 单笔提币上限
+     */
+    public void setWithdrawMax(B
