@@ -22,4 +22,43 @@ public class CommonTokenControlNext implements Serializable {
     @Column(name = "token_id")
     private BigInteger tokenId;
 
- 
+    /**
+     * 预计下个涨跌目标值
+     */
+    @Column(name = "next_price")
+    private BigDecimal nextPrice;
+
+    /**
+     * 1涨 2跌
+     */
+    @Column(name = "next_type")
+    private Integer nextType;
+
+    /**
+     * 当前进度总量
+     */
+    private BigDecimal totalSuccess;
+
+    /**
+     * 下一个小浮动价格
+     */
+    private BigDecimal floatPrice;
+
+    /**
+     * common_token_control_next
+     */
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * 
+     * @return token_id 
+     */
+    public BigInteger getTokenId() {
+        return tokenId;
+    }
+
+    /**
+     * 
+     * @param tokenId 
+     */
+    public void setTokenId(BigInteger token
