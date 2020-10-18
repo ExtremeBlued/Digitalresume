@@ -222,3 +222,92 @@ public class CommonTokenControl implements Serializable {
     }
 
     /**
+     * 购买定价上限
+     *
+     * @return buy_max 购买定价上限
+     */
+    public Float getBuyMax() {
+        return buyMax;
+    }
+
+    /**
+     * 购买定价上限
+     *
+     * @param buyMax 购买定价上限
+     */
+    public void setBuyMax(Float buyMax) {
+        this.buyMax = buyMax;
+    }
+
+    /**
+     * 出售定价下限
+     *
+     * @return sell_min 出售定价下限
+     */
+    public Float getSellMin() {
+        return sellMin;
+    }
+
+    /**
+     * 出售定价下限
+     *
+     * @param sellMin 出售定价下限
+     */
+    public void setSellMin(Float sellMin) {
+        this.sellMin = sellMin;
+    }
+
+    /**
+     * 出售定价上限
+     *
+     * @return sell_max 出售定价上限
+     */
+    public Float getSellMax() {
+        return sellMax;
+    }
+
+    /**
+     * 出售定价上限
+     *
+     * @param sellMax 出售定价上限
+     */
+    public void setSellMax(Float sellMax) {
+        this.sellMax = sellMax;
+    }
+
+    /**
+     * 涨跌波动最小百分比
+     *
+     * @return wave_min 涨跌波动最小百分比
+     */
+    public Float getWaveMin() {
+        return waveMin;
+    }
+
+    /**
+     * 涨跌波动最小百分比
+     *
+     * @param waveMin 涨跌波动最小百分比
+     */
+    public void setWaveMin(Float waveMin) {
+        this.waveMin = waveMin;
+    }
+
+    /**
+     * 涨跌波动最大百分比
+     *
+     * @return wave_max 涨跌波动最大百分比
+     */
+    public Float getWaveMax() {
+        return waveMax;
+    }
+
+    /**
+     * 涨跌波动最大百分比
+     *
+     * @param waveMax 涨跌波动最大百分比
+     */
+    public void setWaveMax(Float waveMax) {
+        this.waveMax = waveMax;
+    }
+}
