@@ -94,4 +94,6 @@ public class CommonTokenControlNext implements Serializable {
      * @param nextType 1涨 2跌
      */
     public void setNextType(Integer nextType) {
-        this.nextType 
+        this.nextType = nextType;
+    }
+}
