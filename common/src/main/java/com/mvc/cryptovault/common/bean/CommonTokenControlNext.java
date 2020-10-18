@@ -61,4 +61,37 @@ public class CommonTokenControlNext implements Serializable {
      * 
      * @param tokenId 
      */
-    public void setTokenId(BigInteger token
+    public void setTokenId(BigInteger tokenId) {
+        this.tokenId = tokenId;
+    }
+
+    /**
+     * 预计下个涨跌目标值
+     * @return next_price 预计下个涨跌目标值
+     */
+    public BigDecimal getNextPrice() {
+        return nextPrice;
+    }
+
+    /**
+     * 预计下个涨跌目标值
+     * @param nextPrice 预计下个涨跌目标值
+     */
+    public void setNextPrice(BigDecimal nextPrice) {
+        this.nextPrice = nextPrice;
+    }
+
+    /**
+     * 1涨 2跌
+     * @return next_type 1涨 2跌
+     */
+    public Integer getNextType() {
+        return nextType;
+    }
+
+    /**
+     * 1涨 2跌
+     * @param nextType 1涨 2跌
+     */
+    public void setNextType(Integer nextType) {
+        this.nextType 
