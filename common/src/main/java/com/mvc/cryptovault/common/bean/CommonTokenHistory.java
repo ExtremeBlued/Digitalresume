@@ -24,4 +24,11 @@ public class CommonTokenHistory implements Serializable {
     private BigInteger id;
 
     @Column(name = "token_id")
-    private
+    private BigInteger tokenId;
+
+    @Column(name = "created_at")
+    private Long createdAt;
+
+    @Column(name = "price")
+    private BigDecimal price;
+}
