@@ -19,4 +19,39 @@ public class CommonTokenPrice implements Serializable {
      * 令牌id
      */
     @Id
-    @Column(name = "tok
+    @Column(name = "token_id")
+    private BigInteger tokenId;
+    /**
+     * 令牌名称
+     */
+    @Column(name = "token_name")
+    private String tokenName;
+
+    /**
+     * 令牌价格（对usdt）
+     */
+    @Column(name = "token_price")
+    private BigDecimal tokenPrice;
+
+    /**
+     * common_token_price
+     */
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * 令牌id
+     *
+     * @return token_id 令牌id
+     */
+    public BigInteger getTokenId() {
+        return tokenId;
+    }
+
+    /**
+     * 令牌id
+     *
+     * @param tokenId 令牌id
+     */
+    public void setTokenId(BigInteger tokenId) {
+        this.tokenId = tokenId;
+    }
