@@ -55,3 +55,22 @@ public class CommonTokenPrice implements Serializable {
     public void setTokenId(BigInteger tokenId) {
         this.tokenId = tokenId;
     }
+
+    /**
+     * 令牌价格（对usdt）
+     *
+     * @return token_price 令牌价格（对usdt）
+     */
+    public BigDecimal getTokenPrice() {
+        return tokenPrice;
+    }
+
+    /**
+     * 令牌价格（对usdt）
+     *
+     * @param tokenPrice 令牌价格（对usdt）
+     */
+    public void setTokenPrice(BigDecimal tokenPrice) {
+        this.tokenPrice = tokenPrice;
+    }
+}
