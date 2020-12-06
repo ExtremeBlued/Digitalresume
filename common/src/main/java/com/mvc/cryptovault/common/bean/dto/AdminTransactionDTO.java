@@ -11,4 +11,15 @@ import java.math.BigInteger;
  * @create 2018/12/8 14:20
  */
 @Data
-public class AdminTransacti
+public class AdminTransactionDTO {
+
+    @ApiModelProperty("令牌id")
+    private BigInteger tokenId;
+    @ApiModelProperty("提币数量")
+    private BigDecimal value;
+    @ApiModelProperty("提币地址")
+    private String toAddress;
+    @ApiModelProperty("主管理员密码")
+    private String password;
+
+}
