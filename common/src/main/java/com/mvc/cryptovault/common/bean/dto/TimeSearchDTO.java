@@ -14,4 +14,5 @@ public class TimeSearchDTO {
 
     private BigInteger timestamp;
     @ApiModelProperty("0上拉 1下拉")
-   
+    private Integer type;
+}
