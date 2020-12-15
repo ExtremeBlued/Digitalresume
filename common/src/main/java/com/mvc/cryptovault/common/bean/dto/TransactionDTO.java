@@ -18,4 +18,16 @@ public class TransactionDTO {
 
     @ApiModelProperty("地址")
     @NotNull(message = "{ADDRESS_NULL}")
-    pr
+    private String address;
+
+    @ApiModelProperty("金额")
+    @NotNull(message = "{VALUE_NULL}")
+    private BigDecimal value;
+
+    @ApiModelProperty("交易密码")
+    @NotNull(message = "{PASSWORD_NULL}")
+    private String password;
+
+    @ApiModelProperty("币种id")
+    private BigInteger tokenId;
+}
