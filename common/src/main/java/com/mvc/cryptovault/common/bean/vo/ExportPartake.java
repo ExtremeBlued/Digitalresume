@@ -12,4 +12,14 @@ import java.math.BigInteger;
  */
 @Data
 public class ExportPartake implements Serializable {
-    private static final long serialVersionUID = 137559
+    private static final long serialVersionUID = 1375594815206966129L;
+
+    private BigInteger projectId;
+    private String cellphone;
+    private String nickname;
+    private String projectName;
+    private BigInteger userId;
+    private BigDecimal value;
+    private String tokenName;
+    private String baseTokenName;
+}
