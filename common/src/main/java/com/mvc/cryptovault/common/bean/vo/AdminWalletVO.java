@@ -24,4 +24,6 @@ public class AdminWalletVO implements Serializable {
     @ApiModelProperty("比特系可用地址库存")
     private Integer usdtAddressCount;
     @ApiModelProperty("以太系可用地址库存")
-    pri
+    private Integer ethAddressCount;
+
+}
