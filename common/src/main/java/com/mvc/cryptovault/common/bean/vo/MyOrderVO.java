@@ -26,4 +26,14 @@ public class MyOrderVO {
     @ApiModelProperty("交易类型 1购买 2出售")
     private Integer transactionType;
     @ApiModelProperty("成交价格")
-    private
+    private BigDecimal price;
+    @ApiModelProperty("创建时间")
+    private Long createdAt;
+    @ApiModelProperty("更新时间")
+    private Long updatedAt;
+    @ApiModelProperty("成交数量")
+    private BigDecimal deal;
+    @ApiModelProperty("订单状态0进行中 1完成")
+    private Integer status;
+
+}
