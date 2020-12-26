@@ -44,4 +44,8 @@ public class ProjectSimpleVO {
     @ApiModelProperty("开始时间")
     private Long startedAt;
     @ApiModelProperty("结束时间")
-  
+    private Long stopAt;
+    @ApiModelProperty("项目图标")
+    private String projectImage;
+
+}
