@@ -16,4 +16,8 @@ public class TransactionTokenVO {
 
     @ApiModelProperty("手续费对应令牌名称")
     private String feeTokenName;
-    
+    @ApiModelProperty("余额")
+    private BigDecimal balance;
+    @ApiModelProperty("手续费")
+    private Float fee;
+}
