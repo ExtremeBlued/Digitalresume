@@ -39,4 +39,28 @@ public class DProjectDTO implements Serializable {
     @ApiModelProperty("是否展示")
     private Integer visiable;
 
-    @
+    @ApiModelProperty("开始急死俺")
+    private Long startedAt;
+
+    @ApiModelProperty("结束时间")
+    private Long stopAt;
+
+    @ApiModelProperty("众筹总量")
+    private BigDecimal projectTotal;
+
+    @ApiModelProperty("兑换比例")
+    private Float ratio;
+
+    @ApiModelProperty("释放比例")
+    private Float releaseValue;
+
+    @ApiModelProperty("限购数量")
+    private BigDecimal projectLimit;
+
+    @ApiModelProperty("最小购买数量")
+    private BigDecimal projectMin;
+
+    @ApiModelProperty("发布时间")
+    private Long publishAt;
+
+}
