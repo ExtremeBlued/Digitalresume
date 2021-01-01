@@ -21,4 +21,9 @@ public class DUSerVO implements Serializable {
     private String nickname;
     @ApiModelProperty("估算余额,单位为usdt,需要在对应页面获取当前价格比值并按条件切换")
     private BigDecimal balance;
-    @Api
+    @ApiModelProperty("用户id")
+    private BigInteger id;
+    @ApiModelProperty("用户状态0禁用 1启用")
+    private Integer status;
+
+}
