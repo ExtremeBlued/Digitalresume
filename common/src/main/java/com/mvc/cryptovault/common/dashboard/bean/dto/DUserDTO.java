@@ -20,4 +20,5 @@ public class DUserDTO {
     private String password;
 
     @ApiModelProperty("验证码.登录时返回的错误次数过多时需要输入")
-    priva
+    private String validCode;
+}
