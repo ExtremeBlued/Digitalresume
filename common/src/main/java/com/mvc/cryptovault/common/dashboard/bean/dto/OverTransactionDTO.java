@@ -18,4 +18,16 @@ public class OverTransactionDTO extends PageDTO implements Serializable {
     @ApiModelProperty("交易对id")
     private BigInteger pairId;
 
-    @ApiModelProperty("交易类型 1购买 2出
+    @ApiModelProperty("交易类型 1购买 2出售")
+    private Integer transactionType;
+
+    @ApiModelProperty("订单号")
+    private String orderNumber;
+
+    @ApiModelProperty("手机号")
+    private String cellphone;
+
+    @ApiModelProperty("父订id")
+    private String parentOrderNumber;
+
+}
