@@ -67,4 +67,16 @@ public class DProjectOrderVO implements Serializable {
         switch (projectStatus) {
             case 0:
                 return "预约中";
-      
+            case 1:
+                return "预约中";
+            case 2:
+                return "等待发币";
+            case 3:
+                return "发币中";
+            case 9:
+                return "已取消";
+            default:
+                return "已取消";
+        }
+    }
+}
