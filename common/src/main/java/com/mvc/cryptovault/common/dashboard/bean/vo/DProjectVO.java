@@ -36,4 +36,15 @@ public class DProjectVO implements Serializable {
     private Long stopAt;
 
     @ApiModelProperty("众筹总量")
-    private BigDecimal pr
+    private BigDecimal projectTotal;
+
+    @ApiModelProperty("兑换比例")
+    private Float ratio;
+
+    @ApiModelProperty("项目币种")
+    private String tokenName;
+
+    @ApiModelProperty("令牌id")
+    private BigInteger tokenId;
+
+}
