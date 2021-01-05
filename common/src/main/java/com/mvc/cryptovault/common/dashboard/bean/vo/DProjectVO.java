@@ -13,4 +13,27 @@ import java.math.BigInteger;
  */
 @Data
 public class DProjectVO implements Serializable {
-    private static final long seria
+    private static final long serialVersionUID = -4966954208005363409L;
+
+    @ApiModelProperty("项目id")
+    private BigInteger id;
+
+    @ApiModelProperty("项目名称")
+    private String projectName;
+    @ApiModelProperty("基础令牌id")
+    private BigInteger baseTokenId;
+
+    @ApiModelProperty("基础令牌名称")
+    private String baseTokenName;
+
+    @ApiModelProperty("项目状态0即将开始 1进行中 2已结束 9取消")
+    private Integer status;
+
+    @ApiModelProperty("开始时间")
+    private Long startedAt;
+
+    @ApiModelProperty("结束时间")
+    private Long stopAt;
+
+    @ApiModelProperty("众筹总量")
+    private BigDecimal pr
