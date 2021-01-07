@@ -24,4 +24,19 @@ public class DTokenVO implements Serializable {
     @ApiModelProperty("是否可提现")
     private Integer withdraw;
     @ApiModelProperty("是否可充值")
- 
+    private Integer recharge;
+    @ApiModelProperty("最小提币")
+    private BigDecimal withdrawMin;
+    @ApiModelProperty("最大提币")
+    private BigDecimal withdrawMax;
+    @ApiModelProperty("单日提币上限")
+    private BigDecimal withdrawDay;
+    @ApiModelProperty("交易对信息(0无 1vrt 2余额 3所有)")
+    private Integer pairInfo;
+    @ApiModelProperty("动态手续费")
+    private Float fee;
+    @ApiModelProperty("区块链实际手续费")
+    private Float transaferFee;
+    @ApiModelProperty("保留金额")
+    private Float hold;
+}
