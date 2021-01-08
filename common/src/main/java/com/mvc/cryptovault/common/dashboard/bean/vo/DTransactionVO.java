@@ -31,4 +31,31 @@ public class DTransactionVO implements Serializable {
     private BigDecimal deal;
 
     @ApiModelProperty("待成交数量")
-    private BigDecimal surplu
+    private BigDecimal surplus;
+
+    @ApiModelProperty("挂单价格")
+    private BigDecimal price;
+
+    @ApiModelProperty("交易类型 1购买 2出售")
+    private Integer transactionType;
+
+    @ApiModelProperty("订单状态 0未完成 1全部完成 4取消")
+    private Integer status;
+
+    @ApiModelProperty("订单号")
+    private String orderNumber;
+
+    @ApiModelProperty("手机号")
+    private String cellphone;
+
+    @ApiModelProperty
+    private BigInteger id;
+
+    public String getTransactionTypeStr() {
+        return transactionType == 1 ? "购买" : "出售";
+    }
+
+    public String getStatusStr() {
+        if (status == 0) {
+            return "挂单中";
+        } 
