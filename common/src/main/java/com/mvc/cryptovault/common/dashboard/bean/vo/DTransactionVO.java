@@ -58,4 +58,10 @@ public class DTransactionVO implements Serializable {
     public String getStatusStr() {
         if (status == 0) {
             return "挂单中";
-        } 
+        } else if (status == 1) {
+            return "交易完成";
+        } else {
+            return "已撤销";
+        }
+    }
+}
