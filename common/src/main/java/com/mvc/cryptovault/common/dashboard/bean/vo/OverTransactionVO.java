@@ -22,4 +22,33 @@ public class OverTransactionVO implements Serializable {
     private Long updatedAt;
 
     @ApiModelProperty("订单号")
-    private String orderNum
+    private String orderNumber;
+
+    @ApiModelProperty("父订单号")
+    private String parentOrderNumber;
+
+    @ApiModelProperty("交易对")
+    private String pairName;
+
+    @ApiModelProperty("交易类型 1购买 2出售")
+    private Integer transactionType;
+
+    @ApiModelProperty("手机号")
+    private String cellphone;
+
+    @ApiModelProperty("交易数量")
+    private BigDecimal value;
+
+    @ApiModelProperty("交易价格")
+    private BigDecimal price;
+
+    @ApiModelProperty("基础交易币种名称(币种单位)")
+    private String baseTokenName;
+
+    @ApiModelProperty("id")
+    private BigInteger id;
+
+    @ApiModelProperty("父订单id")
+    private BigInteger parentId;
+
+    public Strin
