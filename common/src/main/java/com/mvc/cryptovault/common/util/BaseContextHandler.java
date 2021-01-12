@@ -77,4 +77,15 @@ public class BaseContextHandler {
         set("currentUserName", username);
     }
 
-    public static void setAdd
+    public static void setAddress(String address) {
+        set("currentUserAddress", address);
+    }
+
+    private static String returnObjectValue(Object value) {
+        return value == null ? null : value.toString();
+    }
+
+    public static void remove() {
+        threadLocal.remove();
+    }
+}
