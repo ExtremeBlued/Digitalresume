@@ -53,4 +53,28 @@ public class BaseContextHandler {
 
     public static String getName() {
         Object value = get("currentUser");
-    
+        return StringHelper.getObjectValue(value);
+    }
+
+    public static String getToken() {
+        Object value = get("currentUserToken");
+        return StringHelper.getObjectValue(value);
+    }
+
+    public static void setToken(String token) {
+        set("currentUserToken", token);
+    }
+
+    public static void setName(String name) {
+        set("currentUser", name);
+    }
+
+    public static void setUserID(String userID) {
+        set("currentUserId", userID);
+    }
+
+    public static void setUsername(String username) {
+        set("currentUserName", username);
+    }
+
+    public static void setAdd
