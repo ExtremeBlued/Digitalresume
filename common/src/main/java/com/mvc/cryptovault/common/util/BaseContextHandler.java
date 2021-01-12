@@ -32,4 +32,25 @@ public class BaseContextHandler {
     }
 
     public static String getUserID() {
-        Object va
+        Object value = get("currentUserId");
+        return returnObjectValue(value);
+    }
+
+    public static BigInteger getUserIDInt() {
+        Object value = get("currentUserId");
+        return new BigInteger(returnObjectValue(value));
+    }
+
+    public static String getUsername() {
+        Object value = get("currentUserName");
+        return returnObjectValue(value);
+    }
+
+    public static String getAddress() {
+        Object value = get("currentUserAddress");
+        return returnObjectValue(value);
+    }
+
+    public static String getName() {
+        Object value = get("currentUser");
+    
