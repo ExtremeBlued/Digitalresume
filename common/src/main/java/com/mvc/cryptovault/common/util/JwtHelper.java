@@ -26,4 +26,20 @@ public class JwtHelper {
 
         try {
             return Jwts.parser()
-                    .setSigningKey(DatatypeConverter.parseBase64Binary(b
+                    .setSigningKey(DatatypeConverter.parseBase64Binary(base64Secret))
+                    .parseClaimsJws(jsonWebToken).getBody();
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    public static String createToken(String username, BigInteger userId) {
+        return createJWT(username, userId, expire, "token");
+    }
+
+    public static String createRefresh(String username, BigInteger userId) {
+        return createJWT(username, userId, refresh, "refresh");
+    }
+
+    private static String createJWT(String username, BigInteger userId, Long expire, String type) {
+        SignatureAlgorithm signatureAlgorithm = S
