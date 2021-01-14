@@ -42,4 +42,16 @@ public class JwtHelper {
     }
 
     private static String createJWT(String username, BigInteger userId, Long expire, String type) {
-        SignatureAlgorithm signatureAlgorithm = S
+        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
+        //生成签名密钥
+        byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(base64Secret);
+        Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
+        //添加构成JWT的参数
+        JwtBuilder builder = Jwts.builder()
+                .claim("username", username)
+                .claim("userId", userId)
+                .claim("service", serviceName)
+                .claim("type", type)
+                .signWith(signatureAlgorithm, signingKey)
+                .setExpiration(new Date(System.currentTimeMillis() + expire));
+        return bu
