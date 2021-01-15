@@ -54,4 +54,18 @@ public class JwtHelper {
                 .claim("type", type)
                 .signWith(signatureAlgorithm, signingKey)
                 .setExpiration(new Date(System.currentTimeMillis() + expire));
-        return bu
+        return builder.compact();
+    }
+
+    public static String refresh(String refreshToken) {
+        Claims oldToken = parseJWT(refreshToken);
+        String username = oldToken.get("username", String.class);
+        String service = oldToken.get("service", String.class);
+        BigInteger userId = oldToken.get("userId", BigInteger.class);
+        String type = oldToken.get("type", String.class);
+        Assert.isTrue(serviceName.equalsIgnoreCase(service) && "refresh".equalsIgnoreCase(type), "token is wrong");
+        return createRefresh(username, userId);
+    }
+
+
+    public static void check(Claims claim, St
