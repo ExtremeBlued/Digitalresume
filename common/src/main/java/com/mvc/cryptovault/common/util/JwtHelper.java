@@ -68,4 +68,13 @@ public class JwtHelper {
     }
 
 
-    public static void check(Claims claim, St
+    public static void check(Claims claim, String uri) throws LoginException {
+        String type = claim.get("type", String.class);
+        String service = claim.get("service", String.class);
+        if (uri.indexOf("/refresh") > 0 && !"refresh".equalsIgnoreCase(type)) {
+            throw new LoginException("token type is wrong");
+        } else if (uri.indexOf("/refresh") < 0 && !"token".equalsIgnoreCase(type)) {
+            throw new TokenErrorException(MessageConstants.getMsg("TOKEN_EXPIRE"));
+        }
+    }
+}
