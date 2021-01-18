@@ -20,4 +20,22 @@ public class SerializeUtil {
         }
         try {
             T obj = clazz.getDeclaredConstructor().newInstance();
-            Field[] fs = clazz.getDeclared
+            Field[] fs = clazz.getDeclaredFields();
+            for (int i = 0; i < keys.size(); i++) {
+                var field = clazz.getDeclaredField(keys.get(i));
+                field.set(obj, string2Type(values.get(i).toString(), field.getType()));
+            }
+            return obj;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static <T> T string2Type(String value, Class<T> clazz) {
+        if (clazz.equals(String.class)) {
+            return (T) value;
+        } else if (clazz.equals(Float.class)) {
+            return (T) NumberUtils.parseNumber(value, Float.class);
+  
