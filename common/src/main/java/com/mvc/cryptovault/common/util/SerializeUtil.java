@@ -53,4 +53,16 @@ public class SerializeUtil {
             return null;
         }
         try {
-            T obj = clazz.getDec
+            T obj = clazz.getDeclaredConstructor().newInstance();
+            Field[] fs = clazz.getDeclaredFields();
+            for (Map.Entry entry : map.entrySet()) {
+                var field = clazz.getDeclaredField(entry.getKey().toString());
+                field.set(obj, string2Type(entry.getValue().toString(), field.getType()));
+            }
+            return obj;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+}
