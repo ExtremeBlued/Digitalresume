@@ -38,4 +38,19 @@ public class SerializeUtil {
             return (T) value;
         } else if (clazz.equals(Float.class)) {
             return (T) NumberUtils.parseNumber(value, Float.class);
-  
+        } else if (clazz.equals(BigDecimal.class)) {
+            return (T) NumberUtils.parseNumber(value, BigDecimal.class);
+        } else if (clazz.equals(BigInteger.class)) {
+            return (T) NumberUtils.parseNumber(value, BigInteger.class);
+        } else if (clazz.equals(Integer.class)) {
+            return (T) NumberUtils.parseNumber(value, Integer.class);
+        }
+        return null;
+    }
+
+    public static <T> T map2Bean(Map<Object, Object> map, Class<T> clazz) {
+        if (map.size() == 0) {
+            return null;
+        }
+        try {
+            T obj = clazz.getDec
