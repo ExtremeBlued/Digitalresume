@@ -10,4 +10,9 @@ import java.math.BigInteger;
  * @create 2018/12/11 14:56
  */
 @Data
-pu
+public class BlockTransactionBO {
+
+    private BigInteger userId;
+    private TransactionDTO transactionDTO;
+
+}
