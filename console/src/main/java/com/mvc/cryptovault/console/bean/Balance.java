@@ -9,4 +9,5 @@ import lombok.Data;
 @Data
 public class Balance {
     private String balance;
-    private Str
+    private String reserved;
+}
