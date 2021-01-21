@@ -20,4 +20,17 @@ public class UsdtTransaction {
     private String referenceaddress;
     private Boolean ismine;
     private Integer version;
- 
+    private Integer typeInt;
+    private String type;
+    private Integer propertyid;
+    private Boolean divisible;
+    private String amount;
+    private Boolean valid;
+    private String blockhash;
+    private Date blocktime;
+    private BigInteger positioninblock;
+    private BigInteger block;
+    private BigInteger confirmations;
+    private String invalidreason;
+
+}
