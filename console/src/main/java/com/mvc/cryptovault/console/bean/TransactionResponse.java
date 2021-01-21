@@ -17,4 +17,11 @@ public class TransactionResponse<T> {
     }
 
     public TransactionResponse(String transactionHash) {
-        this(tra
+        this(transactionHash, null);
+    }
+
+    public TransactionResponse(String transactionHash, T event) {
+        this.transactionHash = transactionHash;
+        this.event = event;
+    }
+}
