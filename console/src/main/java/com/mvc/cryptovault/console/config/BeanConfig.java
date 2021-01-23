@@ -45,4 +45,21 @@ public class BeanConfig {
 
     @Value("${service.name}")
     private String serviceName;
-    @Value("${serv
+    @Value("${service.expire}")
+    private Long expire;
+    @Value("${service.refresh}")
+    private Long refresh;
+    @Value("${service.base64Secret}")
+    private String base64Secret;
+    @Value("${eth.geth}")
+    public String WALLET_SERVICE;
+    @Value("${usdt.propId}")
+    private Integer propId;
+
+    @Bean
+    public HTreeMap hTreeMap() {
+        HTreeMap myCache = DBMaker.heapDB().concurrencyScale(16).make().hashMap("consoleCache")
+                .expireMaxSize(10000)
+                .expireAfterCreate(1, TimeUnit.HOURS)
+                .expireAfterUpdate(1, TimeUnit.HOURS)
+                .expireAft
