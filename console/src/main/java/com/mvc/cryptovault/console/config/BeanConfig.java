@@ -62,4 +62,21 @@ public class BeanConfig {
                 .expireMaxSize(10000)
                 .expireAfterCreate(1, TimeUnit.HOURS)
                 .expireAfterUpdate(1, TimeUnit.HOURS)
-                .expireAft
+                .expireAfterGet(1, TimeUnit.HOURS).create();
+        return myCache;
+    }
+
+    @Bean
+    public JPushClient jPushClient() {
+        JwtHelper.serviceName = serviceName;
+        JwtHelper.expire = expire;
+        JwtHelper.refresh = refresh;
+        JwtHelper.base64Secret = base64Secret;
+        JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY, null, ClientConfig.getInstance());
+        return jpushClient;
+    }
+
+    @Bean
+    public Quorum quorum() throws IOException {
+        return Quorum.build(new HttpService(WALLET_SERVICE, okHttpClient(), false));
+    
