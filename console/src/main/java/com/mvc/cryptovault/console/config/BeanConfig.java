@@ -19,4 +19,30 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.mapdb.DBMaker;
 import org.mapdb.HTreeMap;
 import org.springframework.beans.factory.annotation.Value;
-import org.springfra
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
+import org.web3j.protocol.Web3j;
+import org.web3j.protocol.http.HttpService;
+import org.web3j.quorum.Quorum;
+
+import java.io.*;
+import java.util.Properties;
+import java.util.concurrent.TimeUnit;
+
+/**
+ * @author qiyichen
+ * @create 2018/11/13 14:44
+ */
+@Configuration
+public class BeanConfig {
+
+    @Value("${jpush.secret}")
+    private String MASTER_SECRET;
+
+    @Value("${jpush.app_key}")
+    private String APP_KEY;
+
+    @Value("${service.name}")
+    private String serviceName;
+    @Value("${serv
