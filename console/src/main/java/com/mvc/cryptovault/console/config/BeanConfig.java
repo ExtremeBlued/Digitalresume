@@ -106,4 +106,16 @@ public class BeanConfig {
 
     @Bean
     public BtcdClient btcdClient() throws IOException, BitcoindException, CommunicationException {
-        PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnec
+        PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
+        CloseableHttpClient httpProvider = HttpClients.custom().setConnectionManager(cm).build();
+        Properties nodeConfig = new Properties();
+        String filePath = System.getProperty("user.dir")
+                + "/application.yml";
+        @Cleanup InputStream inputStream = null;
+        try {
+            inputStream = new BufferedInputStream(new FileInputStream(filePath));
+        } catch (FileNotFoundException e) {
+            ClassPathResource resource = new ClassPathResource("application.yml");
+            inputStream = resource.getInputStream();
+        }
+        nodeConf
