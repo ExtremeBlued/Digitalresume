@@ -79,4 +79,19 @@ public class BeanConfig {
     @Bean
     public Quorum quorum() throws IOException {
         return Quorum.build(new HttpService(WALLET_SERVICE, okHttpClient(), false));
-    
+    }
+
+    @Bean
+    public Web3j web3j() throws IOException {
+        Web3j web3j = Web3j.build(new HttpService(WALLET_SERVICE, okHttpClient(), false));
+        return web3j;
+    }
+
+    public static OkHttpClient okHttpClient() throws IOException {
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        builder.connectTimeout(120, TimeUnit.SECONDS)
+                .readTimeout(120, TimeUnit.SECONDS)
+                .writeTimeout(120, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .addInterceptor(new Interceptor() {
+        
