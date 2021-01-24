@@ -94,4 +94,16 @@ public class BeanConfig {
                 .writeTimeout(120, TimeUnit.SECONDS)
                 .retryOnConnectionFailure(true)
                 .addInterceptor(new Interceptor() {
-        
+                    @Override
+                    public Response intercept(Chain chain) throws IOException {
+                        Request originalRequest = chain.request();
+                        Request requestWithUserAgent = originalRequest.newBuilder().build();
+                        return chain.proceed(requestWithUserAgent);
+                    }
+                });
+        return builder.build();
+    }
+
+    @Bean
+    public BtcdClient btcdClient() throws IOException, BitcoindException, CommunicationException {
+        PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnec
