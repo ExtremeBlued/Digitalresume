@@ -118,4 +118,11 @@ public class BeanConfig {
             ClassPathResource resource = new ClassPathResource("application.yml");
             inputStream = resource.getInputStream();
         }
-        nodeConf
+        nodeConfig.load(inputStream);
+        BtcdClientImpl btcdClient = new BtcdClientImpl(httpProvider, nodeConfig);
+        BtcAction.init(propId, btcdClient);
+        return btcdClient;
+    }
+
+
+}
