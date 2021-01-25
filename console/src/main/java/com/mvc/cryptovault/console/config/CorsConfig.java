@@ -10,4 +10,20 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
  * @author qyc
  */
 @Configuration
-public class CorsConfig 
+public class CorsConfig {
+
+    @Value("${cors.allowedOrigin}")
+    private String allowedOrigin;
+
+    private CorsConfiguration buildConfig() {
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.addAllowedOrigin(allowedOrigin);
+        corsConfiguration.addAllowedHeader("*");
+        corsConfiguration.addAllowedMethod("*");
+        corsConfiguration.setAllowCredentials(true);
+        return corsConfiguration;
+    }
+
+    @Bean
+    public org.springframework.web.filter.CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfiguratio
