@@ -26,4 +26,9 @@ public class CorsConfig {
 
     @Bean
     public org.springframework.web.filter.CorsFilter corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfiguratio
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", buildConfig());
+        return new org.springframework.web.filter.CorsFilter(source);
+    }
+
+}
