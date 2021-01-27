@@ -17,3 +17,37 @@ import java.util.Locale;
 @Configuration
 public class LocaleConfig extends WebMvcConfigurationSupport {
 
+
+    @Bean
+    public LocaleResolver localeResolver() {
+        AcceptHeaderLocaleResolver slr = new AcceptHeaderLocaleResolver();
+        // 默认语言
+        slr.setDefaultLocale(Locale.US);
+        return slr;
+    }
+
+    @Bean
+    public LocaleChangeInterceptor localeChangeInterceptor() {
+        LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
+        // 参数名
+        return lci;
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(localeChangeInterceptor());
+        registry.addInterceptor(new ServiceAuthRestInterceptor());
+    }
+
+    @Override
+    @Bean
+    public Validator getValidator() {
+        ResourceBundleMessageSource rbms = new ResourceBundleMessageSource();
+        rbms.setDefaultEncoding("UTF-8");
+        rbms.setBasenames("messages");
+        LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+        validator.setValidationMessageSource(rbms);
+        return validator;
+    }
+
+}
