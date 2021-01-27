@@ -26,4 +26,18 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(TokenErrorException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public Result tokenErrorExceptionException() {
-        return new Result(HttpStatus.FORBIDDEN.value(), "token
+        return new Result(HttpStatus.FORBIDDEN.value(), "token error", null);
+    }
+
+    @ExceptionHandler(IllegalAccessException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Result illegalAccessExceptionException(IllegalAccessException e) {
+        return new Result(HttpStatus.BAD_REQUEST.value(), e.getMessage(), null);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Result illegalArgumentExceptionException(IllegalArgumentException e) {
+        return new Result(HttpStatus.BAD_REQUEST.value(), e.getMessage(), null);
+    }
+}
