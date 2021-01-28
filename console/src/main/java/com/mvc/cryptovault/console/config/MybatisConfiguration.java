@@ -49,4 +49,10 @@ public class MybatisConfiguration implements EnvironmentAware {
     public DataSource druidDataSource() {
         DruidDataSource druidDataSource = new DruidDataSource();
         druidDataSource.setUrl(url);
-        druidDataSource.setUsername(user
+        druidDataSource.setUsername(userName);
+        druidDataSource.setPassword(password);
+        druidDataSource.setDriverClassName(StringUtils.isNotBlank(driveClassName) ? driveClassName : "com.mysql.jdbc.Driver");
+        druidDataSource.setMaxActive(StringUtils.isNotBlank(maxActive) ? Integer.parseInt(maxActive) : 10);
+        druidDataSource.setInitialSize(StringUtils.isNotBlank(initialSize) ? Integer.parseInt(initialSize) : 1);
+        druidDataSource.setMaxWait(StringUtils.isNotBlank(maxWait) ? Integer.parseInt(maxWait) : 60000);
+        druidDataSource.setMinIdle(StringUtils.isNotBlank(minIdle) ? Integer.parseInt(
