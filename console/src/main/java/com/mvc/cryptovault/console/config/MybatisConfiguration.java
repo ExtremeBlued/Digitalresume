@@ -32,4 +32,21 @@ public class MybatisConfiguration implements EnvironmentAware {
     private String xmlLocation;
     private String typeAliasesPackage;
     private String filters;
-    private S
+    private String maxActive;
+    private String initialSize;
+    private String maxWait;
+    private String minIdle;
+    private String timeBetweenEvictionRunsMillis;
+    private String minEvictableIdleTimeMillis;
+    private String validationQuery;
+    private String testWhileIdle;
+    private String testOnBorrow;
+    private String testOnReturn;
+    private String poolPreparedStatements;
+    private String maxOpenPreparedStatements;
+
+    @Bean
+    public DataSource druidDataSource() {
+        DruidDataSource druidDataSource = new DruidDataSource();
+        druidDataSource.setUrl(url);
+        druidDataSource.setUsername(user
