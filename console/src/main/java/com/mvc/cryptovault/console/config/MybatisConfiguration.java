@@ -83,4 +83,21 @@ public class MybatisConfiguration implements EnvironmentAware {
             bean.setTypeAliasesPackage(typeAliasesPackage);
         }
         // 配置数据库表字段与对象属性字段的映射方式(下划线=》驼峰)
-        org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuratio
+        org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
+        configuration.setMapUnderscoreToCamelCase(true);
+        configuration.setUseGeneratedKeys(true);
+        bean.setConfiguration(configuration);
+
+        try {
+            return bean.getObject();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void setEnvironment(Environment environment) {
+        this.url = environment.getProperty("spring.datasource.url");
+        this.userName = environment.getProperty("spring.datasource.username");
+        this.password = environment.get
