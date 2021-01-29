@@ -68,4 +68,19 @@ public class MybatisConfiguration implements EnvironmentAware {
         druidDataSource.setMaxOpenPreparedStatements(StringUtils.isNotBlank(maxOpenPreparedStatements) ? Integer.parseInt(maxOpenPreparedStatements) : 20);
 
         try {
-            druidDataSource.setFilters(StringUtils.isNotBlank(filters) ? filt
+            druidDataSource.setFilters(StringUtils.isNotBlank(filters) ? filters : "stat, wall");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return druidDataSource;
+    }
+
+    @Bean(name = "sqlSessionFactory")
+    public SqlSessionFactory sqlSessionFactoryBean(DataSource dataSource) {
+        SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
+        bean.setDataSource(dataSource);
+        if (StringUtils.isNotBlank(typeAliasesPackage)) {
+            bean.setTypeAliasesPackage(typeAliasesPackage);
+        }
+        // 配置数据库表字段与对象属性字段的映射方式(下划线=》驼峰)
+        org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuratio
