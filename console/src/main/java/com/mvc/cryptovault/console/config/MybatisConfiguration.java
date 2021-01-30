@@ -100,4 +100,11 @@ public class MybatisConfiguration implements EnvironmentAware {
     public void setEnvironment(Environment environment) {
         this.url = environment.getProperty("spring.datasource.url");
         this.userName = environment.getProperty("spring.datasource.username");
-        this.password = environment.get
+        this.password = environment.getProperty("spring.datasource.password");
+        this.driveClassName = environment.getProperty("spring.datasource.driver-class-name");
+        this.filters = environment.getProperty("spring.datasource.filters");
+        this.maxActive = environment.getProperty("spring.datasource.maxActive");
+        this.initialSize = environment.getProperty("spring.datasource.initialSize");
+        this.maxWait = environment.getProperty("spring.datasource.maxWait");
+        this.minIdle = environment.getProperty("spring.datasource.minIdle");
+        this.timeBetweenEvictionRunsMillis = environment.getProperty("spring.datasource.timeBe
