@@ -114,4 +114,16 @@ public class MybatisConfiguration implements EnvironmentAware {
         this.testOnBorrow = environment.getProperty("spring.datasource.testOnBorrow");
         this.testOnReturn = environment.getProperty("spring.datasource.testOnReturn");
         this.poolPreparedStatements = environment.getProperty("spring.datasource.poolPreparedStatements");
-        this.ma
+        this.maxOpenPreparedStatements = environment.getProperty("spring.datasource.maxOpenPreparedStatements");
+        this.typeAliasesPackage = environment.getProperty("mybatis.typeAliasesPackage");
+        this.xmlLocation = environment.getProperty("mybatis.xmlLocation");
+    }
+
+    @Bean
+    public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
+        return new SqlSessionTemplate(sqlSessionFactory);
+    }
+
+    @Bean
+    public DataSourceTransactionManager transactionManager(DataSource dataSource) {
+        return new DataSourceTransactionManager(dataSource)
