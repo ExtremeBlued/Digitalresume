@@ -126,4 +126,7 @@ public class MybatisConfiguration implements EnvironmentAware {
 
     @Bean
     public DataSourceTransactionManager transactionManager(DataSource dataSource) {
-        return new DataSourceTransactionManager(dataSource)
+        return new DataSourceTransactionManager(dataSource);
+    }
+
+}
