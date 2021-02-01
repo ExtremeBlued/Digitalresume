@@ -16,4 +16,13 @@ public class ServiceAuthRestInterceptor extends HandlerInterceptorAdapter {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         BaseContextHandler.remove();
-        super.afterCompletion(request, response, handler, ex
+        super.afterCompletion(request, response, handler, ex);
+    }
+
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        LocaleContextHolder.setLocale(StringUtils.parseLocale(request.getHeader("Accept-Language")));
+        return super.preHandle(request, response, handler);
+    }
+
+}
