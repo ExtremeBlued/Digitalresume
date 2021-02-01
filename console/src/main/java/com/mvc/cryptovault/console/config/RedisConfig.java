@@ -15,3 +15,12 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 public class RedisConfig {
 
     @Bean
+    public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory factory) {
+        //统一使用StringRedisSerializer,内存消耗小很多,由代码完成类型转换
+        StringRedisTemplate template = new StringRedisTemplate(factory);
+        StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
+        template.setDefaultSerializer(stringRedisSerializer);
+        template.afterPropertiesSet();
+        return template;
+    }
+}
