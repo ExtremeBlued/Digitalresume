@@ -52,4 +52,6 @@ public class AppMessageController extends BaseController {
         message.setId(id);
         message.setIsRead(1);
         appMessageService.update(message);
-        return new Result<>(true
+        return new Result<>(true);
+    }
+}
