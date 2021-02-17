@@ -11,4 +11,26 @@ import com.mvc.cryptovault.console.common.BaseController;
 import com.mvc.cryptovault.console.service.AppProjectService;
 import com.mvc.cryptovault.console.service.AppProjectUserTransactionService;
 import com.mvc.cryptovault.console.service.AppUserBalanceService;
-import org.springframework.beans.factory.annotation.
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.math.BigInteger;
+import java.util.List;
+
+/**
+ * @author qiyichen
+ * @create 2018/11/13 17:23
+ */
+@RestController
+@RequestMapping("appProjectUserTransaction")
+public class AppProjectUserTransactionController extends BaseController {
+
+    @Autowired
+    AppProjectUserTransactionService appProjectUserTransactionService;
+    @Autowired
+    AppProjectService appProjectService;
+    @Autowired
+    AppUserBalanceService appUserBalanceService;
+
+    @GetMapping()
+    Result<PageInfo<PurchaseVO>> getReservation(@RequestParam("us
