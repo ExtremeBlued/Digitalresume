@@ -36,4 +36,16 @@ public class AppProjectController extends BaseController {
         } else if (null != type && type.equals(BusinessConstant.SEARCH_DIRECTION_DOWN)) {
             list = list.stream().filter(obj -> obj.getId().compareTo(projectId) < 0).collect(Collectors.toList());
         }
-        if (null != projectTy
+        if (null != projectType) {
+            list = list.stream().filter(obj -> obj.getStatus().equals(projectType)).collect(Collectors.toList());
+        }
+        list = list.stream().limit(pageSize).collect(Collectors.toList());
+        return new Result<>(new PageInfo<>(list));
+    }
+
+    @GetMapping("{id}")
+    Result<AppProject> getProjectById(@PathVariable BigInteger id) {
+        AppProject result = appProjectService.findById(id);
+        return new Result<>(result);
+    }
+}
