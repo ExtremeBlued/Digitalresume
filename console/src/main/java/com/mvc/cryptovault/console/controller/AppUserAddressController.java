@@ -21,4 +21,8 @@ public class AppUserAddressController extends BaseController {
 
     @GetMapping("{userId}")
     public Result<String> getAddress(@PathVariable("userId") BigInteger userId, @RequestParam("tokenId") BigInteger tokenId) {
-        String address = appUserAddressService.
+        String address = appUserAddressService.getAddress(userId, tokenId);
+        return new Result<>(address);
+    }
+
+}
