@@ -33,4 +33,17 @@ public class AppProjectUserTransactionController extends BaseController {
     AppUserBalanceService appUserBalanceService;
 
     @GetMapping()
-    Result<PageInfo<PurchaseVO>> getReservation(@RequestParam("us
+    Result<PageInfo<PurchaseVO>> getReservation(@RequestParam("userId") BigInteger userId, @ModelAttribute ReservationDTO reservationDTO) {
+        List<PurchaseVO> list = appProjectUserTransactionService.getReservation(userId, reservationDTO);
+        return new Result<>(new PageInfo<>(list));
+    }
+
+    @GetMapping("chaseInfo")
+    Result<ProjectBuyVO> getPurchaseInfo(@RequestParam("userId") BigInteger userId, @RequestParam("projectId") BigInteger projectId) {
+        AppProject project = appProjectService.findById(projectId);
+        ProjectBuyVO vo = appUserBalanceService.getBalance(userId, project);
+        return new Result<>(vo);
+    }
+
+    /**
+     * TODO 操作耗
