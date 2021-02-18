@@ -46,4 +46,18 @@ public class AppProjectUserTransactionController extends BaseController {
     }
 
     /**
-     * TODO 操作耗
+     * TODO 操作耗时则修改为队列
+     *
+     * @param userId
+     * @param projectId
+     * @param dto
+     * @return
+     */
+    @PostMapping("buy")
+    Result<Boolean> buy(@RequestParam("userId") BigInteger userId, @RequestParam("projectId") BigInteger projectId, @RequestBody ProjectBuyDTO dto) {
+        Boolean result = appProjectUserTransactionService.buy(userId, projectId, dto);
+        return new Result<>(result);
+    }
+
+    ;
+}
