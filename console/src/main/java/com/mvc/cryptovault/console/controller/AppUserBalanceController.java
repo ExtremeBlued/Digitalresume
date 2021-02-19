@@ -29,4 +29,21 @@ import java.util.List;
 public class AppUserBalanceController extends BaseController {
 
     @Autowired
-    AppUserBalanceService appUse
+    AppUserBalanceService appUserBalanceService;
+    @Autowired
+    AppUserService appUserService;
+
+    @GetMapping("{userId}")
+    public Result<List<TokenBalanceVO>> getAsset(@PathVariable("userId") BigInteger userId) {
+        List<TokenBalanceVO> list = appUserBalanceService.getAsset(userId, false);
+        return new Result<>(list);
+    }
+
+    @PutMapping("{userId}")
+    public Result<Boolean> setAssetVisible(@RequestBody @Valid AssertVisibleDTO visibleDTO, @PathVariable("userId") BigInteger userId) {
+        appUserBalanceService.setAssetVisible(visibleDTO, userId);
+        return new Result<>(true);
+    }
+
+    @GetMapping("sum/{userId}")
+    public Resu
