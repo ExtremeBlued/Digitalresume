@@ -67,4 +67,12 @@ public class AppUserBalanceController extends BaseController {
         return new Result<>(true);
     }
 
-    @PutMapping("
+    @PutMapping("debit")
+    public Result<Boolean> debitRecharge(@RequestBody DebitRechargeDTO debitDTO) {
+        AppUser user = appUserService.findOneBy("cellphone", debitDTO.getCellphone());
+        Assert.notNull(user, "用户不存在");
+        appUserBalanceService.debit(user.getId(), debitDTO.getValue(), 1, 1);
+        return new Result<>(true);
+    }
+
+}
