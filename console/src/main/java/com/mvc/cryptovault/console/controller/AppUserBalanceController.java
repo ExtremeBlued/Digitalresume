@@ -55,4 +55,16 @@ public class AppUserBalanceController extends BaseController {
 
     @GetMapping("debit/{userId}")
     public Result<BigDecimal> debit(@PathVariable("userId") BigInteger userId) {
-        BigDecimal result = appUserBalanceService.getBalanceByTokenId(userId, BusinessConstant.BASE_TOKEN
+        BigDecimal result = appUserBalanceService.getBalanceByTokenId(userId, BusinessConstant.BASE_TOKEN_ID_BALANCE);
+        return new Result<>(result);
+    }
+
+    @PostMapping("debit/{userId}")
+    public Result<Boolean> debit(@PathVariable("userId") BigInteger userId, @RequestBody DebitDTO debitDTO) {
+        AppUser user = appUserService.findById(userId);
+        Assert.isTrue(user.getTransactionPassword().equalsIgnoreCase(debitDTO.getPassword()), MessageConstants.getMsg("USER_TRANS_PASS_WRONG"));
+        appUserBalanceService.debit(userId, BigDecimal.ZERO.subtract(debitDTO.getValue()), 2, 0);
+        return new Result<>(true);
+    }
+
+    @PutMapping("
