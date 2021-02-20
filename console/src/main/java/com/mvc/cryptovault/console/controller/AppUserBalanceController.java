@@ -46,4 +46,13 @@ public class AppUserBalanceController extends BaseController {
     }
 
     @GetMapping("sum/{userId}")
-    public Resu
+    public Result<BigDecimal> getBalance(@PathVariable("userId") BigInteger userId) {
+        //TODO 修改统计方式为缓存方式
+        List<TokenBalanceVO> list = appUserBalanceService.getAsset(userId, true);
+        BigDecimal sum = list.stream().map(obj -> obj.getRatio().multiply(obj.getValue())).reduce(BigDecimal.ZERO, BigDecimal::add);
+        return new Result<>(sum);
+    }
+
+    @GetMapping("debit/{userId}")
+    public Result<BigDecimal> debit(@PathVariable("userId") BigInteger userId) {
+        BigDecimal result = appUserBalanceService.getBalanceByTokenId(userId, BusinessConstant.BASE_TOKEN
