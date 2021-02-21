@@ -20,4 +20,9 @@ public class BlockTransactionController extends BaseController {
     BlockTransactionService blockTransactionService;
 
     @PostMapping("{userId}")
-    public Result<Boolean> sendTransaction(@PathVariable("u
+    public Result<Boolean> sendTransaction(@PathVariable("userId") BigInteger userId, @RequestBody TransactionDTO transactionDTO) {
+        blockTransactionService.sendTransaction(userId, transactionDTO);
+        return new Result<>(true);
+    }
+
+}
