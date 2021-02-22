@@ -26,4 +26,17 @@ public class UserController extends BaseController {
 
     @GetMapping("username")
     public Result<AppUser> getByUsername(@RequestParam String username) {
-        String key = APP_USER_USERNAME + user
+        String key = APP_USER_USERNAME + username;
+        String result = (String) redisTemplate.opsForHash().get(key, key);
+        AppUser user = null;
+        if (null == result) {
+            user = appUserService.findOneBy("cellphone", username);
+            if (null == user) {
+                //用户不存在则保存空串,防止缓存穿透
+                redisTemplate.opsForHash().put(key, key, "");
+                redisTemplate.expire(key, 10, TimeUnit.MINUTES);
+            } else {
+                redisTemplate.opsForHash().put(key, key, String.valueOf(user.getId()));
+            }
+        } else if (!"".equals(result)) {
+   
