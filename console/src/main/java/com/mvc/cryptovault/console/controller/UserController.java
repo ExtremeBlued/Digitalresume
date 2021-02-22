@@ -39,4 +39,20 @@ public class UserController extends BaseController {
                 redisTemplate.opsForHash().put(key, key, String.valueOf(user.getId()));
             }
         } else if (!"".equals(result)) {
-   
+            //如果存在值且不为空,则用户存在,直接获取
+            user = appUserService.findById(NumberUtils.createBigInteger(result));
+        }
+        return new Result<>(user);
+    }
+
+    @GetMapping("{id}")
+    public Result<AppUser> getUserById(@PathVariable BigInteger id) {
+        return new Result(appUserService.findById(id));
+    }
+
+    @GetMapping("{id}/tag")
+    public Result<String> getTag(@PathVariable("id") BigInteger userId) {
+        String result = appUserService.getTag(userId);
+        return new Result<>(result);
+    }
+}
