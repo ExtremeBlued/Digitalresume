@@ -19,4 +19,5 @@ public interface BlockTransactionMapper extends MyMapper<BlockTransaction> {
     Integer returnValue(@Param("ids") String ids);
 
     @Update("update block_transaction set transaction_status = #{transactionStatus}, updated_at = #{currentTimeMillis} where id = #{id} and updated_at = #{now}")
-    Integer updateTransactionStatus(@Param("transactionStatus") Integer transactionStatus, @Param("currentTimeMillis") Long currentTimeMillis, @Param("now") Long now, @Param("id")BigInt
+    Integer updateTransactionStatus(@Param("transactionStatus") Integer transactionStatus, @Param("currentTimeMillis") Long currentTimeMillis, @Param("now") Long now, @Param("id")BigInteger id);
+}
