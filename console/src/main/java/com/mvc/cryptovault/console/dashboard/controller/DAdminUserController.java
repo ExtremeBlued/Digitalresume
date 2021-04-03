@@ -16,4 +16,28 @@ import com.mvc.cryptovault.console.service.*;
 import com.mvc.cryptovault.console.util.PageUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.
+import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * @author qiyichen
+ * @create 2018/11/21 16:37
+ */
+@RestController
+@RequestMapping("dashboard/adminUser")
+public class DAdminUserController extends BaseController {
+
+    @Autowired
+    AdminUserService adminUserService;
+    @Autowired
+    CommonTokenService commonTokenService;
+    @Autowired
+    CommonAddressService commonAddressService;
+    @Autowired
+    AdminWalletService ad
