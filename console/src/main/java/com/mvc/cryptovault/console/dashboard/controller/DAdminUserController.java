@@ -55,4 +55,23 @@ public class DAdminUserController extends BaseController {
         }
         List<AdminUser> list = adminUserService.findAll();
         Integer total = list.size();
-     
+        list = PageUtil.subList(list, dto);
+        List<AdminVO> vos = new ArrayList<>(list.size());
+        list.forEach(obj -> {
+            AdminVO vo = new AdminVO();
+            BeanUtils.copyProperties(obj, vo);
+            vos.add(vo);
+        });
+        PageInfo result = new PageInfo<>(list);
+        result.setList(vos);
+        result.setTotal(total);
+        return new Result<>(result);
+    }
+
+    @GetMapping("{id}")
+    public Result<AdminDetailVO> getAdminDetail(@PathVariable BigInteger id) {
+        AdminDetailVO result = adminUserService.getAdminDetail(id);
+        return new Result<>(result);
+    }
+
+    @
