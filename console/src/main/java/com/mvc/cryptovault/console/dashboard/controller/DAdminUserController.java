@@ -40,4 +40,19 @@ public class DAdminUserController extends BaseController {
     @Autowired
     CommonAddressService commonAddressService;
     @Autowired
-    AdminWalletService ad
+    AdminWalletService adminWalletService;
+    @Autowired
+    BlockHeightService blockHeightService;
+
+    @GetMapping()
+    public Result<PageInfo<AdminVO>> getAdmins(@RequestParam BigInteger userId, @ModelAttribute PageDTO dto) {
+        AdminUser user = adminUserService.findById(userId);
+        //非超级管理员只能看到自己
+        if (null != user && user.getAdminType() == 1) {
+            AdminVO vo = new AdminVO();
+            BeanUtils.copyProperties(user, vo);
+            return new Result<>(new PageInfo<>(Arrays.asList(vo)));
+        }
+        List<AdminUser> list = adminUserService.findAll();
+        Integer total = list.size();
+     
