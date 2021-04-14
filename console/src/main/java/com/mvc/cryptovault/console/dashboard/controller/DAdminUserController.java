@@ -74,4 +74,15 @@ public class DAdminUserController extends BaseController {
         return new Result<>(result);
     }
 
-    @
+    @DeleteMapping("{id}")
+    Result<Boolean> deleteAdmin(@RequestParam(value = "userId", required = false) BigInteger userId, @PathVariable("id") BigInteger id) {
+        AdminUser admin = adminUserService.findById(userId);
+        Assert.isTrue(admin.getAdminType() == 0 || userId.equals(id), "没有权限");
+        adminUserService.deleteById(id);
+        adminUserService.updateAllCache();
+        adminUserService.updateCache(id);
+        return new Result<>(true);
+    }
+
+    @GetMapping("password")
+    public Result<Boolean> updatePwd(@RequestParam(value = "id", required = false) BigInteger userId, @ModelAttribute AdminPasswordDTO adminPassword
