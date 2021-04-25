@@ -153,4 +153,9 @@ public class DAdminUserController extends BaseController {
         Integer btcCount = blockHeightService.accountCount("BTC");
         Integer ethCount = blockHeightService.accountCount("ETH");
         adminWalletVO.setUsdtAddressCount(btcCount);
-        adminW
+        adminWalletVO.setEthAddressCount(ethCount);
+        return new Result<>(adminWalletVO);
+    }
+
+
+}
