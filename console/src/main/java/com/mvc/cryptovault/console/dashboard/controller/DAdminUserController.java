@@ -95,3 +95,21 @@ public class DAdminUserController extends BaseController {
         adminUserService.update(admin);
         admin = adminUserService.findById(adminPasswordDTO.getUserId());
         adminUserService.updateAllCache();
+        adminUserService.updateCache(adminPasswordDTO.getUserId());
+        return new Result<>(true);
+    }
+
+    @GetMapping("username")
+    public Result<AdminUser> getAdminByUsername(@RequestParam(value = "username", required = false) String username) {
+        AdminUser user = adminUserService.findOneBy("username", username);
+        return new Result<>(user);
+    }
+
+    @PostMapping("")
+    public Result<Boolean> newAdmin(@RequestBody AdminDTO adminDTO) {
+        adminUserService.newAdmin(adminDTO);
+        return new Result<>(true);
+    }
+
+    @PutMapping("")
+    public Result<Boolean> updat
