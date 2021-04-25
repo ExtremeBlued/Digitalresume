@@ -112,4 +112,15 @@ public class DAdminUserController extends BaseController {
     }
 
     @PutMapping("")
-    public Result<Boolean> updat
+    public Result<Boolean> updateAdmin(@RequestParam BigInteger userId, @RequestBody AdminDTO adminDTO) {
+        AdminUser admin = adminUserService.findById(userId);
+        Assert.isTrue(admin.getAdminType() == 0 || userId.equals(adminDTO.getId()), "没有权限");
+        adminUserService.updateAdmin(adminDTO);
+        adminUserService.updateAllCache();
+        adminUserService.updateCache(adminDTO.getId());
+        return new Result<>(true);
+    }
+
+    @GetMapping("balance")
+    public Result<BigDecimal> getBalance(@RequestParam(value = "tokenId", required = false) BigInteger tokenId) {
+        CommonToken token = commonTokenService.findById(tokenId);
