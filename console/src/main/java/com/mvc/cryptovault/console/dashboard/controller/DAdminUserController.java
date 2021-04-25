@@ -138,4 +138,19 @@ public class DAdminUserController extends BaseController {
         AdminWallet ethCold = adminWalletService.getEthCold();
         AdminWallet btcCold = adminWalletService.getBtcCold();
         AdminWallet btcHot = adminWalletService.getBtcHot();
-     
+        if (null != ethHot) {
+            adminWalletVO.setEthHot(ethHot.getAddress());
+        }
+        if (null != ethCold) {
+            adminWalletVO.setEthCold(ethCold.getAddress());
+        }
+        if (null != btcCold) {
+            adminWalletVO.setUsdtCold(btcCold.getAddress());
+        }
+        if (null != btcHot) {
+            adminWalletVO.setUsdtHot(btcHot.getAddress());
+        }
+        Integer btcCount = blockHeightService.accountCount("BTC");
+        Integer ethCount = blockHeightService.accountCount("ETH");
+        adminWalletVO.setUsdtAddressCount(btcCount);
+        adminW
