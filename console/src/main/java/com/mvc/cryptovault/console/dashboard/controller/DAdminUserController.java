@@ -124,3 +124,18 @@ public class DAdminUserController extends BaseController {
     @GetMapping("balance")
     public Result<BigDecimal> getBalance(@RequestParam(value = "tokenId", required = false) BigInteger tokenId) {
         CommonToken token = commonTokenService.findById(tokenId);
+        if (null == token) {
+            return new Result<>(BigDecimal.ZERO);
+        }
+        BigDecimal result = commonAddressService.getBalance(token.getTokenName());
+        return new Result<>(result);
+    }
+
+    @GetMapping("wallet")
+    public Result<AdminWalletVO> getAdminWallet() {
+        AdminWalletVO adminWalletVO = new AdminWalletVO();
+        AdminWallet ethHot = adminWalletService.getEthHot();
+        AdminWallet ethCold = adminWalletService.getEthCold();
+        AdminWallet btcCold = adminWalletService.getBtcCold();
+        AdminWallet btcHot = adminWalletService.getBtcHot();
+     
