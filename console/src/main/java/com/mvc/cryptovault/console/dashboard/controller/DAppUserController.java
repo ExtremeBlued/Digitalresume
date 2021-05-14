@@ -15,4 +15,28 @@ import com.mvc.cryptovault.console.service.AppUserBalanceService;
 import com.mvc.cryptovault.console.service.AppUserService;
 import com.mvc.cryptovault.console.service.BlockSignService;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @author qiyichen
+ * @create 2018/11/21 16:43
+ */
+@RestController
+@RequestMapping("dashboard/appUser")
+public class DAppUserController extends BaseController {
+    @Autowired
+    AppUserService appUserService;
+    @Autowired
+    AppUserBalanceService appUserBalanceService;
+    @Autowired
+    BlockSignService blockSignService;
+
+    @GetMapping("")
+    public Result<PageInf
