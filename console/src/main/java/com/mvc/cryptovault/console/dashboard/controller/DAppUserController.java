@@ -39,4 +39,14 @@ public class DAppUserController extends BaseController {
     BlockSignService blockSignService;
 
     @GetMapping("")
-    public Result<PageInf
+    public Result<PageInfo<DUSerVO>> findUser(@ModelAttribute PageDTO pageDTO, @RequestParam(value = "cellphone", required = false) String cellphone, @RequestParam(value = "status", required = false) Integer status) {
+        PageInfo<DUSerVO> result = appUserService.findUser(pageDTO, cellphone, status);
+        return new Result<>(result);
+    }
+
+    @GetMapping("{id}")
+    public Result<DUSerDetailVO> getUserDetail(@PathVariable("id") BigInteger id) {
+        AppUser user = appUserService.findById(id);
+        DUSerDetailVO result = new DUSerDetailVO();
+        BeanUtils.copyProperties(user, result);
+        ret
