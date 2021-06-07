@@ -49,4 +49,17 @@ public class DAppUserController extends BaseController {
         AppUser user = appUserService.findById(id);
         DUSerDetailVO result = new DUSerDetailVO();
         BeanUtils.copyProperties(user, result);
-        ret
+        return new Result<>(result);
+    }
+
+    @GetMapping("{id}/balance")
+    public Result<List<DUserBalanceVO>> getUserBalance(@PathVariable("id") BigInteger id) {
+        List<TokenBalanceVO> list = appUserBalanceService.getAsset(id, true);
+        List<DUserBalanceVO> result = new ArrayList<>(list.size());
+        for (TokenBalanceVO vo : list) {
+            DUserBalanceVO dUserBalanceVO = new DUserBalanceVO();
+            BeanUtils.copyProperties(vo, dUserBalanceVO);
+            dUserBalanceVO.setBalance(vo.getValue().multiply(vo.getRatio()));
+            result.add(dUserBalanceVO);
+        }
+    
