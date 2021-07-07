@@ -76,4 +76,18 @@ public class DAppUserController extends BaseController {
         Assert.isTrue(status == 1 || status == 0, "状态错误");
         AppUser appUser = new AppUser();
         appUser.setId(id);
-        appUser.setUpdatedAt(
+        appUser.setUpdatedAt(System.currentTimeMillis());
+        appUser.setStatus(status);
+        appUserService.update(appUser);
+        appUserService.updateCache(id);
+        return new Result<>(true);
+    }
+
+    @PostMapping()
+    public Result<Boolean> importAppUser(@RequestBody List<AppUser> list, @RequestParam("fileName") String fileName) {
+        String obj = redisTemplate.boundValueOps(RedisConstant.USER_IMPORT + fileName).get();
+        if (null != obj) {
+            throw new IllegalArgumentException("该文件正在导入,请稍后");
+        }
+        blockSignService.importAppUser(list, fileName);
+        return new R
