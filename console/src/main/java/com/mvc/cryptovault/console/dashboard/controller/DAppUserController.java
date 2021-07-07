@@ -90,4 +90,6 @@ public class DAppUserController extends BaseController {
             throw new IllegalArgumentException("该文件正在导入,请稍后");
         }
         blockSignService.importAppUser(list, fileName);
-        return new R
+        return new Result<>(true);
+    }
+}
