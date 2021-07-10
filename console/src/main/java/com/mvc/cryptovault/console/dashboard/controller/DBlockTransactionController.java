@@ -24,4 +24,18 @@ public class DBlockTransactionController extends BaseController {
 
     @PutMapping("status")
     public Result<Boolean> updateStatus(@RequestBody DBlockStatusDTO dBlockStatusDTO) {
-        block
+        blockTransactionService.updateStatus(dBlockStatusDTO);
+        return new Result<>(true);
+    }
+
+    @GetMapping("")
+    public Result<PageInfo<DBlockeTransactionVO>> getTransactions(@ModelAttribute PageDTO pageDTO, @ModelAttribute DBlockeTransactionDTO dBlockeTransactionDTO) {
+        PageInfo<DBlockeTransactionVO> result = blockTransactionService.getTransactions(pageDTO, dBlockeTransactionDTO);
+        return new Result<>(result);
+    }
+
+    @PostMapping("")
+    public Result<Boolean> buy(@RequestBody AdminTransactionDTO dto) {
+        blockTransactionService.buy(dto);
+        return new Result<>(true);
+   
