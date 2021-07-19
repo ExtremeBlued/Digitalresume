@@ -38,4 +38,6 @@ public class DBlockTransactionController extends BaseController {
     public Result<Boolean> buy(@RequestBody AdminTransactionDTO dto) {
         blockTransactionService.buy(dto);
         return new Result<>(true);
-   
+    }
+
+}
