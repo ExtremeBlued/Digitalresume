@@ -29,4 +29,15 @@ public class DCommonAddressController extends BaseController {
         return new Result<>(count);
     }
 
-    @PostMa
+    @PostMapping("")
+    public Result<Boolean> importAddress(@RequestBody List<CommonAddress> list, @RequestParam String fileName) throws InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException {
+        String key = RedisConstant.ADDRESS_IMPORT + fileName;
+        String obj = redisTemplate.boundValueOps(key).get();
+        if (null != obj) {
+            throw new IllegalArgumentException("该文件正在导入,请稍后");
+        }
+        blockHeightService.importAddress(list, fileName);
+        return new Result<>();
+    }
+
+}
