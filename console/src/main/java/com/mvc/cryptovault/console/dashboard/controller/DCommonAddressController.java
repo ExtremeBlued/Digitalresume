@@ -10,4 +10,23 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
-i
+import java.security.NoSuchProviderException;
+import java.util.List;
+
+/**
+ * @author qiyichen
+ * @create 2018/11/21 16:42
+ */
+@RestController
+@RequestMapping("dashboard/commonAddress")
+public class DCommonAddressController extends BaseController {
+    @Autowired
+    BlockHeightService blockHeightService;
+
+    @GetMapping("count")
+    public Result<Integer> accountCount(@RequestParam(value = "tokenType", required = false) String tokenType) {
+        Integer count = blockHeightService.accountCount(tokenType);
+        return new Result<>(count);
+    }
+
+    @PostMa
