@@ -24,4 +24,23 @@ import javax.validation.Valid;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.str
+import java.util.stream.Collectors;
+
+/**
+ * @author qiyichen
+ * @create 2018/11/21 16:39
+ */
+@RestController
+@RequestMapping("dashboard/commonToken")
+public class DCommonTokenController extends BaseController {
+    @Autowired
+    BlockHeightService blockHeightService;
+    @Autowired
+    CommonPairService commonPairService;
+    @Autowired
+    CommonTokenService commonTokenService;
+
+    @GetMapping("")
+    public Result<List<DTokenVO>> findTokens(@RequestParam(value = "tokenName", required = false) String tokenName, @RequestParam(value = "isBlock", required = false) Integer blockType) {
+        List<CommonToken> list = null;
+        if (StringUtils.isNotBla
