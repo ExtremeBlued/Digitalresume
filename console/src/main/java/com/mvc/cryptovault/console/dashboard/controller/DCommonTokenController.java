@@ -43,4 +43,17 @@ public class DCommonTokenController extends BaseController {
     @GetMapping("")
     public Result<List<DTokenVO>> findTokens(@RequestParam(value = "tokenName", required = false) String tokenName, @RequestParam(value = "isBlock", required = false) Integer blockType) {
         List<CommonToken> list = null;
-        if (StringUtils.isNotBla
+        if (StringUtils.isNotBlank(tokenName)) {
+            list = commonTokenService.findBy("tokenName", tokenName);
+        } else {
+            list = commonTokenService.findAll();
+        }
+        List<DTokenVO> result = new ArrayList<>();
+        for (CommonToken token : list) {
+            if (null != blockType && BusinessConstant.CLASSIFY_BLOCK.equals(0) && StringUtils.isBlank(token.getTokenType())) {
+                //只筛选区块链类型
+                continue;
+            }
+            DTokenVO vo = new DTokenVO();
+            vo.setTokenId(token.getId());
+            List<CommonPair> pair = commonPairService.
