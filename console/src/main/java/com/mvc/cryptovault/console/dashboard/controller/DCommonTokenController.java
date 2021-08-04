@@ -56,4 +56,17 @@ public class DCommonTokenController extends BaseController {
             }
             DTokenVO vo = new DTokenVO();
             vo.setTokenId(token.getId());
-            List<CommonPair> pair = commonPairService.
+            List<CommonPair> pair = commonPairService.findBy("tokenId", token.getId());
+            if (null != pair) {
+                pair = pair.stream().filter(obj -> obj.getStatus() == 1).collect(Collectors.toList());
+            }
+            BeanUtils.copyProperties(token, vo);
+            Integer tokenInfo = pair.size() == 2 ? 3 : pair.size() == 0 ? 0 : pair.get(0).getBaseTokenId().equals(BigInteger.ONE) ? 1 : 2;
+            vo.setPairInfo(tokenInfo);
+            result.add(vo);
+        }
+        return new Result<>(result);
+    }
+
+    @PostMapping("")
+    public Result<Boolean> newToken(@RequestBody DTokenDTO dToke
