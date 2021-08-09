@@ -83,4 +83,17 @@ public class DCommonTokenController extends BaseController {
     }
 
     @GetMapping("{id}")
-    public Re
+    public Result<DTokenDTO> getToken(@PathVariable BigInteger id) {
+        CommonToken token = commonTokenService.findById(id);
+        DTokenDTO vo = new DTokenDTO();
+        BeanUtils.copyProperties(token, vo);
+        vo.setContractAddress(token.getTokenContractAddress());
+        vo.setDecimals(token.getTokenDecimal());
+        vo.setTokenId(token.getId());
+        return new Result<>(vo);
+    }
+
+    @PutMapping("")
+    public Result<Boolean> updateToken(@RequestBody DTokenDTO dTokenDTO) {
+        CommonToken token = new CommonToken();
+        Bea
