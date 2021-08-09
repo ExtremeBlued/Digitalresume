@@ -69,4 +69,18 @@ public class DCommonTokenController extends BaseController {
     }
 
     @PostMapping("")
-    public Result<Boolean> newToken(@RequestBody DTokenDTO dToke
+    public Result<Boolean> newToken(@RequestBody DTokenDTO dTokenDTO) {
+        CommonToken token = commonTokenService.findOneBy("tokenName", dTokenDTO.getTokenName());
+        Assert.isNull(token, "令牌已存在");
+        token = new CommonToken();
+        BeanUtils.copyProperties(dTokenDTO, token);
+        token.setTokenType(null == dTokenDTO.getBlockType() ? "" : dTokenDTO.getBlockType());
+        commonTokenService.save(token);
+        commonPairService.insertPair(token.getId(), dTokenDTO.getTokenName());
+        commonTokenService.updateAllCache();
+        commonTokenService.updateCache(token.getId());
+        return new Result<>(true);
+    }
+
+    @GetMapping("{id}")
+    public Re
