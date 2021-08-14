@@ -96,4 +96,15 @@ public class DCommonTokenController extends BaseController {
     @PutMapping("")
     public Result<Boolean> updateToken(@RequestBody DTokenDTO dTokenDTO) {
         CommonToken token = new CommonToken();
-        Bea
+        BeanUtils.copyProperties(dTokenDTO, token);
+        if (dTokenDTO.getTokenId().equals(BusinessConstant.BASE_TOKEN_ID_ETH)) {
+            token.setTokenType("ETH");
+        } else if (dTokenDTO.getTokenId().equals(BusinessConstant.BASE_TOKEN_ID_USDT)) {
+            token.setTokenType("BTC");
+        } else {
+            token.setTokenType(null == dTokenDTO.getBlockType() ? "" : dTokenDTO.getBlockType());
+        }
+        token.setId(dTokenDTO.getTokenId());
+        token.setTokenContractAddress(dTokenDTO.getContractAddress());
+        token.setTokenDecimal(dTokenDTO.getDecimals());
+        common
