@@ -107,4 +107,19 @@ public class DCommonTokenController extends BaseController {
         token.setId(dTokenDTO.getTokenId());
         token.setTokenContractAddress(dTokenDTO.getContractAddress());
         token.setTokenDecimal(dTokenDTO.getDecimals());
-        common
+        commonTokenService.update(token);
+        commonTokenService.updateAllCache();
+        commonTokenService.updateCache(token.getId());
+        return new Result<>(true);
+    }
+
+    @PutMapping("setting")
+    public Result<Boolean> tokenSetting(@RequestBody DTokenSettingVO dto) {
+        commonTokenService.tokenSetting(dto);
+        commonTokenService.updateAllCache();
+        commonTokenService.updateCache(dto.getId());
+        return new Result<>(true);
+    }
+
+    @GetMapping("setting")
+    public Result<PageInfo<DTokenSettingVO>> getTokenSettings(@ModelAttribute @Valid PageDTO 
