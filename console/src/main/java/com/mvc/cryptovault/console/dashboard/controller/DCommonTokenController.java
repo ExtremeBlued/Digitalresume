@@ -122,4 +122,16 @@ public class DCommonTokenController extends BaseController {
     }
 
     @GetMapping("setting")
-    public Result<PageInfo<DTokenSettingVO>> getTokenSettings(@ModelAttribute @Valid PageDTO 
+    public Result<PageInfo<DTokenSettingVO>> getTokenSettings(@ModelAttribute @Valid PageDTO pageDTO, @RequestParam(value = "tokenName", required = false) String tokenName) {
+        PageInfo<DTokenSettingVO> result = commonTokenService.getTokenSettings(pageDTO, tokenName);
+        return new Result<>(result);
+    }
+
+    @GetMapping("setting/{id}")
+    public Result<DTokenSettingVO> getTokenSetting(@PathVariable("id") BigInteger id) {
+        DTokenSettingVO result = commonTokenService.getTokenSetting(id);
+        return new Result<>(result);
+    }
+
+    @GetMapping("trans/{id}")
+    public Result<DTokenTransSettingVO> getTransSetting(@PathVariable("id") BigIntege
