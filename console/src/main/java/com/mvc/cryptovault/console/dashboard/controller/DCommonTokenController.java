@@ -134,4 +134,14 @@ public class DCommonTokenController extends BaseController {
     }
 
     @GetMapping("trans/{id}")
-    public Result<DTokenTransSettingVO> getTransSetting(@PathVariable("id") BigIntege
+    public Result<DTokenTransSettingVO> getTransSetting(@PathVariable("id") BigInteger id) {
+        DTokenTransSettingVO result = commonTokenService.getTransSetting(id);
+        return new Result<>(result);
+    }
+
+    @PutMapping("trans")
+    public Result<Boolean> setTransSetting(@RequestBody DTokenTransSettingVO dto) {
+        commonTokenService.setTransSetting(dto);
+        return new Result<>(true);
+    }
+}
