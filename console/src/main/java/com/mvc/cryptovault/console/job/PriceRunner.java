@@ -30,3 +30,26 @@ public class PriceRunner implements CommandLineRunner {
     @Autowired
     StringRedisTemplate redisTemplate;
     @Autowired
+    CommonTokenPriceService commonTokenPriceService;
+    @Autowired
+    CommonTokenControlService commonTokenControlService;
+    @Autowired
+    CommonTokenControlNextService commonTokenControlNextService;
+
+    @Override
+    @Async
+    public void run(String... args) throws Exception {
+        try {
+            while (true) {
+                tokenVolume();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            tokenVolume();
+        }
+    }
+
+    public void tokenVolume() {
+        sleep();
+        Boolean result = getRedisLock(RedisConstant.TOKEN_VOLUME);
+        if (!result)
