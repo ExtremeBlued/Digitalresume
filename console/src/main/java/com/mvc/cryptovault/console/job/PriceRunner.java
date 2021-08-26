@@ -52,4 +52,24 @@ public class PriceRunner implements CommandLineRunner {
     public void tokenVolume() {
         sleep();
         Boolean result = getRedisLock(RedisConstant.TOKEN_VOLUME);
-        if (!result)
+        if (!result) {
+            return;
+        }
+        TokenVolume tokenVolume = getNext();
+        if (null != tokenVolume) {
+            commonTokenControlNextService.updateTotal(tokenVolume.getTokenId(), tokenVolume.getValue());
+            tokenVolume.setUsed(1);
+            tokenVolumeService.update(tokenVolume);
+        }
+        redisTemplate.delete(RedisConstant.TOKEN_VOLUME);
+    }
+
+    private void sleep() {
+        try {
+            Thread.sleep(5);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private TokenVolu
