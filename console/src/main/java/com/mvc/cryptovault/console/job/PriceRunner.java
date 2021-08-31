@@ -72,4 +72,15 @@ public class PriceRunner implements CommandLineRunner {
         }
     }
 
-    private TokenVolu
+    private TokenVolume getNext() {
+        TokenVolume tokenVolume = tokenVolumeService.getNext();
+        return tokenVolume;
+    }
+
+    private Boolean getRedisLock(String key) {
+        return redisTemplate.execute(new RedisCallback<Boolean>() {
+            @Override
+            public Boolean doInRedis(RedisConnection connection) throws DataAccessException {
+                RedisSerializer<String> serializer = redisTemplate.getStringSerializer();
+                byte[] keyByte = serializer.serialize(key);
+                byte[] valueByte = serializer.serialize(String.valueOf(System.currentTimeMillis()
