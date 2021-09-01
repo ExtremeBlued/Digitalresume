@@ -83,4 +83,11 @@ public class PriceRunner implements CommandLineRunner {
             public Boolean doInRedis(RedisConnection connection) throws DataAccessException {
                 RedisSerializer<String> serializer = redisTemplate.getStringSerializer();
                 byte[] keyByte = serializer.serialize(key);
-                byte[] valueByte = serializer.serialize(String.valueOf(System.currentTimeMillis()
+                byte[] valueByte = serializer.serialize(String.valueOf(System.currentTimeMillis()));
+                Boolean result = connection.setNX(keyByte, valueByte);
+                redisTemplate.expire(key, 5, TimeUnit.SECONDS);
+                return result;
+            }
+        });
+    }
+}
