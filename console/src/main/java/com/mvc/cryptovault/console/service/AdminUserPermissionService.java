@@ -22,4 +22,17 @@ public class AdminUserPermissionService extends AbstractService<AdminUserPermiss
     public void delete(BigInteger id) {
         AdminUserPermission permission = new AdminUserPermission();
         permission.setUserId(id);
-        adminUserPermissionMapper.delete
+        adminUserPermissionMapper.delete(permission);
+    }
+
+    public void updatePermission(BigInteger userId, List<PermissionDTO> permissionList) {
+        delete(userId);
+        if (CollectionUtils.isEmpty(permissionList)) {
+            return;
+        }
+        List<AdminUserPermission> permissions = new ArrayList<>(permissionList.size());
+        for (PermissionDTO dto : permissionList) {
+            if (dto.getStatus() == 1) {
+                AdminUserPermission permission = new AdminUserPermission();
+                permission.setUserId(userId);
+                permission.setPermissionId(dto.getPermissionId
