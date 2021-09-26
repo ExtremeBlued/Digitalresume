@@ -35,4 +35,14 @@ public class AdminUserPermissionService extends AbstractService<AdminUserPermiss
             if (dto.getStatus() == 1) {
                 AdminUserPermission permission = new AdminUserPermission();
                 permission.setUserId(userId);
-                permission.setPermissionId(dto.getPermissionId
+                permission.setPermissionId(dto.getPermissionId());
+                save(permission);
+            }
+        }
+        String str = adminUserPermissionMapper.findPermissionStr(userId);
+        if (null == str) {
+            str = "";
+        }
+        redisTemplate.opsForValue().set("ADMIN_PERMISSON_" + userId, str);
+    }
+}
