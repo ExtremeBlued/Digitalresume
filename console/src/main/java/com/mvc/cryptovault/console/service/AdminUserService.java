@@ -21,4 +21,18 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Service
-public class AdminUserService extends Abstr
+public class AdminUserService extends AbstractService<AdminUser> implements BaseService<AdminUser> {
+
+    @Autowired
+    AdminUserPermissionService adminUserPermissionService;
+    @Autowired
+    AdminPermissionService adminPermissionService;
+
+    public AdminDetailVO getAdminDetail(BigInteger id) {
+        AdminDetailVO result = new AdminDetailVO();
+        AdminUser admin = findById(id);
+        BeanUtils.copyProperties(admin, result);
+        PageHelper.clearPage();
+        List<AdminUserPermission> permissions = adminUserPermissionService.findBy("userId", id);
+        List<AdminPermission> allPermission = adminPermissionService.findAll();
+   
