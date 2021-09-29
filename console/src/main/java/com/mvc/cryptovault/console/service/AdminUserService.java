@@ -35,4 +35,13 @@ public class AdminUserService extends AbstractService<AdminUser> implements Base
         PageHelper.clearPage();
         List<AdminUserPermission> permissions = adminUserPermissionService.findBy("userId", id);
         List<AdminPermission> allPermission = adminPermissionService.findAll();
-   
+        List<PermissionDTO> permissionList = new ArrayList<>(allPermission.size());
+        StringBuilder permissionStr = new StringBuilder();
+        for (AdminPermission permission : allPermission) {
+            Boolean hasPermission = permissions.stream().anyMatch(obj -> obj.getPermissionId().equals(permission.getId()));
+            permissionList.add(new PermissionDTO(permission.getId(), hasPermission ? 1 : 0));
+            if (hasPermission) {
+                permissionStr.append(permission.getId() + ",");
+            }
+        }
+        result.setPermissionList(permissionL
