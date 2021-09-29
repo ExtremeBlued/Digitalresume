@@ -58,4 +58,17 @@ public class AdminUserService extends AbstractService<AdminUser> implements Base
         adminUser.setNickname(adminDTO.getNickname());
         adminUser.setPassword(adminDTO.getPassword());
         adminUser.setUsername(adminDTO.getUsername());
-     
+        adminUser.setAdminType(1);
+        adminUser.setStatus(adminDTO.getStatus());
+        save(adminUser);
+        updateAllCache();
+        updateCache(adminUser.getId());
+        adminUserPermissionService.updatePermission(adminUser.getId(), adminDTO.getPermissionList());
+    }
+
+    public void updateAdmin(AdminDTO adminDTO) {
+        AdminUser user = findOneBy("username", adminDTO.getUsername());
+        Assert.isTrue(null == user || user.getId().equals(adminDTO.getId()), "用户名已存在");
+        Long time = System.currentTimeMillis();
+        AdminUser adminUser = new AdminUser();
+        adminUser.s
