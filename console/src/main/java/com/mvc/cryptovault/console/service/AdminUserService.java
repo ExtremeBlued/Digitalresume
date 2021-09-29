@@ -44,4 +44,18 @@ public class AdminUserService extends AbstractService<AdminUser> implements Base
                 permissionStr.append(permission.getId() + ",");
             }
         }
-        result.setPermissionList(permissionL
+        result.setPermissionList(permissionList);
+        result.setPermissions(permissionStr.toString());
+        return result;
+    }
+
+    public void newAdmin(AdminDTO adminDTO) {
+        Assert.isNull(findOneBy("username", adminDTO.getUsername()), "用户名已存在");
+        Long time = System.currentTimeMillis();
+        AdminUser adminUser = new AdminUser();
+        adminUser.setCreatedAt(time);
+        adminUser.setUpdatedAt(time);
+        adminUser.setNickname(adminDTO.getNickname());
+        adminUser.setPassword(adminDTO.getPassword());
+        adminUser.setUsername(adminDTO.getUsername());
+     
