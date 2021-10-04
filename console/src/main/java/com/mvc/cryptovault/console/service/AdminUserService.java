@@ -71,4 +71,14 @@ public class AdminUserService extends AbstractService<AdminUser> implements Base
         Assert.isTrue(null == user || user.getId().equals(adminDTO.getId()), "用户名已存在");
         Long time = System.currentTimeMillis();
         AdminUser adminUser = new AdminUser();
-        adminUser.s
+        adminUser.setUpdatedAt(time);
+        adminUser.setNickname(adminDTO.getNickname());
+        adminUser.setUsername(adminDTO.getUsername());
+        adminUser.setStatus(adminDTO.getStatus());
+        adminUser.setId(adminDTO.getId());
+        update(adminUser);
+        String key = "AdminUser".toUpperCase() + "_" + adminUser.getId();
+        redisTemplate.opsForValue().set(key, JSON.toJSONString(adminUser), 24, TimeUnit.HOURS);
+        adminUserPermissionService.updatePermission(adminUser.getId(), adminDTO.getPermissionList());
+    }
+}
