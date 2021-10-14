@@ -14,4 +14,25 @@ import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Condition;
 import tk.mybatis.mapper.entity.Example;
 
-import java.math.
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Service
+public class AppProjectPartakeService extends AbstractService<AppProjectPartake> implements BaseService<AppProjectPartake> {
+
+    @Autowired
+    AppProjectPartakeMapper appProjectPartakeMapper;
+    @Autowired
+    AppUserBalanceService appUserBalanceService;
+    @Value("${project.frequency}")
+    Long frequency;
+    @Autowired
+    AppMessageService appMessageService;
+    @Autowired
+    AppProjectService appProjectService;
+    @Autowired
+    AppOrder
