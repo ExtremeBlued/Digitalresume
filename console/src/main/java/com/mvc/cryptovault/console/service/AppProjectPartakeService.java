@@ -35,4 +35,15 @@ public class AppProjectPartakeService extends AbstractService<AppProjectPartake>
     @Autowired
     AppProjectService appProjectService;
     @Autowired
-    AppOrder
+    AppOrderService appOrderService;
+
+    public void savePartake(ImportPartake partake, AppProject appProject) {
+        AppProjectPartake appProjectPartake = new AppProjectPartake();
+        appProjectPartake.setProjectId(partake.getProjectId());
+        appProjectPartake.setUserId(partake.getUserId());
+        appProjectPartake = findOneByEntity(appProjectPartake);
+        if (appProjectPartake == null) {
+            appProjectPartake = new AppProjectPartake();
+            appProjectPartake.setProjectId(partake.getProjectId());
+            appProjectPartake.setUserId(partake.getUserId());
+            ap
