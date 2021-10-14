@@ -6,4 +6,5 @@ import com.mvc.cryptovault.console.common.BaseService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AppOrderDetailService extends AbstractService<AppOrderDetail> implements Ba
+public class AppOrderDetailService extends AbstractService<AppOrderDetail> implements BaseService<AppOrderDetail> {
+}
