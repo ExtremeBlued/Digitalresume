@@ -46,4 +46,15 @@ public class AppProjectPartakeService extends AbstractService<AppProjectPartake>
             appProjectPartake = new AppProjectPartake();
             appProjectPartake.setProjectId(partake.getProjectId());
             appProjectPartake.setUserId(partake.getUserId());
-            ap
+            appProjectPartake.setTokenId(appProject.getTokenId());
+            appProjectPartake.setValue(partake.getValue());
+            appProjectPartake.setPublishTime(appProject.getPublishAt());
+            appProjectPartake.setTimes(new Float(100f / appProject.getReleaseValue()).intValue());
+            appProjectPartake.setReverseValue(appProjectPartake.getValue().divide(BigDecimal.valueOf(appProjectPartake.getTimes())));
+            save(appProjectPartake);
+        }
+    }
+
+    public void sendProject() {
+        Long time = System.currentTimeMillis();
+        Condition cond
