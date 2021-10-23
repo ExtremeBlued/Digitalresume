@@ -57,4 +57,13 @@ public class AppProjectPartakeService extends AbstractService<AppProjectPartake>
 
     public void sendProject() {
         Long time = System.currentTimeMillis();
-        Condition cond
+        Condition condition = new Condition(AppProjectPartake.class);
+        Example.Criteria criteria = condition.createCriteria();
+        ConditionUtil.andCondition(criteria, "publish_time <= ", time);
+        ConditionUtil.andCondition(criteria, "times > ", 0);
+        List<AppProjectPartake> list = appProjectPartakeMapper.selectByCondition(condition);
+        Map<BigInteger, AppProject> projectMap = new HashMap<>(5);
+        List<AppOrder> orders = new ArrayList<>(list.size());
+        list.forEach(appProjectPartake -> {
+            //统计所有项目,统一发送推送
+            AppProject appProject = projectMap.get(appProjec
