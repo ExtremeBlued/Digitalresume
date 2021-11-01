@@ -66,4 +66,14 @@ public class AppProjectPartakeService extends AbstractService<AppProjectPartake>
         List<AppOrder> orders = new ArrayList<>(list.size());
         list.forEach(appProjectPartake -> {
             //统计所有项目,统一发送推送
-            AppProject appProject = projectMap.get(appProjec
+            AppProject appProject = projectMap.get(appProjectPartake.getProjectId());
+            if(null ==appProject ){
+                appProject =  appProjectService.findById(appProjectPartake.getProjectId());
+                projectMap.put(appProjectPartake.getProjectId(),appProject);
+            }
+            appProjectPartake.setTimes(appProjectPartake.getTimes() - 1);
+            //没有释放完毕,更新下一次推送时间为下一个周期
+            if (appProjectPartake.getTimes() > 0) {
+                appProjectPartake.setPublishTime(appProjectPartake.getPublishTime() + frequency);
+            }
+            update(appProjectPa
