@@ -76,4 +76,15 @@ public class AppProjectPartakeService extends AbstractService<AppProjectPartake>
             if (appProjectPartake.getTimes() > 0) {
                 appProjectPartake.setPublishTime(appProjectPartake.getPublishTime() + frequency);
             }
-            update(appProjectPa
+            update(appProjectPartake);
+            //添加到统一订单列表
+            AppOrder order = appOrderService.saveOrder(appProjectPartake, appProject);
+            orders.add(order);
+            //更新余额
+            appUserBalanceService.updateBalance(appProjectPartake.getUserId(), appProjectPartake.getTokenId(), appProjectPartake.getReverseValue());
+        });
+        //TODO 意外停止服务后需要将message表中不存在的orderid对应数据重新发送
+        for (BigInteger key : projectMap.keySet()) {
+            AppProject project = projectMap.get(key);
+            if (null != project) {
+                appMessageService.sendPublish(project.getId(), project.getProjectName(), time, pr
