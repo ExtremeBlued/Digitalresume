@@ -87,4 +87,13 @@ public class AppProjectPartakeService extends AbstractService<AppProjectPartake>
         for (BigInteger key : projectMap.keySet()) {
             AppProject project = projectMap.get(key);
             if (null != project) {
-                appMessageService.sendPublish(project.getId(), project.getProjectName(), time, pr
+                appMessageService.sendPublish(project.getId(), project.getProjectName(), time, project.getTokenName(), orders);
+            }
+        }
+    }
+
+    public String getTag(BigInteger userId) {
+        String result = appProjectPartakeMapper.getTag(userId);
+        return result;
+    }
+}
