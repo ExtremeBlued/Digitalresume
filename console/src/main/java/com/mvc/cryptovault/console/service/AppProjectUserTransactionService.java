@@ -28,4 +28,23 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.NumberUtils;
 import tk.mybatis.mapper.entity.Condition;
-import tk.mybati
+import tk.mybatis.mapper.entity.Example;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+public class AppProjectUserTransactionService extends AbstractService<AppProjectUserTransaction> implements BaseService<AppProjectUserTransaction> {
+
+    @Autowired
+    AppProjectUserTransactionMapper appProjectUserTransactionMapper;
+    @Autowired
+    AppProjectService appProjectService;
+    @Autowired
+    AppUserBalanceService appUserBalanceService;
+    @Autowired
+    AppUserService appUserService;
+    @Autowired
+    AppOrderService appOrderS
