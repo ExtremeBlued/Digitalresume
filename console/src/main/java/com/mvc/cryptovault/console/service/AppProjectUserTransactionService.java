@@ -47,4 +47,17 @@ public class AppProjectUserTransactionService extends AbstractService<AppProject
     @Autowired
     AppUserService appUserService;
     @Autowired
-    AppOrderService appOrderS
+    AppOrderService appOrderService;
+    @Autowired
+    AppOrderDetailService appOrderDetailService;
+    @Autowired
+    CommonPairService commonPairService;
+    @Autowired
+    CommonTokenService commonTokenService;
+
+    public BigDecimal getUserBuyTotal(BigInteger userId, BigInteger project) {
+        String key = "AppProjectUserTransaction".toUpperCase() + "_BALANCE_" + userId;
+        if (redisTemplate.hasKey(key)) {
+            String balance = (String) redisTemplate.boundHashOps(key).get(String.valueOf(project));
+            if (StringUtils.isNotBlank(balance) && !"null".equals(balance)) {
+      
