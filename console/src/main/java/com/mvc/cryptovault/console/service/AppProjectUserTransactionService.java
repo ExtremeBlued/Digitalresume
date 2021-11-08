@@ -60,4 +60,21 @@ public class AppProjectUserTransactionService extends AbstractService<AppProject
         if (redisTemplate.hasKey(key)) {
             String balance = (String) redisTemplate.boundHashOps(key).get(String.valueOf(project));
             if (StringUtils.isNotBlank(balance) && !"null".equals(balance)) {
-      
+                return NumberUtils.parseNumber(balance, BigDecimal.class);
+            }
+        }
+        BigDecimal result = null;
+        BigDecimal sum = appProjectUserTransactionMapper.sum(userId, project);
+        if (null == sum) {
+            result = BigDecimal.ZERO;
+        } else {
+            result = sum;
+        }
+        //余额记录永久保存
+        redisTemplate.boundHashOps(key).put(String.valueOf(project), String.valueOf(result));
+        return result;
+    }
+
+    public Boolean buy(BigInteger userId, BigInteger projectId, ProjectBuyDTO dto) {
+        putAll(userId, false);
+        Long time = System.currentTimeMi
