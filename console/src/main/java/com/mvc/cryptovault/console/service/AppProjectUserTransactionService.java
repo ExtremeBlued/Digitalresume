@@ -87,4 +87,10 @@ public class AppProjectUserTransactionService extends AbstractService<AppProject
     }
 
     private void updateCache(BigInteger userId, ProjectBuyDTO dto, AppProject project, AppProjectUserTransaction appProjectUserTransaction) {
-        appUserBalanceService.updateBalance(userId, proj
+        appUserBalanceService.updateBalance(userId, project.getBaseTokenId(), BigDecimal.ZERO.subtract(appProjectUserTransaction.getPayed()));
+        //TODO 异步发送推送,修改余额,生成统一订单,添加到getReservation缓存列表
+        String balanceKey = "AppProjectUserTransaction".toUpperCase() + "_BALANCE_" + userId;
+        redisTemplate.boundHashOps(balanceKey).increment(String.valueOf(appProjectUserTransaction.getProjectId()), Double.valueOf(String.valueOf(dto.getValue())));
+        String key = "AppProjectUserTransaction".toUpperCase() + "_INDEX_" + userId;
+        String listKey = "AppProjectUserTransaction".toUpperCase() + "_USER_" + userId;
+        redisTemp
