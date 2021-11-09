@@ -77,4 +77,14 @@ public class AppProjectUserTransactionService extends AbstractService<AppProject
 
     public Boolean buy(BigInteger userId, BigInteger projectId, ProjectBuyDTO dto) {
         putAll(userId, false);
-        Long time = System.currentTimeMi
+        Long time = System.currentTimeMillis();
+        AppProject project = buyCheck(userId, projectId, dto);
+        AppProjectUserTransaction appProjectUserTransaction = saveAppProjectUserTransaction(userId, projectId, dto, time, project);
+        updateCache(userId, dto, project, appProjectUserTransaction);
+        appProjectUserTransaction.setResult(0);
+        appOrderService.saveOrder(appProjectUserTransaction, project);
+        return true;
+    }
+
+    private void updateCache(BigInteger userId, ProjectBuyDTO dto, AppProject project, AppProjectUserTransaction appProjectUserTransaction) {
+        appUserBalanceService.updateBalance(userId, proj
