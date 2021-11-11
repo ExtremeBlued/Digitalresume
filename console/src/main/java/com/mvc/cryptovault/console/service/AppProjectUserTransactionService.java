@@ -93,4 +93,14 @@ public class AppProjectUserTransactionService extends AbstractService<AppProject
         redisTemplate.boundHashOps(balanceKey).increment(String.valueOf(appProjectUserTransaction.getProjectId()), Double.valueOf(String.valueOf(dto.getValue())));
         String key = "AppProjectUserTransaction".toUpperCase() + "_INDEX_" + userId;
         String listKey = "AppProjectUserTransaction".toUpperCase() + "_USER_" + userId;
-        redisTemp
+        redisTemplate.boundHashOps(key).put(String.valueOf(appProjectUserTransaction.getId()), String.valueOf(appProjectUserTransaction.getIndex()));
+        redisTemplate.delete(listKey);
+        putAll(userId, true);
+    }
+
+    @NotNull
+    private AppProjectUserTransaction saveAppProjectUserTransaction(BigInteger userId, BigInteger projectId, ProjectBuyDTO dto, Long time, AppProject project) {
+        AppProjectUserTransaction appProjectUserTransaction = new AppProjectUserTransaction();
+        appProjectUserTransaction.setCreatedAt(time);
+        appProjectUserTransaction.setUpdatedAt(time);
+        appP
