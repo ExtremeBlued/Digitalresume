@@ -112,4 +112,15 @@ public class AppProjectUserTransactionService extends AbstractService<AppProject
         appProjectUserTransaction.setResult(BusinessConstant.APP_PROJECT_STATUS_WAIT);
         appProjectUserTransaction.setValue(dto.getValue());
         appProjectUserTransaction.setProjectOrderNumber(getOrderNumber());
-        
+        appProjectUserTransaction.setSuccessPayed(BigDecimal.ZERO);
+        appProjectUserTransaction.setSuccessValue(BigDecimal.ZERO);
+        //花费金额=购买数量*货币比值
+        BigDecimal balanceCost = dto.getValue().multiply(BigDecimal.valueOf(project.getRatio()));
+        appProjectUserTransaction.setPayed(balanceCost);
+        appProjectUserTransactionMapper.insert(appProjectUserTransaction);
+        return appProjectUserTransaction;
+    }
+
+    private AppProject buyCheck(BigInteger userId, BigInteger projectId, ProjectBuyDTO dto) {
+        AppUser user = appUserService.findById(userId);
+        Assert.isTrue(user.getTransactionPassword().equalsIgnoreCase
