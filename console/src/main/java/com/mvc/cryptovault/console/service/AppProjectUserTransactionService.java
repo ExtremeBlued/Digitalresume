@@ -128,4 +128,14 @@ public class AppProjectUserTransactionService extends AbstractService<AppProject
         ProjectBuyVO balance = appUserBalanceService.getBalance(userId, project);
         Assert.isTrue(balance.getBalance().compareTo(dto.getValue().multiply(NumberUtils.parseNumber(String.valueOf(project.getRatio()), BigDecimal.class))) >= 0, MessageConstants.getMsg("INSUFFICIENT_BALANCE"));
         Assert.isTrue(balance.getLimitValue().subtract(dto.getValue()).compareTo(BigDecimal.ZERO) >= 0, MessageConstants.getMsg("PROJECT_LIMIT_OVER"));
-  
+        Assert.isTrue(dto.getValue().subtract(balance.getProjectMin()).compareTo(BigDecimal.ZERO) >= 0, MessageConstants.getMsg("PROJECT_LIMIT_OVER"));
+        return project;
+    }
+
+    public List<PurchaseVO> getReservation(BigInteger userId, ReservationDTO reservationDTO) {
+        List<AppProjectUserTransaction> transList = null;
+        List<PurchaseVO> result = new ArrayList<>(10);
+        if (StringUtils.isNotBlank(reservationDTO.getProjectName())) {
+            String ids = appProjectService.findIdsByName(reservationDTO.getProjectName());
+            if (StringUtils.isBlank(ids)) {
+                return new Arra
