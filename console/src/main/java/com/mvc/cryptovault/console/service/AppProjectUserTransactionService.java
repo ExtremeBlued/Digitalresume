@@ -123,4 +123,9 @@ public class AppProjectUserTransactionService extends AbstractService<AppProject
 
     private AppProject buyCheck(BigInteger userId, BigInteger projectId, ProjectBuyDTO dto) {
         AppUser user = appUserService.findById(userId);
-        Assert.isTrue(user.getTransactionPassword().equalsIgnoreCase
+        Assert.isTrue(user.getTransactionPassword().equalsIgnoreCase(dto.getPassword()), MessageConstants.getMsg("USER_TRANS_PASS_WRONG"));
+        AppProject project = appProjectService.findById(projectId);
+        ProjectBuyVO balance = appUserBalanceService.getBalance(userId, project);
+        Assert.isTrue(balance.getBalance().compareTo(dto.getValue().multiply(NumberUtils.parseNumber(String.valueOf(project.getRatio()), BigDecimal.class))) >= 0, MessageConstants.getMsg("INSUFFICIENT_BALANCE"));
+        Assert.isTrue(balance.getLimitValue().subtract(dto.getValue()).compareTo(BigDecimal.ZERO) >= 0, MessageConstants.getMsg("PROJECT_LIMIT_OVER"));
+  
