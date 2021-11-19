@@ -138,4 +138,16 @@ public class AppProjectUserTransactionService extends AbstractService<AppProject
         if (StringUtils.isNotBlank(reservationDTO.getProjectName())) {
             String ids = appProjectService.findIdsByName(reservationDTO.getProjectName());
             if (StringUtils.isBlank(ids)) {
-                return new Arra
+                return new ArrayList<>(0);
+            }
+            //按项目名搜索不分页
+            transList = getTransByProjectIds(userId, ids);
+        } else {
+            transList = getAppProjectUserTransactionsCache(userId, reservationDTO);
+            if (transList == null) return null;
+        }
+        for (int i = 0; i < transList.size(); i++) {
+            PurchaseVO vo = new PurchaseVO();
+            AppProjectUserTransaction appProjectUserTransaction = transList.get(i);
+            AppProject project = appProjectService.findById(appProjectUserTransaction.getProjectId());
+            vo.setCreatedAt(appProjec
