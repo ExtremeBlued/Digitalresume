@@ -150,4 +150,12 @@ public class AppProjectUserTransactionService extends AbstractService<AppProject
             PurchaseVO vo = new PurchaseVO();
             AppProjectUserTransaction appProjectUserTransaction = transList.get(i);
             AppProject project = appProjectService.findById(appProjectUserTransaction.getProjectId());
-            vo.setCreatedAt(appProjec
+            vo.setCreatedAt(appProjectUserTransaction.getCreatedAt());
+            vo.setId(appProjectUserTransaction.getId());
+            vo.setPrice(appProjectUserTransaction.getValue().multiply(new BigDecimal(project.getRatio())));
+            vo.setProjectId(appProjectUserTransaction.getProjectId());
+            vo.setProjectName(project.getProjectName());
+            vo.setProjectOrderId(appProjectUserTransaction.getProjectOrderNumber());
+            vo.setValue(appProjectUserTransaction.getValue());
+            vo.setStopAt(project.getStopAt());
+            vo.setReservationType(appProjectUserTrans
