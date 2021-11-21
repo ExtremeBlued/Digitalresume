@@ -172,4 +172,14 @@ public class AppProjectUserTransactionService extends AbstractService<AppProject
         return result;
     }
 
-    private
+    private List<AppProjectUserTransaction> getTransByProjectIds(BigInteger userId, String ids) {
+        Condition condition = new Condition(AppProjectUserTransaction.class);
+        Example.Criteria criteria = condition.createCriteria();
+        PageHelper.orderBy("id desc");
+        ConditionUtil.andCondition(criteria, "user_id = ", userId);
+        ConditionUtil.andCondition(criteria, String.format("project_id in (%s)", ids));
+        return findByCondition(condition);
+    }
+
+    @Nullable
+    private List<AppProjectUserTransaction> getAppProjectUserTransactionsCa
