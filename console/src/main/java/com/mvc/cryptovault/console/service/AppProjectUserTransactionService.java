@@ -182,4 +182,15 @@ public class AppProjectUserTransactionService extends AbstractService<AppProject
     }
 
     @Nullable
-    private List<AppProjectUserTransaction> getAppProjectUserTransactionsCa
+    private List<AppProjectUserTransaction> getAppProjectUserTransactionsCache(BigInteger userId, ReservationDTO reservationDTO) {
+        PageHelper.startPage(1, reservationDTO.getPageSize(), "id desc");
+        Condition condition = new Condition(AppProjectUserTransaction.class);
+        Example.Criteria criteria = condition.createCriteria();
+        ConditionUtil.andCondition(criteria, "user_id = ", userId);
+        if(null != reservationDTO.getId() && !reservationDTO.getId().equals(BigInteger.ZERO)){
+            ConditionUtil.andCondition(criteria, "id < ", reservationDTO.getId());
+        }
+        return findByCondition(condition);
+    }
+
+    private Integer getIn
