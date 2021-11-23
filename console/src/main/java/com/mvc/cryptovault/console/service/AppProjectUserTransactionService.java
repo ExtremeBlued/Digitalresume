@@ -193,4 +193,16 @@ public class AppProjectUserTransactionService extends AbstractService<AppProject
         return findByCondition(condition);
     }
 
-    private Integer getIn
+    private Integer getIndex(BigInteger id, BigInteger userId) {
+        String key = "AppProjectUserTransaction".toUpperCase() + "_INDEX_" + userId;
+        String index = (String) redisTemplate.boundHashOps(key).get(String.valueOf(id));
+        if (StringUtils.isBlank(index)) {
+            return null;
+        }
+        return NumberUtils.parseNumber(index, Integer.class);
+    }
+
+    public void putAll(BigInteger userId, Boolean flag) {
+        String key = "AppProjectUserTransaction".toUpperCase() + "_INDEX_" + userId;
+        if (!redisTemplate.hasKey(key) || flag) {
+            String listKey = "AppProjectUserTransaction".toUpperCase() + "_USER_" + user
