@@ -205,4 +205,18 @@ public class AppProjectUserTransactionService extends AbstractService<AppProject
     public void putAll(BigInteger userId, Boolean flag) {
         String key = "AppProjectUserTransaction".toUpperCase() + "_INDEX_" + userId;
         if (!redisTemplate.hasKey(key) || flag) {
-            String listKey = "AppProjectUserTransaction".toUpperCase() + "_USER_" + user
+            String listKey = "AppProjectUserTransaction".toUpperCase() + "_USER_" + userId;
+            List<AppProjectUserTransaction> list = findBy("userId", userId);
+            if (list.size() == 0) {
+                redisTemplate.delete(listKey);
+                redisTemplate.boundHashOps(key).put("0", "");
+            }
+            redisTemplate.delete(listKey);
+            list.forEach(obj -> {
+                redisTemplate.boundHashOps(key).put(String.valueOf(obj.getId()), String.valueOf(obj.getIndex()));
+                redisTemplate.boundListOps(listKey).rightPush(JSON.toJSONString(obj));
+            });
+        }
+    }
+
+    public PageInfo<DProjectOrderVO> findOrders(DPr
