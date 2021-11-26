@@ -227,4 +227,11 @@ public class AppProjectUserTransactionService extends AbstractService<AppProject
             return new PageInfo<>();
         }
         PageHelper.startPage(dto.getPageNum(), dto.getPageSize(), dto.getOrderBy());
-      
+        Condition condition = new Condition(AppProjectUserTransaction.class);
+        Example.Criteria criteria = condition.createCriteria();
+        ConditionUtil.andCondition(criteria, "user_id = ", null == user ? null : user.getId());
+        ConditionUtil.andCondition(criteria, "project_id = ", null == project ? null : project.getId());
+        ConditionUtil.andCondition(criteria, "created_at >= ", dto.getCreatedStartAt());
+        ConditionUtil.andCondition(criteria, "created_at <= ", dto.getCreatedStopAt());
+        ConditionUtil.andCondition(criteria, "result = ", dto.getStatus());
+        List<AppProjectUser
