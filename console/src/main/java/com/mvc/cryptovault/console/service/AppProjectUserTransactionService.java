@@ -219,4 +219,12 @@ public class AppProjectUserTransactionService extends AbstractService<AppProject
         }
     }
 
-    public PageInfo<DProjectOrderVO> findOrders(DPr
+    public PageInfo<DProjectOrderVO> findOrders(DProjectOrderDTO dto) {
+        AppUser user = StringUtils.isBlank(dto.getCellphone()) ? null : appUserService.findOneBy("cellphone", dto.getCellphone());
+        AppProject project = StringUtils.isBlank(dto.getProjectName()) ? null : appProjectService.findOneBy("projectName", dto.getProjectName());
+        Boolean flag = StringUtils.isNotBlank(dto.getCellphone()) && null == user || StringUtils.isNotBlank(dto.getProjectName()) && null == project;
+        if (flag) {
+            return new PageInfo<>();
+        }
+        PageHelper.startPage(dto.getPageNum(), dto.getPageSize(), dto.getOrderBy());
+      
