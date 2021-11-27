@@ -234,4 +234,13 @@ public class AppProjectUserTransactionService extends AbstractService<AppProject
         ConditionUtil.andCondition(criteria, "created_at >= ", dto.getCreatedStartAt());
         ConditionUtil.andCondition(criteria, "created_at <= ", dto.getCreatedStopAt());
         ConditionUtil.andCondition(criteria, "result = ", dto.getStatus());
-        List<AppProjectUser
+        List<AppProjectUserTransaction> list = findByCondition(condition);
+        List<DProjectOrderVO> vos = new ArrayList<>(list.size());
+        for (AppProjectUserTransaction transaction : list) {
+            DProjectOrderVO vo = new DProjectOrderVO();
+            BeanUtils.copyProperties(transaction, vo);
+            user = appUserService.findById(transaction.getUserId());
+            project = appProjectService.findById(transaction.getProjectId());
+            vo.setStatus(transaction.getResult());
+            vo.setBaseTokenId(project.getBaseTokenId());
+            vo.setBaseTokenName(project.getBaseTo
