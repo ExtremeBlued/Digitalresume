@@ -259,4 +259,17 @@ public class AppProjectUserTransactionService extends AbstractService<AppProject
     }
 
     public Boolean existTrans(BigInteger id) {
-        AppProjectUserTransaction userTransaction = appProj
+        AppProjectUserTransaction userTransaction = appProjectUserTransactionMapper.existTrans(id);
+        if (null != userTransaction) {
+            return true;
+        }
+        return false;
+    }
+
+    public void updatePartake(ImportPartake partake, AppProject appProject) {
+        appProject.setStatus(2);
+        AppProjectUserTransaction appProjectUserTransaction = new AppProjectUserTransaction();
+        appProjectUserTransaction.setProjectId(partake.getProjectId());
+        appProjectUserTransaction.setResult(0);
+        appProjectUserTransaction.setUserId(partake.getUserId());
+        List<AppProjectUserTransaction> list = findByEntity(appPro
