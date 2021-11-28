@@ -243,4 +243,20 @@ public class AppProjectUserTransactionService extends AbstractService<AppProject
             project = appProjectService.findById(transaction.getProjectId());
             vo.setStatus(transaction.getResult());
             vo.setBaseTokenId(project.getBaseTokenId());
-            vo.setBaseTokenName(project.getBaseTo
+            vo.setBaseTokenName(project.getBaseTokenName());
+            vo.setCellphone(user.getCellphone());
+            vo.setPayed(transaction.getPayed());
+            vo.setProjectName(project.getProjectName());
+            vo.setTokenId(project.getTokenId());
+            vo.setProjectStatus(project.getStatus());
+            vo.setOrderNumber(transaction.getProjectOrderNumber());
+            vo.setTokenName(project.getTokenName());
+            vos.add(vo);
+        }
+        PageInfo result = new PageInfo(list);
+        result.setList(vos);
+        return result;
+    }
+
+    public Boolean existTrans(BigInteger id) {
+        AppProjectUserTransaction userTransaction = appProj
