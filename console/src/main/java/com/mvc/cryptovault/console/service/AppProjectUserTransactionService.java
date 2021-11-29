@@ -272,4 +272,14 @@ public class AppProjectUserTransactionService extends AbstractService<AppProject
         appProjectUserTransaction.setProjectId(partake.getProjectId());
         appProjectUserTransaction.setResult(0);
         appProjectUserTransaction.setUserId(partake.getUserId());
-        List<AppProjectUserTransaction> list = findByEntity(appPro
+        List<AppProjectUserTransaction> list = findByEntity(appProjectUserTransaction);
+        BigDecimal value = partake.getValue();
+        for (AppProjectUserTransaction transaction : list) {
+            if (value.equals(BigDecimal.ZERO)) {
+                break;
+            }
+            if (value.compareTo(transaction.getValue()) <= 0) {
+                transaction.setSuccessValue(value);
+                transaction.setSuccessPayed(value.multiply(new BigDecimal(appProject.getRatio())));
+                transaction.setResult(1);
+                appProjectUserTransactionMapper.updateSuccess(transaction, System.currentTim
