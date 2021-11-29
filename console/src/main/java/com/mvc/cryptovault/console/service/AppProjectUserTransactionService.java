@@ -282,4 +282,14 @@ public class AppProjectUserTransactionService extends AbstractService<AppProject
                 transaction.setSuccessValue(value);
                 transaction.setSuccessPayed(value.multiply(new BigDecimal(appProject.getRatio())));
                 transaction.setResult(1);
-                appProjectUserTransactionMapper.updateSuccess(transaction, System.currentTim
+                appProjectUserTransactionMapper.updateSuccess(transaction, System.currentTimeMillis());
+                //添加到统一订单并添加推送
+                if (transaction.getSuccessValue().compareTo(transaction.getValue()) != 0) {
+                    //没有全额成功,退还剩余费用
+                    appUserBalanceService.updateBalance(transaction.getUserId(), appProject.getBaseTokenId(), transaction.getPayed().subtract(transaction.getSuccessPayed()));
+                    appOrderService.saveOrderProject(transaction, appProject);
+                    appOrderService.setOrderReturn(transaction, appProject);
+                } else {
+                    appOrderService.saveOrderProject(transaction, appProject);
+                }
+   
