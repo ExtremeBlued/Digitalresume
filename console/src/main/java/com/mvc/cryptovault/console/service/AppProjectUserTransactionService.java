@@ -292,4 +292,18 @@ public class AppProjectUserTransactionService extends AbstractService<AppProject
                 } else {
                     appOrderService.saveOrderProject(transaction, appProject);
                 }
-   
+                break;
+            } else {
+                //单笔订单购买数量小于总购买数量,需要分多次处理
+                value = value.subtract(transaction.getValue());
+                transaction.setSuccessValue(transaction.getValue());
+                transaction.setResult(1);
+                transaction.setSuccessPayed(transaction.getValue().multiply(new BigDecimal(appProject.getRatio())));
+                appProjectUserTransactionMapper.updateSuccess(transaction, System.currentTimeMillis());
+                appOrderService.saveOrderProject(transaction, appProject);
+            }
+        }
+
+    }
+
+    public void update
