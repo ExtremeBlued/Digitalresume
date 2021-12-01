@@ -306,4 +306,12 @@ public class AppProjectUserTransactionService extends AbstractService<AppProject
 
     }
 
-    public void update
+    public void updateFailPartake(BigInteger projectId, AppProject project) {
+        AppProjectUserTransaction transaction = new AppProjectUserTransaction();
+        transaction.setProjectId(projectId);
+        transaction.setResult(0);
+        List<AppProjectUserTransaction> list = findByEntity(transaction);
+        list.stream().forEach(trans -> {
+            String listKey = "AppProjectUserTransaction".toUpperCase() + "_USER_" + trans.getUserId();
+            trans.setResult(9);
+            appProjectUserTransactionMapper.updateSuccess(trans, System.currentTi
