@@ -314,4 +314,14 @@ public class AppProjectUserTransactionService extends AbstractService<AppProject
         list.stream().forEach(trans -> {
             String listKey = "AppProjectUserTransaction".toUpperCase() + "_USER_" + trans.getUserId();
             trans.setResult(9);
-            appProjectUserTransactionMapper.updateSuccess(trans, System.currentTi
+            appProjectUserTransactionMapper.updateSuccess(trans, System.currentTimeMillis());
+            appUserBalanceService.updateBalance(trans.getUserId(), project.getBaseTokenId(), trans.getPayed().subtract(trans.getSuccessPayed()));
+            trans.setSuccessValue(trans.getValue());
+            trans.setSuccessPayed(trans.getPayed());
+            appOrderService.saveOrderProject(trans, project);
+            redisTemplate.delete(listKey);
+            putAll(trans.getUserId(), true);
+        });
+
+    }
+}
