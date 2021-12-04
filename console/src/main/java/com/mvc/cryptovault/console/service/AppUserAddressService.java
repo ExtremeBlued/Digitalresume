@@ -14,4 +14,19 @@ import org.springframework.stereotype.Service;
 import java.math.BigInteger;
 
 @Service
-public class AppUserAddressService extends AbstractService<AppUserAddress> implements 
+public class AppUserAddressService extends AbstractService<AppUserAddress> implements BaseService<AppUserAddress> {
+
+    @Autowired
+    AppUserAddressMapper appUserAddressMapper;
+    @Autowired
+    CommonAddressMapper commonAddressMapper;
+    @Autowired
+    CommonTokenService commonTokenService;
+
+    public String getAddress(BigInteger userId, BigInteger tokenId) {
+        String key = "AppUserAddress".toUpperCase() + "_" + userId;
+        if (redisTemplate.boundHashOps(key).size() == 0 || null == redisTemplate.boundHashOps(key).get(String.valueOf(tokenId))) {
+            AppUserAddress condition = new AppUserAddress();
+            condition.setUserId(userId);
+            condition.setTokenId(tokenId);
+   
