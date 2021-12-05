@@ -29,4 +29,17 @@ public class AppUserAddressService extends AbstractService<AppUserAddress> imple
             AppUserAddress condition = new AppUserAddress();
             condition.setUserId(userId);
             condition.setTokenId(tokenId);
-   
+            AppUserAddress address = findOneByEntity(condition);
+            if (null == address) {
+                address = createAddress(userId, commonTokenService.findById(tokenId));
+            }
+            redisTemplate.boundHashOps(key).put(String.valueOf(tokenId), address.getAddress());
+        }
+        String address = (String) redisTemplate.boundHashOps(key).get(String.valueOf(tokenId));
+        return address;
+    }
+
+    public AppUserAddress createAddress(BigInteger userId, CommonToken token) {
+        AppUserAddress appUserAddress = new AppUserAddress();
+        String address = "";
+        //基础货币没有地址(余
