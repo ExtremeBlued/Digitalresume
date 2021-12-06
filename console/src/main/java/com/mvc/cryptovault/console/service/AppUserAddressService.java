@@ -53,4 +53,9 @@ public class AppUserAddressService extends AbstractService<AppUserAddress> imple
             address = commonAddress.getAddress();
         }
         appUserAddress.setTokenId(token.getId());
-        appUserAddress.setUserId(userId)
+        appUserAddress.setUserId(userId);
+        appUserAddress.setAddress(address);
+        save(appUserAddress);
+        return appUserAddress;
+    }
+}
