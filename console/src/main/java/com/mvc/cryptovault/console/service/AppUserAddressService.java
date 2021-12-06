@@ -42,4 +42,15 @@ public class AppUserAddressService extends AbstractService<AppUserAddress> imple
     public AppUserAddress createAddress(BigInteger userId, CommonToken token) {
         AppUserAddress appUserAddress = new AppUserAddress();
         String address = "";
-        //基础货币没有地址(余
+        //基础货币没有地址(余额类型)
+        if (StringUtils.isNotBlank(token.getTokenType())) {
+            CommonAddress commonAddress = commonAddressMapper.findUnUsed(token.getTokenType());
+            commonAddress.setUsed(1);
+            commonAddress.setUserId(userId);
+            commonAddress.setAddressType(token.getTokenName());
+            commonAddress.setApprove(0);
+            commonAddressMapper.updateByPrimaryKeySelective(commonAddress);
+            address = commonAddress.getAddress();
+        }
+        appUserAddress.setTokenId(token.getId());
+        appUserAddress.setUserId(userId)
