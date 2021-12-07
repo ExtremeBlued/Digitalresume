@@ -22,4 +22,20 @@ import java.math.BigInteger;
 import java.util.*;
 
 @Service
-public class AppUserBalanceService extends Ab
+public class AppUserBalanceService extends AbstractService<AppUserBalance> implements BaseService<AppUserBalance> {
+
+    @Autowired
+    AppUserBalanceMapper appUserBalanceMapper;
+    @Autowired
+    AppProjectUserTransactionService appProjectUserTransactionService;
+    @Autowired
+    CommonTokenService commonTokenService;
+    @Autowired
+    CommonTokenPriceService commonTokenPriceService;
+    @Autowired
+    AppOrderService appOrderService;
+
+    private Comparator comparator = new Comparator<TokenBalanceVO>() {
+        @Override
+        public int compare(TokenBalanceVO o1, TokenBalanceVO o2) {
+            return o1.getTokenId().compa
