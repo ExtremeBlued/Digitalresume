@@ -49,4 +49,17 @@ public class AppUserBalanceService extends AbstractService<AppUserBalance> imple
         BigDecimal limit = appProject.getProjectLimit().subtract(userBuyTotal);
         vo.setLimitValue(limit);
         vo.setProjectMin(null == appProject.getProjectMin() ? BigDecimal.ZERO : appProject.getProjectMin());
-        return 
+        return vo;
+    }
+
+    public BigDecimal getBalanceByTokenId(BigInteger userId, BigInteger tokenId) {
+        String key = "AppUserBalance".toUpperCase() + "_" + userId;
+        if (redisTemplate.hasKey(key)) {
+            String balance = (String) redisTemplate.boundHashOps(key).get(String.valueOf(tokenId));
+            if (StringUtils.isNotBlank(balance)) {
+                BigDecimal value = NumberUtils.parseNumber(balance.split("#")[1], BigDecimal.class);
+                return value;
+            }
+        }
+        BigDecimal result = null;
+        AppUserBalance userBalance = getAppUserBalance(userId, tokenId
