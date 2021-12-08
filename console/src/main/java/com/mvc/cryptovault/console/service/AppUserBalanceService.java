@@ -38,4 +38,15 @@ public class AppUserBalanceService extends AbstractService<AppUserBalance> imple
     private Comparator comparator = new Comparator<TokenBalanceVO>() {
         @Override
         public int compare(TokenBalanceVO o1, TokenBalanceVO o2) {
-            return o1.getTokenId().compa
+            return o1.getTokenId().compareTo(o2.getTokenId());
+        }
+    };
+
+    public ProjectBuyVO getBalance(BigInteger userId, AppProject appProject) {
+        ProjectBuyVO vo = new ProjectBuyVO();
+        vo.setBalance(getBalanceByTokenId(userId, appProject.getBaseTokenId()));
+        BigDecimal userBuyTotal = appProjectUserTransactionService.getUserBuyTotal(userId, appProject.getId());
+        BigDecimal limit = appProject.getProjectLimit().subtract(userBuyTotal);
+        vo.setLimitValue(limit);
+        vo.setProjectMin(null == appProject.getProjectMin() ? BigDecimal.ZERO : appProject.getProjectMin());
+        return 
