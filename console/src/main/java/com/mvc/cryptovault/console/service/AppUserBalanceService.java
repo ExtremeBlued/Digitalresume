@@ -62,4 +62,17 @@ public class AppUserBalanceService extends AbstractService<AppUserBalance> imple
             }
         }
         BigDecimal result = null;
-        AppUserBalance userBalance = getAppUserBalance(userId, tokenId
+        AppUserBalance userBalance = getAppUserBalance(userId, tokenId);
+        if (null == userBalance) {
+            result = BigDecimal.ZERO;
+        } else {
+            result = userBalance.getBalance();
+        }
+        redisTemplate.boundHashOps(key).put(String.valueOf(tokenId), userBalance.getVisible() + "#" + String.valueOf(result));
+        return result;
+    }
+
+    public void updateBalance(BigInteger userId, BigInteger baseTokenId, BigDecimal value) {
+        AppUserBalance userBalance = getAppUserBalance(userId, baseTokenId);
+        if (null == userBalance && !baseTokenId.equals(BigInteger.ZERO)) {
+            userBalance = new AppUserBala
