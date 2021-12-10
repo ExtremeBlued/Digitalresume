@@ -86,4 +86,18 @@ public class AppUserBalanceService extends AbstractService<AppUserBalance> imple
         appUserBalanceMapper.updateBalance(userId, baseTokenId, value);
         userBalance = getAppUserBalance(userId, baseTokenId);
         if (null != userBalance) {
-            redisTemplate.boundHashOps(key).put(String.valueOf(baseTokenId), userBalance.getVisibl
+            redisTemplate.boundHashOps(key).put(String.valueOf(baseTokenId), userBalance.getVisible() + "#" + String.valueOf(userBalance.getBalance()));
+        }
+    }
+
+    private AppUserBalance getAppUserBalance(BigInteger userId, BigInteger baseTokenId) {
+        AppUserBalance appUserBalance = new AppUserBalance();
+        appUserBalance.setTokenId(baseTokenId);
+        appUserBalance.setUserId(userId);
+        PageHelper.clearPage();
+        AppUserBalance balance = appUserBalanceMapper.selectOne(appUserBalance);
+        if (null == balance) {
+            balance = new AppUserBalance();
+            balance.setVisible(0);
+            balance.setBalance(BigDecimal.ZERO);
+            balance.setTokenI
