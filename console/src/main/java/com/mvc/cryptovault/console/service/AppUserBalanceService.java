@@ -100,4 +100,21 @@ public class AppUserBalanceService extends AbstractService<AppUserBalance> imple
             balance = new AppUserBalance();
             balance.setVisible(0);
             balance.setBalance(BigDecimal.ZERO);
-            balance.setTokenI
+            balance.setTokenId(baseTokenId);
+            balance.setUserId(userId);
+            save(balance);
+            getAsset(userId, true);
+        }
+        return balance;
+    }
+
+
+    public List<TokenBalanceVO> getAsset(BigInteger userId, Boolean ignoreHide) {
+        String key = "AppUserBalance".toUpperCase() + "_" + userId;
+        if (!redisTemplate.hasKey(key)) {
+            List<AppUserBalance> list = findBy("userId", userId);
+            if (null == list) {
+                redisTemplate.boundHashOps(key).put("1", "0");
+            } else {
+                //存储内容为展示状态+余额
+                list.stream().forEach(obj ->
