@@ -117,4 +117,13 @@ public class AppUserBalanceService extends AbstractService<AppUserBalance> imple
                 redisTemplate.boundHashOps(key).put("1", "0");
             } else {
                 //存储内容为展示状态+余额
-                list.stream().forEach(obj ->
+                list.stream().forEach(obj -> redisTemplate.boundHashOps(key).put(String.valueOf(obj.getTokenId()), obj.getVisible() + "#" + String.valueOf(obj.getBalance())));
+            }
+        }
+        Map<Object, Object> map = redisTemplate.boundHashOps(key).entries();
+        List<TokenBalanceVO> result = new ArrayList<>(map.size());
+        for (Map.Entry<Object, Object> entry : map.entrySet()) {
+            TokenBalanceVO vo = new TokenBalanceVO();
+            String value = String.valueOf(entry.getValue());
+            Integer visible = NumberUtils.parseNumber(value.split("#")[0], Integer.class);
+            BigDecimal balance
