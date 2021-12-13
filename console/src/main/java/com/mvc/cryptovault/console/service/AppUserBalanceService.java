@@ -126,4 +126,14 @@ public class AppUserBalanceService extends AbstractService<AppUserBalance> imple
             TokenBalanceVO vo = new TokenBalanceVO();
             String value = String.valueOf(entry.getValue());
             Integer visible = NumberUtils.parseNumber(value.split("#")[0], Integer.class);
-            BigDecimal balance
+            BigDecimal balance = NumberUtils.parseNumber(value.split("#")[1], BigDecimal.class);
+            vo.setTokenId(NumberUtils.parseNumber(String.valueOf(entry.getKey()), BigInteger.class));
+            vo.setValue(balance);
+            CommonToken token = commonTokenService.findById(vo.getTokenId());
+            if(null == token){
+                continue;
+            }
+            CommonTokenPrice tokenPrice = commonTokenPriceService.findById(vo.getTokenId());
+            vo.setRatio(null == tokenPrice ? BigDecimal.ZERO : tokenPrice.getTokenPrice());
+            vo.setTokenName(token.getTokenName());
+            vo.setTokenImage(
