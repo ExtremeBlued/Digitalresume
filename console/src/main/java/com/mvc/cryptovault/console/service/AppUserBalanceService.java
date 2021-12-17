@@ -149,4 +149,17 @@ public class AppUserBalanceService extends AbstractService<AppUserBalance> imple
 
     private void initDefault(Map<Object, Object> map, BigInteger tokenId, List<TokenBalanceVO> result) {
         String key = String.valueOf(tokenId);
-  
+        if (null == map.get(key)) {
+            TokenBalanceVO vo = new TokenBalanceVO();
+            CommonToken token = commonTokenService.findById(tokenId);
+            CommonTokenPrice tokenPrice = commonTokenPriceService.findById(tokenId);
+            vo.setRatio(null == tokenPrice ? BigDecimal.ZERO : tokenPrice.getTokenPrice());
+            vo.setTokenName(token.getTokenName());
+            vo.setTokenImage(token.getTokenImage());
+            vo.setTokenId(tokenId);
+            vo.setValue(BigDecimal.ZERO);
+            result.add(vo);
+        }
+    }
+
+    public void deb
