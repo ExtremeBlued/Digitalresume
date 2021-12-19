@@ -168,4 +168,15 @@ public class AppUserBalanceService extends AbstractService<AppUserBalance> imple
         appUserBalanceMapper.updateBalance(userId, BusinessConstant.BASE_TOKEN_ID_BALANCE, value);
         balance = getAppUserBalance(userId, BusinessConstant.BASE_TOKEN_ID_BALANCE);
         redisTemplate.boundHashOps(key).put(String.valueOf(balance.getTokenId()), balance.getVisible() + "#" + String.valueOf(balance.getBalance()));
-        appOrderService.saveHzOrder(v
+        appOrderService.saveHzOrder(value, userId, orderType, transferType);
+    }
+
+    public void setAssetVisible(AssertVisibleDTO visibleDTO, BigInteger userId) {
+        String regx = "^([0-9]{0,10},)*[0-9]{0,10}$";
+        String addStr = visibleDTO.getAddTokenIdArr();
+        String removeStr = visibleDTO.getRemoveTokenIdArr();
+        if (StringUtils.isNotBlank(addStr)) {
+            addStr = addStr.replaceAll(" ", "");
+            if (addStr.matches(regx)) {
+                appUserBalanceMapper.updateVisiable(userId, addStr, 1);
+                insertIfNull(userI
