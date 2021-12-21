@@ -179,4 +179,21 @@ public class AppUserBalanceService extends AbstractService<AppUserBalance> imple
             addStr = addStr.replaceAll(" ", "");
             if (addStr.matches(regx)) {
                 appUserBalanceMapper.updateVisiable(userId, addStr, 1);
-                insertIfNull(userI
+                insertIfNull(userId, addStr, 1);
+            }
+        }
+        if (StringUtils.isNotBlank(removeStr)) {
+            removeStr = removeStr.replaceAll(" ", "");
+            if (removeStr.matches(regx)) {
+                appUserBalanceMapper.updateVisiable(userId, removeStr, 0);
+                insertIfNull(userId, addStr, 0);
+            }
+        }
+        addUserBalance(userId);
+
+    }
+
+    private void insertIfNull(BigInteger userId, String addStr, Integer status) {
+        if (StringUtils.isBlank(addStr)) return;
+        for (String id : addStr.split(",")) {
+            AppUserBalance appUserBalance = 
