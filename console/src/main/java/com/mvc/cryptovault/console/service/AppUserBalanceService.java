@@ -211,4 +211,14 @@ public class AppUserBalanceService extends AbstractService<AppUserBalance> imple
         }
     }
 
-    private void addUserB
+    private void addUserBalance(BigInteger userId) {
+        String key = "AppUserBalance".toUpperCase() + "_" + userId;
+        List<AppUserBalance> list = findBy("userId", userId);
+        if (null == list) {
+            redisTemplate.boundHashOps(key).put("1", "0");
+        } else {
+            list.stream().forEach(obj -> redisTemplate.boundHashOps(key).put(String.valueOf(obj.getTokenId()), obj.getVisible() + "#" + String.valueOf(obj.getBalance())));
+        }
+    }
+
+}
