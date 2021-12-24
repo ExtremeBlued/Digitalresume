@@ -14,4 +14,23 @@ import com.mvc.cryptovault.console.common.BaseService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tk.mybatis.mapper.entity.Con
+import tk.mybatis.mapper.entity.Condition;
+import tk.mybatis.mapper.entity.Example;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+public class AppUserService extends AbstractService<AppUser> implements BaseService<AppUser> {
+
+    @Autowired
+    AppUserBalanceService appUserBalanceService;
+    @Autowired
+    AppMessageService appMessageService;
+    @Autowired
+    AppProjectPartakeService appProjectPartakeService;
+
+    public PageInfo<DUSerVO> findUser(PageDTO pageDTO, String cellphone, Integer status) {
+        PageHelper.startPage(pageDTO.getPageNum()
