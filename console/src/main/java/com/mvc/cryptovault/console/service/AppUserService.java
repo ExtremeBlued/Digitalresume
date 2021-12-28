@@ -42,4 +42,18 @@ public class AppUserService extends AbstractService<AppUser> implements BaseServ
         ConditionUtil.andCondition(criteria, "created_at <= ", pageDTO.getCreatedStopAt());
         List<AppUser> list = findByCondition(condition);
         List<DUSerVO> vos = new ArrayList<>(list.size());
-        for (A
+        for (AppUser appUser : list) {
+            DUSerVO vo = new DUSerVO();
+            BeanUtils.copyProperties(appUser, vo);
+            List<TokenBalanceVO> data = appUserBalanceService.getAsset(appUser.getId(), true);
+            BigDecimal sum = data.stream().map(obj -> obj.getRatio().multiply(obj.getValue())).reduce(BigDecimal.ZERO, BigDecimal::add);
+            vo.setBalance(sum);
+            vos.add(vo);
+        }
+        PageInfo result = new PageInfo(list);
+        result.setList(vos);
+        return result;
+    }
+
+    public PageInfo<DUserLogVO> getUserLog(BigInteger id, PageDTO pageDTO) {
+  
