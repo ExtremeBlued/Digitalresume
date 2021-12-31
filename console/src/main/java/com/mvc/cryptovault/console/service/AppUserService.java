@@ -56,4 +56,11 @@ public class AppUserService extends AbstractService<AppUser> implements BaseServ
     }
 
     public PageInfo<DUserLogVO> getUserLog(BigInteger id, PageDTO pageDTO) {
-  
+        PageHelper.startPage(pageDTO.getPageNum(), pageDTO.getPageSize(), pageDTO.getOrderBy());
+        Condition condition = new Condition(AppMessage.class);
+        Example.Criteria criteria = condition.createCriteria();
+        ConditionUtil.andCondition(criteria, "user_id = ", id);
+        ConditionUtil.andCondition(criteria, "created_at >= ", pageDTO.getCreatedStartAt());
+        ConditionUtil.andCondition(criteria, "created_at <= ", pageDTO.getCreatedStopAt());
+        List<AppMessage> list = appMessageService.findByCondition(condition);
+        List<DUserLogVO> vos 
