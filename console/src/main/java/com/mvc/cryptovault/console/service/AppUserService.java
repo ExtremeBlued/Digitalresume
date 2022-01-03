@@ -63,4 +63,20 @@ public class AppUserService extends AbstractService<AppUser> implements BaseServ
         ConditionUtil.andCondition(criteria, "created_at >= ", pageDTO.getCreatedStartAt());
         ConditionUtil.andCondition(criteria, "created_at <= ", pageDTO.getCreatedStopAt());
         List<AppMessage> list = appMessageService.findByCondition(condition);
-        List<DUserLogVO> vos 
+        List<DUserLogVO> vos = new ArrayList<>(list.size());
+        for (AppMessage appUser : list) {
+            DUserLogVO vo = new DUserLogVO();
+            BeanUtils.copyProperties(appUser, vo);
+            vos.add(vo);
+        }
+        PageInfo result = new PageInfo(list);
+        result.setList(vos);
+        return result;
+    }
+
+    public String getTag(BigInteger userId) {
+        String tag = appProjectPartakeService.getTag(userId);
+        return tag;
+    }
+
+}
