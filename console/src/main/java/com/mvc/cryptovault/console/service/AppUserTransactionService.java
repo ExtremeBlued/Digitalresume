@@ -44,4 +44,22 @@ public class AppUserTransactionService extends AbstractService<AppUserTransactio
     @Autowired
     CommonPairService commonPairService;
     @Autowired
-    AppUserService a
+    AppUserService appUserService;
+    @Autowired
+    AppUserBalanceService appUserBalanceService;
+    @Autowired
+    CommonTokenPriceService commonTokenPriceService;
+    @Autowired
+    CommonTokenControlService commonTokenControlService;
+    @Autowired
+    AppOrderService appOrderService;
+    @Autowired
+    TokenVolumeService tokenVolumeService;
+    @Autowired
+    AppUserTransactionMapper appUserTransactionMapper;
+    @Autowired
+    AppProjectService appProjectService;
+
+    public List<OrderVO> getTransactions(OrderDTO dto) {
+        Condition condition = new Condition(AppUserTransaction.class);
+        Example.Criteria criteria 
