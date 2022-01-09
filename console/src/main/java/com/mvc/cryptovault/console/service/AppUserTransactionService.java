@@ -62,4 +62,15 @@ public class AppUserTransactionService extends AbstractService<AppUserTransactio
 
     public List<OrderVO> getTransactions(OrderDTO dto) {
         Condition condition = new Condition(AppUserTransaction.class);
-        Example.Criteria criteria 
+        Example.Criteria criteria = condition.createCriteria();
+        ConditionUtil.andCondition(criteria, "parent_id = ", 0);
+        ConditionUtil.andCondition(criteria, "status = ", 0);
+        ConditionUtil.andCondition(criteria, "transaction_type = ", dto.getTransactionType());
+        ConditionUtil.andCondition(criteria, "pair_id =", dto.getPairId());
+        PageHelper.startPage(1, dto.getPageSize());
+        if (2 == dto.getTransactionType()) {
+            PageHelper.orderBy("price asc,id asc");
+        } else {
+            PageHelper.orderBy("price desc,id desc");
+        }
+        if (dto.getType() =
