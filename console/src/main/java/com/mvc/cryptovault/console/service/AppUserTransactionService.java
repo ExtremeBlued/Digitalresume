@@ -93,4 +93,18 @@ public class AppUserTransactionService extends AbstractService<AppUserTransactio
             vo.setHeadImage(user.getHeadImage());
             vo.setLimitValue(obj.getValue().subtract(obj.getSuccessValue()));
             vo.setNickname(user.getNickname());
-            vo.
+            vo.setTotal(obj.getValue());
+            vo.setTransactionType(obj.getTransactionType());
+            vo.setId(obj.getId());
+            vo.setPrice(obj.getPrice());
+            result.add(vo);
+        });
+        return result;
+    }
+
+    public List<MyOrderVO> getUserTransactions(BigInteger userId, MyTransactionDTO dto) {
+        Condition condition = new Condition(AppUserTransaction.class);
+        Example.Criteria criteria = condition.createCriteria();
+        ConditionUtil.andCondition(criteria, "pair_id = ", dto.getPairId());
+        if (null == dto.getStatus()) {
+            ConditionUtil.andCondition(criteria, "status in (0, 
