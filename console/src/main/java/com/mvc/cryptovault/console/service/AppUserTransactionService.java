@@ -81,4 +81,16 @@ public class AppUserTransactionService extends AbstractService<AppUserTransactio
                 if (2 == dto.getTransactionType()) {
                     ConditionUtil.andCondition(criteria, String.format("CONCAT(price, id) > '%s'", trans.getPrice() + "" + String.format("%012d", trans.getId())));
                 } else {
-                    ConditionUtil.andCondition(criteria, String.format("CONCAT(price, id)
+                    ConditionUtil.andCondition(criteria, String.format("CONCAT(price, id) < '%s'", trans.getPrice() + "" + String.format("%012d", trans.getId())));
+                }
+            }
+        }
+        List<AppUserTransaction> list = findByCondition(condition);
+        List<OrderVO> result = new ArrayList<>(list.size());
+        list.forEach(obj -> {
+            OrderVO vo = new OrderVO();
+            AppUser user = appUserService.findById(obj.getUserId());
+            vo.setHeadImage(user.getHeadImage());
+            vo.setLimitValue(obj.getValue().subtract(obj.getSuccessValue()));
+            vo.setNickname(user.getNickname());
+            vo.
