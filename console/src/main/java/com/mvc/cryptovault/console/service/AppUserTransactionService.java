@@ -118,4 +118,19 @@ public class AppUserTransactionService extends AbstractService<AppUserTransactio
         if (dto.getType() == 0 && null != dto.getId()) {
             ConditionUtil.andCondition(criteria, "id > ", dto.getId());
         } else if (dto.getType() == 1 && null != dto.getId()) {
-            ConditionUtil.a
+            ConditionUtil.andCondition(criteria, "id < ", dto.getId());
+        }
+        List<AppUserTransaction> list = findByCondition(condition);
+        List<MyOrderVO> result = new ArrayList<>(list.size());
+        list.forEach(obj -> {
+            MyOrderVO vo = new MyOrderVO();
+            AppUser user = appUserService.findById(obj.getTargetUserId());
+            BeanUtils.copyProperties(obj, vo);
+            vo.setDeal(obj.getValue());
+            vo.setNickname(null == user ? "" : user.getNickname());
+            result.add(vo);
+        });
+        return result;
+    }
+
+    //TODO 步骤较多,异
