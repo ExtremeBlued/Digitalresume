@@ -142,4 +142,19 @@ public class AppUserTransactionService extends AbstractService<AppUserTransactio
         AppUserTransaction targetTransaction = null;
         //校验开关是否开启
         Assert.isTrue(null != token && token.getTransactionStatus() == 1, MessageConstants.getMsg("TRANS_STATUS_CLOSE"));
-        //校
+        //校验余额是否足够
+        checkBalance(userId, dto, pair);
+        //校验浮动范围是否正确
+        checkPrice(dto, pair, tokenPrice);
+        if (null != dto.getId() && !dto.getId().equals(BigInteger.ZERO)) {
+            //校验订单信息是否输入错误
+            targetTransaction = mapper.selectByPrimaryKey(dto.getId());
+            checkDto(targetTransaction, dto);
+            //校验可购买量是否足够
+            checkValue(dto, targetTransaction);
+        }
+        saveAll(userId, dto, targetTransaction, pair);
+    }
+
+    private void checkDto(AppUserTransaction targetTransaction, TransactionBuyDTO dto) {
+        Assert.isTrue(!targetTran
