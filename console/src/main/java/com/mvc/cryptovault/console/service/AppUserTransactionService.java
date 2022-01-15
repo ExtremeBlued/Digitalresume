@@ -133,4 +133,13 @@ public class AppUserTransactionService extends AbstractService<AppUserTransactio
         return result;
     }
 
-    //TODO 步骤较多,异
+    //TODO 步骤较多,异步化
+    public void buy(BigInteger userId, TransactionBuyDTO dto) {
+        dto.setId(BigInteger.ZERO.equals(dto.getId()) ? null : dto.getId());
+        CommonPair pair = commonPairService.findById(dto.getPairId());
+        CommonTokenPrice tokenPrice = commonTokenPriceService.findById(pair.getTokenId());
+        CommonTokenControl token = commonTokenControlService.findById(pair.getTokenId());
+        AppUserTransaction targetTransaction = null;
+        //校验开关是否开启
+        Assert.isTrue(null != token && token.getTransactionStatus() == 1, MessageConstants.getMsg("TRANS_STATUS_CLOSE"));
+        //校
