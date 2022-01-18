@@ -157,4 +157,12 @@ public class AppUserTransactionService extends AbstractService<AppUserTransactio
     }
 
     private void checkDto(AppUserTransaction targetTransaction, TransactionBuyDTO dto) {
-        Assert.isTrue(!targetTran
+        Assert.isTrue(!targetTransaction.getTransactionType().equals(dto.getTransactionType()), MessageConstants.getMsg("TRANS_MSG_ERROR"));
+        Assert.isTrue(dto.getPrice().compareTo(targetTransaction.getPrice()) == 0, MessageConstants.getMsg("TRANS_MSG_ERROR"));
+    }
+
+    public void saveAll(BigInteger userId, TransactionBuyDTO dto, AppUserTransaction targetTransaction, CommonPair pair) {
+        Long time = System.currentTimeMillis();
+        AppUserTransaction transaction = getAppUserTransaction(userId, dto, time);
+        updateBalance(userId, dto, pair);
+        if (null == dto.getId() || dto.getId().equals(BigIntege
