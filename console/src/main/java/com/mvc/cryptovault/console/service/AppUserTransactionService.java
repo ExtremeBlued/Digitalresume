@@ -165,4 +165,18 @@ public class AppUserTransactionService extends AbstractService<AppUserTransactio
         Long time = System.currentTimeMillis();
         AppUserTransaction transaction = getAppUserTransaction(userId, dto, time);
         updateBalance(userId, dto, pair);
-        if (null == dto.getId() || dto.getId().equals(BigIntege
+        if (null == dto.getId() || dto.getId().equals(BigInteger.ZERO)) {
+            //普通挂单
+            saveTopTransaction(transaction);
+        } else {
+            saveChildTransaction(userId, dto, pair, time, transaction, targetTransaction);
+            //记录成交量
+            TokenVolume tokenVolume = new TokenVolume();
+            tokenVolume.setCreatedAt(System.currentTimeMillis());
+            tokenVolume.setValue(dto.getValue());
+            tokenVolume.setTokenId(pair.getTokenId());
+            tokenVolume.setUsed(0);
+            if (pair.getTokenId().compareTo(BusinessConstant.BASE_TOKEN_ID_USDT) <= 0) {
+                tokenVolume.setUsed(1);
+            }
+   
