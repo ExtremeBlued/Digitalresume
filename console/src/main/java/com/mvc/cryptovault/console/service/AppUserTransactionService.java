@@ -179,4 +179,16 @@ public class AppUserTransactionService extends AbstractService<AppUserTransactio
             if (pair.getTokenId().compareTo(BusinessConstant.BASE_TOKEN_ID_USDT) <= 0) {
                 tokenVolume.setUsed(1);
             }
-   
+            tokenVolumeService.save(tokenVolume);
+        }
+
+    }
+
+    private void saveChildTransaction(BigInteger userId, TransactionBuyDTO dto, CommonPair pair, Long time, AppUserTransaction transaction, AppUserTransaction targetTransaction) {
+        //修改主单购买信息
+        Integer result = appUserTransactionMapper.updateValue(dto.getId(), dto.getValue(), System.currentTimeMillis());
+        Assert.isTrue(result > 0, MessageConstants.getMsg("PROJECT_LIMIT_OVER"));
+        //生成用户主动交易记录
+        transaction.setStatus(1);
+        transaction.setParentId(targetTransaction.getId());
+        transaction.s
