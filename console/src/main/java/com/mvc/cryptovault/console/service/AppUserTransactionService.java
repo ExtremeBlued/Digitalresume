@@ -191,4 +191,16 @@ public class AppUserTransactionService extends AbstractService<AppUserTransactio
         //生成用户主动交易记录
         transaction.setStatus(1);
         transaction.setParentId(targetTransaction.getId());
-        transaction.s
+        transaction.setSuccessValue(dto.getValue());
+        transaction.setTargetUserId(targetTransaction.getUserId());
+        transaction.setSelfOrder(1);
+        save(transaction);
+        appOrderService.saveOrder(transaction, pair);
+        //生成目标用户交易记录
+        var targetSubTransaction = new AppUserTransaction();
+        BeanUtils.copyProperties(transaction, targetSubTransaction);
+        targetSubTransaction.setId(null);
+        targetSubTransaction.setUserId(targetTransaction.getUserId());
+        targetSubTransaction.setTargetUserId(userId);
+        targetSubTransaction.setParentId(targetTransaction.getId());
+        tar
