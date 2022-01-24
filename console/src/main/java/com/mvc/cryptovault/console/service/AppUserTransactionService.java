@@ -203,4 +203,13 @@ public class AppUserTransactionService extends AbstractService<AppUserTransactio
         targetSubTransaction.setUserId(targetTransaction.getUserId());
         targetSubTransaction.setTargetUserId(userId);
         targetSubTransaction.setParentId(targetTransaction.getId());
-        tar
+        targetSubTransaction.setOrderNumber(getOrderNumber());
+        targetSubTransaction.setTransactionType(dto.getTransactionType().equals(1) ? 2 : 1);
+        targetSubTransaction.setSelfOrder(0);
+        save(targetSubTransaction);
+        appOrderService.saveOrder(targetSubTransaction, pair);
+        //成交后根据买卖分类更新对应余额
+        if (dto.getTransactionType().equals(BusinessConstant.TRANSACTION_TYPE_BUY)) {
+            //购买成功时添加币种余额
+            appUserBalanceService.updateBalance(userId, pair.getTokenId(), dto.getValue());
+            appUserBalanceService.upd
