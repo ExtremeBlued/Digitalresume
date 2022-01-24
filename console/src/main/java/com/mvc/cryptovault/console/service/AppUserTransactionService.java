@@ -212,4 +212,15 @@ public class AppUserTransactionService extends AbstractService<AppUserTransactio
         if (dto.getTransactionType().equals(BusinessConstant.TRANSACTION_TYPE_BUY)) {
             //购买成功时添加币种余额
             appUserBalanceService.updateBalance(userId, pair.getTokenId(), dto.getValue());
-            appUserBalanceService.upd
+            appUserBalanceService.updateBalance(targetTransaction.getUserId(), pair.getBaseTokenId(), dto.getValue().multiply(dto.getPrice()));
+        } else {
+            //出售时添加基础货币余额
+            appUserBalanceService.updateBalance(userId, pair.getBaseTokenId(), dto.getValue().multiply(dto.getPrice()));
+            appUserBalanceService.updateBalance(targetTransaction.getUserId(), pair.getBaseTokenId(), dto.getValue());
+        }
+        updateCache(dto.getId());
+    }
+
+    private void saveTopTransaction(AppUserTransaction transaction) {
+        transaction.setStatus(0);
+        transaction.setParentId(Big
