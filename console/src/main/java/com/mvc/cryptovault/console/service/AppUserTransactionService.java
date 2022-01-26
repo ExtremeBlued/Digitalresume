@@ -223,4 +223,17 @@ public class AppUserTransactionService extends AbstractService<AppUserTransactio
 
     private void saveTopTransaction(AppUserTransaction transaction) {
         transaction.setStatus(0);
-        transaction.setParentId(Big
+        transaction.setParentId(BigInteger.ZERO);
+        transaction.setSuccessValue(BigDecimal.ZERO);
+        transaction.setTargetUserId(BigInteger.ZERO);
+        transaction.setSelfOrder(1);
+        save(transaction);
+    }
+
+    private void updateBalance(BigInteger userId, TransactionBuyDTO dto, CommonPair pair) {
+        if (dto.getTransactionType().equals(BusinessConstant.TRANSACTION_TYPE_BUY)) {
+            //购买挂单时扣除基础货币价格*购买数量
+            appUserBalanceService.updateBalance(userId, pair.getBaseTokenId(), BigDecimal.ZERO.subtract(dto.getValue().multiply(dto.getPrice())));
+        } else {
+            //出售时扣除目标货币数量
+ 
