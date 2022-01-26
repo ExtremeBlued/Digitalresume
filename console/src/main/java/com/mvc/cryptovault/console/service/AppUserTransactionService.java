@@ -236,4 +236,16 @@ public class AppUserTransactionService extends AbstractService<AppUserTransactio
             appUserBalanceService.updateBalance(userId, pair.getBaseTokenId(), BigDecimal.ZERO.subtract(dto.getValue().multiply(dto.getPrice())));
         } else {
             //出售时扣除目标货币数量
- 
+            appUserBalanceService.updateBalance(userId, pair.getTokenId(), BigDecimal.ZERO.subtract(dto.getValue()));
+        }
+    }
+
+    @NotNull
+    private AppUserTransaction getAppUserTransaction(BigInteger userId, TransactionBuyDTO dto, Long time) {
+        AppUserTransaction transaction = new AppUserTransaction();
+        transaction.setUpdatedAt(time);
+        transaction.setCreatedAt(time);
+        transaction.setOrderNumber(getOrderNumber());
+        transaction.setPairId(dto.getPairId());
+        transaction.setPrice(dto.getPrice());
+        transaction.setTransactionType(dto.getTransacti
