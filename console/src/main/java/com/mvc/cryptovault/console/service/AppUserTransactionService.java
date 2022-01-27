@@ -260,4 +260,17 @@ public class AppUserTransactionService extends AbstractService<AppUserTransactio
             BigDecimal balance = appUserBalanceService.getBalanceByTokenId(userId, pair.getBaseTokenId());
             Assert.isTrue(dto.getValue().multiply(dto.getPrice()).compareTo(balance) <= 0, MessageConstants.getMsg("INSUFFICIENT_BALANCE"));
         } else {
-            //出售，需要校验目标
+            //出售，需要校验目标货币余额
+            BigDecimal balance = appUserBalanceService.getBalanceByTokenId(userId, pair.getTokenId());
+            Assert.isTrue(dto.getValue().compareTo(balance) <= 0, MessageConstants.getMsg("INSUFFICIENT_BALANCE"));
+        }
+
+    }
+
+    private void checkPrice(TransactionBuyDTO dto, CommonPair pair, CommonTokenPrice tokenPrice) {
+        //直接成交交易不校验浮动范围
+        if (dto.getId() != null && !dto.getId().equals(BigInteger.ZERO)) {
+            return;
+        }
+        CommonTokenControl tokenControl = commonTokenControlService.findById(pair.getTokenId());
+        Float floatValue = dto.getPrice().subtr
