@@ -248,4 +248,16 @@ public class AppUserTransactionService extends AbstractService<AppUserTransactio
         transaction.setOrderNumber(getOrderNumber());
         transaction.setPairId(dto.getPairId());
         transaction.setPrice(dto.getPrice());
-        transaction.setTransactionType(dto.getTransacti
+        transaction.setTransactionType(dto.getTransactionType());
+        transaction.setUserId(userId);
+        transaction.setValue(dto.getValue());
+        return transaction;
+    }
+
+    private void checkBalance(BigInteger userId, TransactionBuyDTO dto, CommonPair pair) {
+        if (dto.getTransactionType() == 1) {
+            //购买，需要校验基础货币余额
+            BigDecimal balance = appUserBalanceService.getBalanceByTokenId(userId, pair.getBaseTokenId());
+            Assert.isTrue(dto.getValue().multiply(dto.getPrice()).compareTo(balance) <= 0, MessageConstants.getMsg("INSUFFICIENT_BALANCE"));
+        } else {
+            //出售，需要校验目标
