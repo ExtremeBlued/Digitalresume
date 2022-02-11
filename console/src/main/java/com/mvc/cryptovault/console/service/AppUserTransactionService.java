@@ -279,4 +279,15 @@ public class AppUserTransactionService extends AbstractService<AppUserTransactio
             Assert.isTrue(dto.getValue().compareTo(tokenControl.getMinLimit()) >= 0, MessageConstants.getMsg("APP_TRANSACTION_MIN_OVER"));
         }
         if (dto.getTransactionType().equals(BusinessConstant.TRANSACTION_TYPE_BUY)) {
-            Assert.isTrue(tokenControl.getBuyMin() / 100 <= floatValue && tokenControl.getBuyMax() / 100 >= floatValue, MessageConstants.getMsg("AP
+            Assert.isTrue(tokenControl.getBuyMin() / 100 <= floatValue && tokenControl.getBuyMax() / 100 >= floatValue, MessageConstants.getMsg("APP_TRANSACTION_LIMIT_OVER"));
+        } else {
+            Assert.isTrue(tokenControl.getSellMin() / 100 <= floatValue && tokenControl.getSellMax() / 100 >= floatValue, MessageConstants.getMsg("APP_TRANSACTION_LIMIT_OVER"));
+        }
+    }
+
+    private void checkValue(TransactionBuyDTO dto, AppUserTransaction targetTransaction) {
+        Assert.isTrue(dto.getValue().add(targetTransaction.getSuccessValue()).compareTo(targetTransaction.getValue()) <= 0, MessageConstants.getMsg("PROJECT_LIMIT_OVER"));
+    }
+
+    public void cancel(BigInteger userId, BigInteger id) {
+        AppUserTransac
