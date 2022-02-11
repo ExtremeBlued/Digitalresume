@@ -290,4 +290,17 @@ public class AppUserTransactionService extends AbstractService<AppUserTransactio
     }
 
     public void cancel(BigInteger userId, BigInteger id) {
-        AppUserTransac
+        AppUserTransaction trans = findById(id);
+        if (trans.getStatus().equals(BusinessConstant.STATUS_CANCEL)) {
+            return;
+        }
+        trans = findById(id);
+        trans.setStatus(BusinessConstant.STATUS_CANCEL);
+        trans.setUpdatedAt(System.currentTimeMillis());
+        update(trans);
+        trans = findById(id);
+        CommonPair pair = commonPairService.findById(trans.getPairId());
+        //还原未购买的余额
+        if (trans.getTransactionType().equals(BusinessConstant.TRANSACTION_TYPE_BUY)) {
+            //购买
+            appUserBalanceService.updateBalance(userId, pair.getBaseTokenId(), (trans.getValue().subtra
