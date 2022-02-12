@@ -303,4 +303,14 @@ public class AppUserTransactionService extends AbstractService<AppUserTransactio
         //还原未购买的余额
         if (trans.getTransactionType().equals(BusinessConstant.TRANSACTION_TYPE_BUY)) {
             //购买
-            appUserBalanceService.updateBalance(userId, pair.getBaseTokenId(), (trans.getValue().subtra
+            appUserBalanceService.updateBalance(userId, pair.getBaseTokenId(), (trans.getValue().subtract(trans.getSuccessValue())).multiply(trans.getPrice()));
+        } else {
+            //出售
+            appUserBalanceService.updateBalance(userId, pair.getTokenId(), trans.getValue().subtract(trans.getSuccessValue()));
+        }
+    }
+
+    public PageInfo<DTransactionVO> findTransaction(PageDTO pageDTO, DTransactionDTO dTransactionDTO) {
+        AppUser appUser = StringUtils.isBlank(dTransactionDTO.getCellphone()) ? null : appUserService.findOneBy("cellphone", dTransactionDTO.getCellphone());
+        if (StringUtils.isNotBlank(dTransactionDTO.getCellphone()) && null == appUser) {
+            return n
