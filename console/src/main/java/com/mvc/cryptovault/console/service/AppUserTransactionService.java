@@ -313,4 +313,12 @@ public class AppUserTransactionService extends AbstractService<AppUserTransactio
     public PageInfo<DTransactionVO> findTransaction(PageDTO pageDTO, DTransactionDTO dTransactionDTO) {
         AppUser appUser = StringUtils.isBlank(dTransactionDTO.getCellphone()) ? null : appUserService.findOneBy("cellphone", dTransactionDTO.getCellphone());
         if (StringUtils.isNotBlank(dTransactionDTO.getCellphone()) && null == appUser) {
-            return n
+            return new PageInfo<>();
+        }
+        Condition condition = new Condition(AppUserTransaction.class);
+        Example.Criteria criteria = condition.createCriteria();
+        ConditionUtil.andCondition(criteria, "pair_id = ", dTransactionDTO.getPairId());
+        ConditionUtil.andCondition(criteria, "parent_id = ", BigInteger.ZERO);
+        ConditionUtil.andCondition(criteria, "status = ", dTransactionDTO.getStatus());
+        ConditionUtil.andCondition(criteria, "transaction_type = ", dTransactionDTO.getTransactionType());
+        ConditionUtil.andCondition(cri
