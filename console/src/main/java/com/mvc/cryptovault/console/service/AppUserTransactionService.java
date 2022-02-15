@@ -328,4 +328,15 @@ public class AppUserTransactionService extends AbstractService<AppUserTransactio
         PageHelper.startPage(pageDTO.getPageNum(), pageDTO.getPageSize(), pageDTO.getOrderBy());
         List<AppUserTransaction> list = findByCondition(condition);
         List<DTransactionVO> vos = new ArrayList<>(list.size());
-      
+        PageInfo result = new PageInfo(list);
+        for (AppUserTransaction transaction : list) {
+            DTransactionVO vo = new DTransactionVO();
+            BeanUtils.copyProperties(transaction, vo);
+            appUser = appUserService.findById(transaction.getUserId());
+            CommonPair pair = commonPairService.findById(transaction.getPairId());
+            vo.setCellphone(appUser.getCellphone());
+            vo.setDeal(transaction.getSuccessValue());
+            vo.setPairName(pair.getPairName());
+            vo.setSurplus(transaction.getValue().subtract(transaction.getSuccessValue()));
+            vos.add(vo);
+  
