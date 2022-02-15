@@ -321,4 +321,11 @@ public class AppUserTransactionService extends AbstractService<AppUserTransactio
         ConditionUtil.andCondition(criteria, "parent_id = ", BigInteger.ZERO);
         ConditionUtil.andCondition(criteria, "status = ", dTransactionDTO.getStatus());
         ConditionUtil.andCondition(criteria, "transaction_type = ", dTransactionDTO.getTransactionType());
-        ConditionUtil.andCondition(cri
+        ConditionUtil.andCondition(criteria, "created_at >= ", pageDTO.getCreatedStartAt());
+        ConditionUtil.andCondition(criteria, "created_at <= ", pageDTO.getCreatedStopAt());
+        ConditionUtil.andCondition(criteria, "order_number = ", dTransactionDTO.getOrderNumber());
+        ConditionUtil.andCondition(criteria, "user_id = ", null == appUser ? null : appUser.getId());
+        PageHelper.startPage(pageDTO.getPageNum(), pageDTO.getPageSize(), pageDTO.getOrderBy());
+        List<AppUserTransaction> list = findByCondition(condition);
+        List<DTransactionVO> vos = new ArrayList<>(list.size());
+      
