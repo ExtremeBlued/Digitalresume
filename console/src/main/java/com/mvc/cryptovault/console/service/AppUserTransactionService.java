@@ -349,4 +349,15 @@ public class AppUserTransactionService extends AbstractService<AppUserTransactio
         AppUserTransaction transaction = null;
         if (StringUtils.isNotBlank(overTransactionDTO.getParentOrderNumber())) {
             AppUserTransaction trans = new AppUserTransaction();
-            trans.setOrderNumber(overTransactionDTO.getPare
+            trans.setOrderNumber(overTransactionDTO.getParentOrderNumber());
+            trans.setParentId(BigInteger.ZERO);
+            transaction = findOneByEntity(trans);
+        }
+        Boolean flag = StringUtils.isNotBlank(overTransactionDTO.getCellphone()) && null == appUser || StringUtils.isNotBlank(overTransactionDTO.getParentOrderNumber()) && null == transaction;
+        if (flag) {
+            return new PageInfo<>();
+        }
+        Condition condition = new Condition(AppUserTransaction.class);
+        Example.Criteria criteria = condition.createCriteria();
+        ConditionUtil.andCondition(criteria, "pair_id = ", overTransactionDTO.getPairId());
+        ConditionUtil.andCondi
