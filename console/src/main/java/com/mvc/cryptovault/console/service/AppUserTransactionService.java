@@ -339,4 +339,14 @@ public class AppUserTransactionService extends AbstractService<AppUserTransactio
             vo.setPairName(pair.getPairName());
             vo.setSurplus(transaction.getValue().subtract(transaction.getSuccessValue()));
             vos.add(vo);
-  
+        }
+        result.setList(vos);
+        return result;
+    }
+
+    public PageInfo<OverTransactionVO> overList(PageDTO pageDTO, OverTransactionDTO overTransactionDTO) {
+        AppUser appUser = StringUtils.isBlank(overTransactionDTO.getCellphone()) ? null : appUserService.findOneBy("cellphone", overTransactionDTO.getCellphone());
+        AppUserTransaction transaction = null;
+        if (StringUtils.isNotBlank(overTransactionDTO.getParentOrderNumber())) {
+            AppUserTransaction trans = new AppUserTransaction();
+            trans.setOrderNumber(overTransactionDTO.getPare
