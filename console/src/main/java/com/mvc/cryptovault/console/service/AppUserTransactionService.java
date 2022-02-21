@@ -360,4 +360,11 @@ public class AppUserTransactionService extends AbstractService<AppUserTransactio
         Condition condition = new Condition(AppUserTransaction.class);
         Example.Criteria criteria = condition.createCriteria();
         ConditionUtil.andCondition(criteria, "pair_id = ", overTransactionDTO.getPairId());
-        ConditionUtil.andCondi
+        ConditionUtil.andCondition(criteria, "order_number = ", overTransactionDTO.getOrderNumber());
+        ConditionUtil.andCondition(criteria, "transaction_type = ", overTransactionDTO.getTransactionType());
+        ConditionUtil.andCondition(criteria, "self_order = ", 1);
+        ConditionUtil.andCondition(criteria, "created_at >= ", pageDTO.getCreatedStartAt());
+        ConditionUtil.andCondition(criteria, "created_at <= ", pageDTO.getCreatedStopAt());
+        ConditionUtil.andCondition(criteria, "user_id = ", null == appUser ? null : appUser.getId());
+        if (null == transaction) {
+            ConditionUtil.andCondition(criter
