@@ -367,4 +367,15 @@ public class AppUserTransactionService extends AbstractService<AppUserTransactio
         ConditionUtil.andCondition(criteria, "created_at <= ", pageDTO.getCreatedStopAt());
         ConditionUtil.andCondition(criteria, "user_id = ", null == appUser ? null : appUser.getId());
         if (null == transaction) {
-            ConditionUtil.andCondition(criter
+            ConditionUtil.andCondition(criteria, "parent_id != ", BigInteger.ZERO);
+        } else {
+            ConditionUtil.andCondition(criteria, "parent_id = ", transaction.getId());
+        }
+        ConditionUtil.andCondition(criteria, "status = ", 1);
+        PageHelper.startPage(pageDTO.getPageNum(), pageDTO.getPageSize(), pageDTO.getOrderBy());
+        List<AppUserTransaction> list = findByCondition(condition);
+        List<OverTransactionVO> vos = new ArrayList<>(list.size());
+        PageInfo result = new PageInfo(list);
+        for (AppUserTransaction trans : list) {
+            OverTransactionVO vo = new OverTransactionVO();
+            BeanUtils.copyPrope
