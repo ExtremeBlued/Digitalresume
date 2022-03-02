@@ -35,4 +35,17 @@ public abstract class BlockService implements CommandLineRunner {
     protected static volatile ExecutorService executorService;
 
     static {
-        ThreadFactory namedThreadFactory = new ThreadFactoryBuilder().setNameF
+        ThreadFactory namedThreadFactory = new ThreadFactoryBuilder().setNameFormat("address-pool-%d").build();
+        executorService = new ThreadPoolExecutor(10, 10, 10, TimeUnit.MINUTES,
+                new LinkedBlockingQueue<Runnable>(1024), namedThreadFactory, new ThreadPoolExecutor.DiscardPolicy());
+    }
+
+    protected Boolean saveOrUpdate(BlockTransaction blockTransaction) {
+        if (null == blockTransaction) {
+            return null;
+        }
+        BlockTransaction trans = blockTransactionService.findOneBy("hash", blockTransaction.getHash());
+        if (null == trans) {
+            return blockTransactionService.saveTrans(blockTransaction);
+        } else {
+         
