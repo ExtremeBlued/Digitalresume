@@ -15,4 +15,24 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.ut
+import java.util.Map;
+import java.util.concurrent.*;
+
+@Component
+public abstract class BlockService implements CommandLineRunner {
+
+    @Autowired
+    protected BlockTransactionService blockTransactionService;
+    @Autowired
+    protected CommonAddressService commonAddressService;
+    @Autowired
+    private CommonTokenService commonTokenService;
+    @Autowired
+    protected StringRedisTemplate redisTemplate;
+    @Autowired
+    AdminWalletService adminWalletService;
+
+    protected static volatile ExecutorService executorService;
+
+    static {
+        ThreadFactory namedThreadFactory = new ThreadFactoryBuilder().setNameF
