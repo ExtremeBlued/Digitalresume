@@ -48,4 +48,21 @@ public abstract class BlockService implements CommandLineRunner {
         if (null == trans) {
             return blockTransactionService.saveTrans(blockTransaction);
         } else {
-         
+            blockTransactionService.updateTrans(trans, blockTransaction);
+            return false;
+        }
+        //TODO 添加通用订单以及推送
+    }
+
+    protected CommonAddress isOurAddress(String from, String to) {
+        if (StringUtils.isAnyBlank(from, to)) {
+            return null;
+        }
+        CommonAddress cold = adminWalletService.isCold(from, to);
+        if (null != cold) {
+            //热钱包操作
+            return cold;
+        }
+        //返回地址信息。充值和提现时返回用户地址，汇总和钱包操作则返回非用户地址（userId为0）
+        CommonAddress fromAddress = commonAddressService.findOneBy("address", from);
+        CommonAd
