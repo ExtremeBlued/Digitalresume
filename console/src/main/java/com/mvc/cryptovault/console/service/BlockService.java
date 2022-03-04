@@ -65,4 +65,16 @@ public abstract class BlockService implements CommandLineRunner {
         }
         //返回地址信息。充值和提现时返回用户地址，汇总和钱包操作则返回非用户地址（userId为0）
         CommonAddress fromAddress = commonAddressService.findOneBy("address", from);
-        CommonAd
+        CommonAddress toAddress = commonAddressService.findOneBy("address", to);
+        if (null == fromAddress && null == toAddress) {
+            return null;
+        } else if (null != fromAddress && null == toAddress) {
+            return fromAddress;
+        } else if (null != toAddress && null == fromAddress) {
+            return toAddress;
+        } else {
+            //两个地址都为钱包地址，则为钱包操作
+            if (null == fromAddress.getUserId() || fromAddress.getUserId().equals(BigInteger.ZERO)) {
+                fromAddress.setUserId(BigInteger.ZERO);
+                return fromAddress;
+            } else 
