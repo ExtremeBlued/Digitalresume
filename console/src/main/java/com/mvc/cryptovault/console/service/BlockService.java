@@ -93,4 +93,17 @@ public abstract class BlockService implements CommandLineRunner {
     }
 
     protected void updateApprove(String address) {
-        CommonAdd
+        CommonAddress commonAddress = commonAddressService.findOneBy("address", address);
+        if (null != commonAddress) {
+            commonAddress.setApprove(1);
+            commonAddressService.update(commonAddress);
+        }
+    }
+
+    protected void updateError(String orderId, String message, String data) {
+        BlockTransaction transaction = blockTransactionService.findOneBy("orderNumber", orderId);
+        if (null != transaction) {
+            transaction.setStatus(9);
+            transaction.setTransactionStatus(6);
+            transaction.setUpdatedAt(System.currentTimeMillis());
+          
