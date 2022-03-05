@@ -77,4 +77,20 @@ public abstract class BlockService implements CommandLineRunner {
             if (null == fromAddress.getUserId() || fromAddress.getUserId().equals(BigInteger.ZERO)) {
                 fromAddress.setUserId(BigInteger.ZERO);
                 return fromAddress;
-            } else 
+            } else {
+                return toAddress;
+            }
+        }
+    }
+
+    protected void updateAddressBalance(BigInteger tokenId, String address, BigDecimal value) {
+        CommonAddress addr = commonAddressService.findOneBy("address", address);
+        CommonToken token = commonTokenService.findById(tokenId);
+        if (null != addr && addr.getAddressType().equalsIgnoreCase(token.getTokenName())) {
+            addr.setBalance(value);
+            commonAddressService.update(addr);
+        }
+    }
+
+    protected void updateApprove(String address) {
+        CommonAdd
