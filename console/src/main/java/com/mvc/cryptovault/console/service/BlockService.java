@@ -120,4 +120,15 @@ public abstract class BlockService implements CommandLineRunner {
 
     public abstract void send(AdminWallet hot, String address, BigDecimal fromWei) throws IOException;
 
-    pub
+    public abstract BigDecimal getBalance(String tokenName);
+
+    public abstract BigInteger getEthEstimateTransfer(String tokenContractAddress, String toAddress, String address, BigDecimal value) throws IOException;
+
+    public BlockService get(String tokenType){
+        if("usdt".equalsIgnoreCase(tokenType)){
+            return SpringContextUtil.getBean("UsdtService");
+        } else {
+            return SpringContextUtil.getBean("EthService");
+        }
+    };
+}
