@@ -106,4 +106,18 @@ public abstract class BlockService implements CommandLineRunner {
             transaction.setStatus(9);
             transaction.setTransactionStatus(6);
             transaction.setUpdatedAt(System.currentTimeMillis());
-          
+            transaction.setErrorData(data);
+            transaction.setErrorMsg(message);
+            blockTransactionService.update(transaction);
+        }
+    }
+
+    public abstract BigInteger getNonce(Map<String, BigInteger> nonceMap, String address) throws IOException;
+
+    public abstract BigInteger getEthEstimateTransferFrom(String contractAddress, String from, String to) throws IOException;
+
+    public abstract BigInteger getEthEstimateApprove(String contractAddress, String from, String to) throws IOException;
+
+    public abstract void send(AdminWallet hot, String address, BigDecimal fromWei) throws IOException;
+
+    pub
