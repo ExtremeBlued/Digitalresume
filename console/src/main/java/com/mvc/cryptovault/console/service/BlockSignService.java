@@ -34,4 +34,22 @@ public class BlockSignService extends AbstractService<BlockSign> implements Base
 
     @Async
     public void importSign(List<BlockSign> list, String fileName) {
-        String key = RedisConstant.TRANS_I
+        String key = RedisConstant.TRANS_IMPORT + fileName;
+        for (BlockSign blockSign : list) {
+            if (blockSign.getTokenType().equalsIgnoreCase("BTC")) {
+                blockSign.setContractAddress(null);
+            }
+            save(blockSign);
+        }
+        //导入成功后删除标记
+        redisTemplate.delete(key);
+    }
+
+    @Async
+    public void importAppUser(List<AppUser> list, String fileName) {
+        Long time = System.currentTimeMillis();
+        for (AppUser user : list) {
+            try {
+                AppUser temp = appUserService.findOneBy("vpUserId", user.getVpUserId());
+                if (null == temp) {
+           
