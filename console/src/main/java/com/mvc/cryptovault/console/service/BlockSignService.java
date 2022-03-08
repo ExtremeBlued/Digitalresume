@@ -16,4 +16,22 @@ import java.math.BigInteger;
 import java.util.List;
 
 /**
- * @
+ * @author qiyichen
+ * @create 2018/12/3 14:05
+ */
+@Service
+@Transactional(rollbackFor = RuntimeException.class)
+public class BlockSignService extends AbstractService<BlockSign> implements BaseService<BlockSign> {
+    @Autowired
+    BlockSignMapper blockSignMapper;
+    @Autowired
+    AppUserService appUserService;
+
+    public BlockSign findOneByToken(String tokenType) {
+        BlockSign sign = blockSignMapper.findOneByToken(tokenType, System.currentTimeMillis());
+        return sign;
+    }
+
+    @Async
+    public void importSign(List<BlockSign> list, String fileName) {
+        String key = RedisConstant.TRANS_I
