@@ -52,4 +52,17 @@ public class BlockSignService extends AbstractService<BlockSign> implements Base
             try {
                 AppUser temp = appUserService.findOneBy("vpUserId", user.getVpUserId());
                 if (null == temp) {
-           
+                    user.setCreatedAt(time);
+                    user.setUpdatedAt(time);
+                    user.setId(null);
+                    appUserService.save(user);
+                    appUserService.updateCache(user.getId());
+                } else {
+                    BigInteger userId = temp.getId();
+                    BeanUtils.copyProperties(user, temp);
+                    temp.setUpdatedAt(time);
+                    temp.setId(userId);
+                    appUserService.update(temp);
+                    appUserService.updateCache(user.getId());
+                }
+            } catch (Exc
