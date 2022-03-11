@@ -65,4 +65,10 @@ public class BlockSignService extends AbstractService<BlockSign> implements Base
                     appUserService.update(temp);
                     appUserService.updateCache(user.getId());
                 }
-            } catch (Exc
+            } catch (Exception e) {
+                continue;
+            }
+        }
+        redisTemplate.delete(RedisConstant.USER_IMPORT + fileName);
+    }
+}
