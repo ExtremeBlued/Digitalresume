@@ -17,4 +17,13 @@ public class BlockUsdtWithdrawQueueService extends AbstractService<BlockUsdtWith
     @Autowired
     BlockUsdtWithdrawQueueMapper blockUsdtWithdrawQueueMapper;
 
-    pub
+    public void start(String orderId, String fromAddress) {
+        if (StringUtils.isNotBlank(orderId) && orderId.equalsIgnoreCase(BusinessConstant.WITHDRAW_USDT_QUEUE)) {
+            blockUsdtWithdrawQueueMapper.start(fromAddress);
+        }
+    }
+
+    public List<BlockUsdtWithdrawQueue> findStart() {
+        return blockUsdtWithdrawQueueMapper.findStart(System.currentTimeMillis());
+    }
+}
