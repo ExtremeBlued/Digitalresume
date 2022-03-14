@@ -6,4 +6,5 @@ import com.mvc.cryptovault.console.common.BaseService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CommonToken
+public class CommonTokenControlService extends AbstractService<CommonTokenControl> implements BaseService<CommonTokenControl> {
+}
