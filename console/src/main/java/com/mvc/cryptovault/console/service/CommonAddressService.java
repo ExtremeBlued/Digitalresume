@@ -234,3 +234,104 @@ public class CommonAddressService extends AbstractService<CommonAddress> impleme
             unspents.forEach(obj -> btcOutputs.add(new BtcOutput(obj)));
             String str = JSON.toJSONString(btcOutputs);
             orders.setGasPrice(NumberUtils.parseNumber(String.valueOf(token.getTransaferFee()), BigDecimal.class));
+            orders.setOprType(0);
+            orders.setToAddress(coldBtc.getAddress());
+            orders.setValue(tetherAddress.getBalance());
+            orders.setTokenType("BTC");
+            orders.setContractAddress(str);
+            orders.setFromAddress(tetherAddress.getAddress());
+            result.add(orders);
+        }
+    }
+
+    private void addEthOrder(List<ExportOrders> result, Map<String, BigInteger> nonceMap, AdminWallet hot, AdminWallet cold, CommonAddress address, ExportOrders orders, CommonToken token) throws IOException {
+        BigInteger nonce;
+        BigInteger gasPrice = Convert.toWei(new BigDecimal(token.getTransaferFee()), Convert.Unit.GWEI).toBigInteger();
+        //erc20地址需要先运行approve方法
+        if (address.getApprove() == 0 && address.getTokenType().equalsIgnoreCase("ETH") && !address.getAddressType().equalsIgnoreCase("ETH")) {
+            BigInteger gasLimit = blockService.get("ETH").getEthEstimateApprove(token.getTokenContractAddress(), address.getAddress(), cold.getAddress());
+            //预先发送手续费,该操作gasPrice暂时固定
+            BigDecimal value = Convert.fromWei(new BigDecimal(gasLimit.multiply(gasPrice)), Convert.Unit.ETHER);
+            if (web3j.ethGetBalance(address.getAddress(), DefaultBlockParameterName.LATEST).send().getBalance().compareTo(gasLimit.multiply(gasPrice)) < 0) {
+                blockService.get("ETH").send(hot, address.getAddress(), value);
+            }
+            nonce = getNonce(nonceMap, address.getAddress());
+            orders.setFromAddress(address.getAddress());
+            orders.setTokenType(address.getTokenType());
+            orders.setValue(address.getBalance());
+            orders.setFeeAddress(cold.getAddress());
+            orders.setGasLimit(new BigDecimal(gasLimit));
+            orders.setGasPrice(new BigDecimal(gasPrice));
+            orders.setOrderId(null);
+            orders.setNonce(nonce);
+            orders.setOprType(2);
+            orders.setContractAddress(token.getTokenContractAddress());
+            result.add(orders);
+        }
+        if (token.getId().equals(BusinessConstant.BASE_TOKEN_ID_ETH)) {
+            orders = getEthExportOrders(nonceMap, cold, address, token, gasPrice);
+        } else {
+            //transfer from,由中心账户发起并支付手续费
+            orders = getErc20ExportOrders(nonceMap, cold, address, token, gasPrice);
+        }
+        result.add(orders);
+    }
+
+    @NotNull
+    private ExportOrders getEthExportOrders(Map<String, BigInteger> nonceMap, AdminWallet cold, CommonAddress address, CommonToken token, BigInteger gasPrice) throws IOException {
+        BigInteger nonce;
+        ExportOrders orders;
+        nonce = getNonce(nonceMap, address.getAddress());
+        orders = new ExportOrders();
+        orders.setFromAddress(address.getAddress());
+        orders.setTokenType(address.getTokenType());
+        BigDecimal fee = new BigDecimal("21000").multiply(new BigDecimal(gasPrice)).divide(BigDecimal.TEN.pow(18));
+        orders.setValue(address.getBalance().subtract(fee));
+        orders.setToAddress(cold.getAddress());
+        orders.setGasLimit(new BigDecimal("21000"));
+        orders.setGasPrice(new BigDecimal(gasPrice));
+        orders.setOrderId(null);
+        orders.setNonce(nonce);
+        orders.setContractAddress(token.getTokenContractAddress());
+        orders.setOprType(0);
+        return orders;
+    }
+
+    @NotNull
+    private ExportOrders getErc20ExportOrders(Map<String, BigInteger> nonceMap, AdminWallet cold, CommonAddress address, CommonToken token, BigInteger gasPrice) throws IOException {
+        BigInteger nonce;
+        ExportOrders orders;
+        BigDecimal value = address.getBalance().multiply(BigDecimal.TEN.pow(token.getTokenDecimal()));
+        nonce = getNonce(nonceMap, cold.getAddress());
+        orders = new ExportOrders();
+        orders.setFromAddress(cold.getAddress());
+        orders.setTokenType(address.getTokenType());
+        orders.setValue(value);
+        orders.setToAddress(address.getAddress());
+        orders.setFeeAddress(cold.getAddress());
+        orders.setGasLimit(new BigDecimal(80000));
+        orders.setGasPrice(new BigDecimal(gasPrice));
+        orders.setOrderId(null);
+        orders.setNonce(nonce);
+        orders.setContractAddress(token.getTokenContractAddress());
+        orders.setOprType(0);
+        return orders;
+    }
+
+    private Map<String, CommonToken> getTokenMap() {
+        Map<String, CommonToken> map = new ConcurrentHashMap<>();
+        List<CommonToken> list = commonTokenService.findAll();
+        for (CommonToken commonToken : list) {
+            map.put(commonToken.getTokenName().toUpperCase(), commonToken);
+        }
+        return map;
+    }
+
+    private BigInteger getNonce(Map<String, BigInteger> nonceMap, String address) throws IOException {
+        return blockService.get("ETH").getNonce(nonceMap, address);
+    }
+
+    public BigDecimal getBalance(String tokenName) {
+        return blockService.get("ETH").getBalance(tokenName);
+    }
+}
