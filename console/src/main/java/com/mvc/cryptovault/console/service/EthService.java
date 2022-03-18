@@ -422,3 +422,149 @@ public class EthService extends BlockService {
             BigDecimal result = new BigDecimal(amount.getValue()).divide(BigDecimal.TEN.pow(commonToken.getTokenDecimal()));
             return result;
         } else {
+            return BigDecimal.ZERO;
+        }
+
+    }
+
+    private String getAddressFromInput(final Transaction tx) {
+        if (isEthTransfer(tx)) {
+            return tx.getTo();
+        } else if (isContractTransfer(tx)) {
+            String inputData = tx.getInput();
+            String to = inputData.substring(10, 74);
+            Method refMethod = null;
+            try {
+                refMethod = TypeDecoder.class.getDeclaredMethod("decode", String.class, int.class, Class.class);
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+            refMethod.setAccessible(true);
+            Address address = null;
+            try {
+                address = (Address) refMethod.invoke(null, to, 0, Address.class);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+            return address.getValue();
+        }
+        return null;
+    }
+
+    @Override
+    public BigInteger getNonce(Map<String, BigInteger> nonceMap, String address) throws IOException {
+        BigInteger nonce = nonceMap.get(address);
+        if (nonce == null) {
+            nonce = web3j.ethGetTransactionCount(address, DefaultBlockParameterName.LATEST).send().getTransactionCount();
+            nonceMap.put(address, nonce);
+        } else {
+            nonce = nonce.add(BigInteger.ONE);
+            nonceMap.put(address, nonce);
+        }
+        return nonce;
+    }
+
+    @Override
+    public BigInteger getEthEstimateApprove(String contractAddress, String from, String to) throws IOException {
+        if (StringUtils.isBlank(contractAddress)) {
+            return BigInteger.valueOf(21000);
+        }
+        Uint256 limit = new Uint256(BigInteger.TEN.pow(18).multiply(MAX_APPROVE));
+        Function function = new Function(
+                "approve",
+                Arrays.asList(new Address(to), limit),
+                Collections.singletonList(new TypeReference<Bool>() {
+                }));
+        String encodedFunction = FunctionEncoder.encode(function);
+        EthEstimateGas result = web3j.ethEstimateGas(
+                org.web3j.protocol.core.methods.request.Transaction.createEthCallTransaction(from, contractAddress, encodedFunction)).send();
+        if (result.getError() == null) {
+            return result.getAmountUsed();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public BigInteger getEthEstimateTransferFrom(String contractAddress, String from, String to) throws IOException {
+        Uint256 limit = new Uint256(MAX_APPROVE.multiply(BigInteger.TEN.pow(18)));
+        Function function = new Function(
+                "transferFrom",
+                Arrays.asList(new Address(from), new Address(to), limit),
+                Collections.singletonList(new TypeReference<Bool>() {
+                }));
+        String encodedFunction = FunctionEncoder.encode(function);
+        EthEstimateGas result = web3j.ethEstimateGas(
+                org.web3j.protocol.core.methods.request.Transaction.createEthCallTransaction(from, contractAddress, encodedFunction)).send();
+        if (result.getError() == null) {
+            return result.getAmountUsed();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public void send(AdminWallet hot, String address, BigDecimal fromWei) throws IOException {
+        BigInteger nonce = web3j.ethGetTransactionCount(hot.getAddress(), DefaultBlockParameterName.PENDING).send().getTransactionCount();
+        ECKeyPair ecKeyPair = ECKeyPair.create(new BigInteger(hot.getPvKey()));
+        Credentials ALICE = Credentials.create(ecKeyPair);
+        RawTransaction transaction = RawTransaction.createEtherTransaction(nonce, Convert.toWei("5", Convert.Unit.GWEI).toBigInteger(), BigInteger.valueOf(21000), address, Convert.toWei(fromWei, Convert.Unit.ETHER).toBigInteger());
+        byte[] signedMessage = TransactionEncoder.signMessage(transaction, ALICE);
+        String hexValue = Numeric.toHexString(signedMessage);
+        EthSendTransaction result = web3j.ethSendRawTransaction(hexValue).send();
+    }
+
+    @Override
+    public BigDecimal getBalance(String tokenName) {
+        AdminWallet cold = adminWalletService.getEthCold();
+        CommonToken token = commonTokenService.findOneBy("tokenName", tokenName);
+        if (null == token) {
+            return BigDecimal.ZERO;
+        }
+        return getBalance(cold.getAddress(), token.getTokenContractAddress());
+    }
+
+    @Override
+    public BigInteger getEthEstimateTransfer(String contractAddress, String toAddress, String from, BigDecimal value) throws IOException {
+        Uint256 limit = new Uint256(value.toBigInteger());
+        Function function = new Function(
+                "transfer",
+                Arrays.asList(new Address(toAddress), limit),
+                Collections.singletonList(new TypeReference<Bool>() {
+                }));
+        String encodedFunction = FunctionEncoder.encode(function);
+        EthEstimateGas result = web3j.ethEstimateGas(
+                org.web3j.protocol.core.methods.request.Transaction.createEthCallTransaction(from, contractAddress, encodedFunction)).send();
+        if (result.getError() == null) {
+            return result.getAmountUsed();
+        } else {
+            return null;
+        }
+    }
+
+    private BigDecimal getBalance(String address, String contractAddress) {
+        BigDecimal result = null;
+        BigInteger balance;
+        try {
+            if (StringUtils.isBlank(contractAddress)) {
+                balance = web3j.ethGetBalance(address, DefaultBlockParameterName.LATEST).send().getBalance();
+                result = Convert.fromWei(new BigDecimal(balance), Convert.Unit.ETHER);
+            } else {
+                balance = contractService.balanceOf(contractAddress, address);
+                CommonToken contract = getTokenContract(contractAddress);
+                if (null == contract) {
+                    return BigDecimal.ZERO;
+                }
+                result = new BigDecimal(balance).divide(BigDecimal.TEN.pow(contract.getTokenDecimal()), RoundingMode.HALF_DOWN);
+            }
+            return result;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return BigDecimal.ZERO;
+        }
+
+
+    }
+}
