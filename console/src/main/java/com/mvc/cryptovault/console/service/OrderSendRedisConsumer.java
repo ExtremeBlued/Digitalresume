@@ -31,4 +31,10 @@ public class OrderSendRedisConsumer extends Thread {
                     } catch (Exception e) {
                         logger.error("调用失败", e);
                     }
-              
+                }
+            }
+        } catch (Exception e) {
+            logger.error("轮循线程异常退出", e);
+        }
+    }
+}
