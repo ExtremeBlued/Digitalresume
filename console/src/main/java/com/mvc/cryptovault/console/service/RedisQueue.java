@@ -28,4 +28,26 @@ public class RedisQueue {
      *
      * @return
      */
-    public String ta
+    public String takeFromTail(int timeout) throws InterruptedException {
+        lock.lockInterruptibly();
+        try {
+            //阻塞获取队列内容
+            String result = (String) redisTemplate.opsForList().rightPop(BusinessConstant.REDIS_QUEUE, timeout, TimeUnit.MILLISECONDS);
+            return result;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public String takeFromTail() throws InterruptedException {
+        return takeFromTail(1000);
+    }
+
+    /**
+     * 从队列的头，插入
+     */
+    public void pushFromHead(String value) {
+        listOperations.leftPush(value);
+    }
+
+    public void pushFro
