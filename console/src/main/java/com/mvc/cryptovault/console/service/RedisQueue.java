@@ -50,4 +50,21 @@ public class RedisQueue {
         listOperations.leftPush(value);
     }
 
-    public void pushFro
+    public void pushFromTail(String value) {
+        listOperations.rightPush(value);
+    }
+
+    /**
+     * noblocking
+     *
+     * @return null if no item in queue
+     */
+    public String removeFromHead() {
+        return listOperations.leftPop();
+    }
+
+    public String removeFromTail() {
+        return listOperations.rightPop();
+    }
+
+}
