@@ -34,4 +34,22 @@ public class RedisTaskContainer {
                 BlockTransactionBO blockTransactionBO = JSON.parseObject(data, BlockTransactionBO.class);
                 blockTransactionService.doSendTransaction(blockTransactionBO.getUserId(), blockTransactionBO.getTransactionDTO());
             } catch (Exception e) {
-                logger.error(e.getMessag
+                logger.error(e.getMessage());
+            }
+
+            return;
+        };
+
+        //提交线程
+        for (int i = 0; i < runTaskThreadNum; i++) {
+            es.execute(
+                    new OrderSendRedisConsumer(this, consumer)
+            );
+        }
+    }
+
+    public RedisQueue getRedisQueue() {
+        return redisQueue;
+    }
+
+}
