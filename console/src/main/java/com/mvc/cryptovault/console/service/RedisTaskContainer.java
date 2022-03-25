@@ -21,4 +21,17 @@ public class RedisTaskContainer {
     private static ExecutorService es = Executors.newFixedThreadPool(runTaskThreadNum);
     private RedisQueue redisQueue = null;
     @Autowired
-    private StringRe
+    private StringRedisTemplate redisTemplate;
+    @Autowired
+    BlockTransactionService blockTransactionService;
+
+    @PostConstruct
+    private void init() {
+        redisQueue = new RedisQueue(redisTemplate);
+
+        Consumer<String> consumer = (data) -> {
+            try {
+                BlockTransactionBO blockTransactionBO = JSON.parseObject(data, BlockTransactionBO.class);
+                blockTransactionService.doSendTransaction(blockTransactionBO.getUserId(), blockTransactionBO.getTransactionDTO());
+            } catch (Exception e) {
+                logger.error(e.getMessag
