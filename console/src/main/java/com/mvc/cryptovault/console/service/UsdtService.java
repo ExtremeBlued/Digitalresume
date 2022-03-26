@@ -272,3 +272,206 @@ public class UsdtService extends BlockService {
     private void readTxList(List<String> txList) {
         for (String txId : txList) {
             try {
+                UsdtTransaction tx = null;
+                Object txStr = btcdClient.remoteCall("omni_gettransaction", Arrays.asList(txId));
+                tx = JSON.parseObject(String.valueOf(txStr), UsdtTransaction.class);
+                if (null == tx) {
+                    continue;
+                }
+                BlockTransaction trans = blockTransaction(tx);
+                if (null != trans) {
+                    saveOrUpdate(trans);
+                    BigDecimal fromValue = getBalance(trans.getFromAddress(), trans.getTokenId());
+                    BigDecimal toValue = getBalance(trans.getToAddress(), trans.getTokenId());
+                    updateAddressBalance(trans.getTokenId(), trans.getFromAddress(), fromValue);
+                    updateAddressBalance(trans.getTokenId(), trans.getToAddress(), toValue);
+                }
+                updateAddressBalance(trans.getTokenId(), trans.getFromAddress(), getBalance(trans.getFromAddress(), trans.getTokenId()));
+                updateAddressBalance(trans.getTokenId(), trans.getToAddress(), getBalance(trans.getToAddress(), trans.getTokenId()));
+            } catch (Exception e) {
+                // not mine transaction
+            }
+        }
+    }
+
+    @NotNull
+    private Boolean isIgnore(String lastNumber, Block block, String height) {
+        Boolean ignore = false;
+        if (lastNumber.equals(height)) {
+            ignore = true;
+        }
+        if (block.getConfirmations() == -1) {
+            redisTemplate.opsForValue().set(RedisConstant.USDT_LAST_HEIGHT, block.getPreviousBlockHash());
+            ignore = true;
+        }
+        if (nowHash.equalsIgnoreCase(block.getHash())) {
+            ignore = true;
+        }
+        return ignore;
+    }
+
+    private BigDecimal getBalance(String fromAddress, BigInteger tokenId) {
+        try {
+            if (StringUtils.isBlank(fromAddress)) {
+                return BigDecimal.ZERO;
+            }
+            if (tokenId.equals(BusinessConstant.BASE_TOKEN_ID_USDT)) {
+                Object result = btcdClient.remoteCall("omni_getbalance", Arrays.asList(fromAddress, propId));
+                Balance balance = JSON.parseObject(String.valueOf(result), Balance.class);
+                return new BigDecimal(balance.getBalance());
+            } else {
+                btcdClient.setAccount(fromAddress, fromAddress);
+                return btcdClient.getBalance(fromAddress);
+            }
+        } catch (Exception e) {
+            return BigDecimal.ZERO;
+        }
+    }
+
+    private String getHeight() {
+        String lastNumber = redisTemplate.opsForValue().get(RedisConstant.USDT_LAST_HEIGHT);
+        if (StringUtils.isBlank(lastNumber)) {
+            String height = null;
+            try {
+                height = btcdClient.getBlockChainInfo().getBestBlockHash();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            lastNumber = String.valueOf(height);
+            redisTemplate.opsForValue().set(RedisConstant.USDT_LAST_HEIGHT, lastNumber);
+        }
+        return lastNumber;
+    }
+
+    private void updateStatus(String lastNumber) {
+        BigInteger height = NumberUtils.createBigInteger(lastNumber).subtract(BigInteger.valueOf(4));
+        Condition condition = new Condition(BlockTransaction.class);
+        Example.Criteria criteria = condition.createCriteria();
+        ConditionUtil.andCondition(criteria, "status = ", 1);
+        ConditionUtil.andCondition(criteria, "height <= ", height);
+        ConditionUtil.andCondition(criteria, "token_type = ", "BTC");
+        PageHelper.startPage(1, 10);
+        List<BlockTransaction> blockTransaction = blockTransactionService.findByCondition(condition);
+        blockTransaction.forEach(obj -> {
+            blockTransactionService.updateSuccess(obj);
+        });
+    }
+
+
+    public AdminWallet getHotWallet() {
+        try {
+            if (null != hotWallet) {
+                return hotWallet;
+            }
+            AdminWallet wallet = adminWalletService.getBtcHot();
+            if (null != wallet) {
+                hotWallet = wallet;
+                return wallet;
+            }
+            String address = btcdClient.getNewAddress();
+            String pvKey = btcdClient.dumpPrivKey(address);
+            btcdClient.setAccount(address, address);
+            wallet = new AdminWallet();
+            wallet.setIsHot(1);
+            wallet.setBlockType(2);
+            wallet.setBalance(BigDecimal.ZERO);
+            wallet.setAddress(address);
+            wallet.setPvKey(pvKey);
+            adminWalletService.save(wallet);
+            hotWallet = wallet;
+            return wallet;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 批量发送时手续费默认为单次发送的一半(按笔数算)
+     *
+     * @param wallet
+     * @param token
+     * @param addresses
+     */
+    private void sendBtc(AdminWallet wallet, CommonToken token, List<String> addresses) throws BitcoindException, CommunicationException {
+        Map<String, BigDecimal> output = new HashMap<>();
+        List<OutputOverview> input = new ArrayList<>(addresses.size());
+        List<Output> listUnspent = btcdClient.listUnspent();
+        //热钱包中的总余额
+        BigDecimal total = btcdClient.getBalance();
+        BigDecimal use = BigDecimal.ZERO;
+        listUnspent = listUnspent.stream().filter(obj -> obj.getSpendable() == true).collect(Collectors.toList());
+        BigDecimal fee = BigDecimal.ZERO.add(BigDecimal.valueOf(new Float(String.valueOf(token.getTransaferFee())) * addresses.size() / 2));
+        for (Output obj : listUnspent) {
+            //使用后余额也还原到该地址
+            input.add(obj);
+        }
+        for (String address : addresses) {
+            BigDecimal value = new BigDecimal(String.valueOf(token.getTransaferFee())).add(USDT_LIMIT_FEE);
+            use = use.add(value);
+            output.put(address, value);
+        }
+        //找零 = 总余额 - 发送余额 - 预设手续费
+        output.put(wallet.getAddress(), total.subtract(use).subtract(fee));
+        String row = btcdClient.createRawTransaction(input, output);
+        SignatureResult res = btcdClient.signRawTransaction(row);
+        if (res.getComplete()) {
+            btcdClient.sendRawTransaction(res.getHex());
+        }
+    }
+
+    public void senBtcGas() {
+        try {
+            AdminWallet wallet = getHotWallet();
+            Boolean ignore = getIgnore(wallet);
+            if (ignore) {
+                return;
+            }
+            CommonToken token = commonTokenService.findById(BusinessConstant.BASE_TOKEN_ID_USDT);
+            List<TetherBalance> list = BtcAction.getTetherBalance();
+            List<String> addresses = new ArrayList<>(list.size());
+            AdminWallet cold = adminWalletService.getBtcCold();
+            if (null == cold) {
+                return;
+            }
+            for (TetherBalance tetherBalance : list) {
+                //需要发送手续费的地址[非本系统地址、冷钱包地址、数额过小、临时钱包不需要发送手续费]
+                CommonAddress address = commonAddressService.findOneBy("address", tetherBalance.getAddress());
+                BlockHotAddress hotAddress = blockHotAddressService.findOneBy("address", tetherBalance.getAddress());
+                Boolean flag = tetherBalance.getBalance().compareTo(BigDecimal.ZERO) <= 0 ||
+                        null == address ||
+                        null != hotAddress ||
+                        tetherBalance.getAddress().equalsIgnoreCase(cold.getAddress()) ||
+                        tetherBalance.getBalance().compareTo(BigDecimal.valueOf(token.getHold())) < 0;
+                if (flag) {
+                    continue;
+                }
+                //将所有交易打包成一次交易
+                addresses.add(tetherBalance.getAddress());
+            }
+            if (addresses.size() > 0) {
+                sendBtc(wallet, token, addresses);
+            }
+        } catch (BitcoindException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (CommunicationException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @NotNull
+    private Boolean getIgnore(AdminWallet wallet) throws BitcoindException, CommunicationException {
+        Boolean ignore = false;
+        if (null == wallet) {
+            ignore = true;
+        }
+        BigDecimal balance = btcdClient.getBalance(wallet.getAddress());
+        if (balance.compareTo(BigDecimal.ZERO) <= 0) {
+            ignore = true;
+        }
+        return ignore;
+    }
+}
