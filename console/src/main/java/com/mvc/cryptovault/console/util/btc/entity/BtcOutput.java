@@ -26,4 +26,15 @@ public class BtcOutput implements Serializable {
 
     public BtcOutput() {
     }
-    public 
+    public BtcOutput(Output output) {
+        this.address = output.getAddress();
+        this.account = output.getAccount();
+        this.scriptPubKey = output.getScriptPubKey();
+        this.redeemScript = output.getRedeemScript();
+        this.amount = output.getAmount();
+        this.confirmations = output.getConfirmations();
+        this.spendable = output.getSpendable();
+        this.txId = output.getTxId();
+        this.vOut = output.getVOut();
+    }
+}
