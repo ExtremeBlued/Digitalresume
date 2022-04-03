@@ -28,4 +28,35 @@ public class OmniBalance {
         this.propertyid = propertyid;
     }
 
-    p
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
+
+    public BigDecimal getReserved() {
+        return reserved;
+    }
+
+    public void setReserved(BigDecimal reserved) {
+        this.reserved = reserved;
+    }
+
+    public BigDecimal getFrozen() {
+        return frozen;
+    }
+
+    public void setFrozen(BigDecimal frozen) {
+        this.frozen = frozen;
+    }
+}
