@@ -11,4 +11,21 @@ public class TetherBalance {
     public static TetherBalance convert(int tetherId, OmniWalletAddressBalance omniWalletAddressBalance){
         TetherBalance tetherBalance = null;
         for (OmniBalance omniBalance : omniWalletAddressBalance.getBalances()) {
-            if (tetherId == omniBalance.getProper
+            if (tetherId == omniBalance.getPropertyid()) {
+                tetherBalance = new TetherBalance();
+                tetherBalance.setAddress(omniWalletAddressBalance.getAddress());
+                tetherBalance.setBalance(omniBalance.getBalance());
+                tetherBalance.setFrozen(omniBalance.getFrozen());
+                tetherBalance.setReserved(omniBalance.getReserved());
+                break;
+            }
+        }
+        return tetherBalance;
+    }
+
+    @Override
+    public String toString() {
+        return "TetherBalance{" +
+                "address='" + address + '\'' +
+                ", balance=" + balance +
+                ", reserved=" 
