@@ -28,4 +28,34 @@ public class TetherBalance {
         return "TetherBalance{" +
                 "address='" + address + '\'' +
                 ", balance=" + balance +
-                ", reserved=" 
+                ", reserved=" + reserved +
+                ", frozen=" + frozen +
+                '}';
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
+
+    public BigDecimal getReserved() {
+        return reserved;
+    }
+
+    public void setReserved(BigDecimal reserved) {
+        this.reserved = reserved;
+    }
+
+    public BigDecimal getFrozen() {
+   
