@@ -19,4 +19,35 @@ spring:
 #    password: mvc123$%^
   mvc:
     async:
-      r
+      request-timeout: 10ms
+  application:
+    name: CONSOLE
+  aop:
+    proxy-target-class: true
+
+logging:
+  level:
+    org: info
+    com.neemre.btcdcli4j: warn
+server:
+  port: 10085
+  tomcat:
+    max-threads: 5000
+    min-spare-threads: 1000
+    max-connections: 5000
+
+hystrix.command.default.execution:
+  isolation.thread.timeoutInMilliseconds: 500
+  timeout.enabled: true
+
+service:
+  name: console
+  expire: 6048000
+  refresh: 604800000
+  base64Secret: MDk4ZjZ1iY2Q0NjIxDM6M2NhZGU0ZTgzMjYyN2I0ZjY=
+
+mybatis:
+  basepackage: com.mvc.cryptovault.console.dao
+  type-aliases-package: tk.mybatis.springboot.model
+mapper:
+  mappers
