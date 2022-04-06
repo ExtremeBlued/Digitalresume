@@ -58,4 +58,10 @@ public class TetherBalance {
     }
 
     public BigDecimal getFrozen() {
-   
+        return frozen;
+    }
+
+    public void setFrozen(BigDecimal frozen) {
+        this.frozen = frozen;
+    }
+}
