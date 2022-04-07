@@ -50,4 +50,29 @@ mybatis:
   basepackage: com.mvc.cryptovault.console.dao
   type-aliases-package: tk.mybatis.springboot.model
 mapper:
-  mappers
+  mappers:
+  - com.mvc.cryptovault.console.common.MyMapper
+  not-empty: false
+  identity: MYSQL
+
+cors.allowedOrigin: '*'
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8762/eureka/
+
+jpush:
+  secret: ceb608151cb036203ed18404
+  app_key: 794af16f097626541a649ef1
+
+eth:
+  geth: http://47.75.14.213:8545
+
+node.bitcoind.rpc.protocol: http
+node.bitcoind.rpc.host: 47.75.14.213
+#node.bitcoind.rpc.host: localhost
+node.bitcoind.rpc.port: 12421
+node.bitcoind.rpc.user: test
+node.bitcoind.rpc.password: test
+node.bitcoind.http.auth_scheme: Basic
+node.bitcoi
