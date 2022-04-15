@@ -1,9 +1,9 @@
 
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.mvc.cryptovault.console.dao.AppUserMapper">
+<mapper namespace="com.mvc.cryptovault.console.dao.AppUserOprLogMapper">
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, cellphone, password, transaction_password, nickname, created_at, updated_at
-    from app_user
+    select id, user_id, opr_type, created_at, content
+    from app_user_opr_log
   </select>
 </mapper>
