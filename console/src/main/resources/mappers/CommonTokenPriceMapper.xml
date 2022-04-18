@@ -3,4 +3,6 @@
 <mapper namespace="com.mvc.cryptovault.console.dao.CommonTokenPriceMapper">
   <select id="selectAll" resultMap="BaseResultMap">
     select token_id, token_price
-    from common
+    from common_token_price
+  </select>
+</mapper>
