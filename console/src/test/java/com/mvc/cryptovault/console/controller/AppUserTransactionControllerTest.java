@@ -3,17 +3,21 @@ package com.mvc.cryptovault.console.controller;
 import com.mvc.cryptovault.console.base.BaseTest;
 import org.junit.Test;
 
-public class AppProjectUserTransactionControllerTest extends BaseTest {
+public class AppUserTransactionControllerTest extends BaseTest {
 
     @Test
-    public void getReservation() {
+    public void getTransactions() {
     }
 
     @Test
-    public void getPurchaseInfo() {
+    public void getUserTransactions() {
     }
 
     @Test
     public void buy() {
+    }
+
+    @Test
+    public void cancel() {
     }
 }
