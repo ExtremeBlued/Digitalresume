@@ -12,3 +12,30 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+/**
+ * @author qiyichen
+ * @create 2018/11/5 16:10
+ */
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+@EnableAsync
+@Configuration
+@EnableCircuitBreaker
+@EnableHystrix
+@EnableEurekaClient
+@EnableFeignClients
+@EnableWebMvc
+@EnableDiscoveryClient
+public class DashBoardBootstrap extends SpringBootServletInitializer {
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(DashBoardBootstrap.class);
+    }
+
+    public static void main(String[] args) {
+        SpringApplication.run(DashBoardBootstrap.class, args);
+    }
+
+}
