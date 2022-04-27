@@ -20,4 +20,12 @@ public class BeanConfig {
     @Value("${service.base64Secret}")
     private String base64Secret;
 
- 
+    @Bean
+    JwtHelper jwtHelper2() {
+        JwtHelper.serviceName = serviceName;
+        JwtHelper.expire = expire;
+        JwtHelper.refresh = refresh;
+        JwtHelper.base64Secret = base64Secret;
+        return new JwtHelper();
+    }
+}
