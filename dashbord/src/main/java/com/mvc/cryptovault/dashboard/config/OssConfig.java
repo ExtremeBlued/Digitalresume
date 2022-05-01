@@ -20,4 +20,10 @@ public class OssConfig {
     @Value("${oss.accessKeySecret}")
     private String accessKeySecret;
     @Value("${oss.bucketName}")
-    private String bucketN
+    private String bucketName;
+
+    @Bean
+    OSSClient ossClient() {
+        return new OSSClient(endpoint, accessKeyId, accessKeySecret);
+    }
+}
