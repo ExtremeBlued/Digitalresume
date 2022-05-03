@@ -20,4 +20,24 @@ import javax.security.auth.login.LoginException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigInteger;
-import j
+import java.util.Arrays;
+
+/**
+ * @author qyc
+ */
+@Component
+public class ServiceAuthRestInterceptor extends HandlerInterceptorAdapter {
+
+    @Autowired
+    AdminService adminService;
+    @Autowired
+    StringRedisTemplate redisTemplate;
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        BaseContextHandler.remove();
+        super.afterCompletion(request, response, handler, ex);
+    }
+
+    @Override
+    public boolean preHandle(HttpServletRequest req
