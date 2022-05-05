@@ -40,4 +40,14 @@ public class ServiceAuthRestInterceptor extends HandlerInterceptorAdapter {
     }
 
     @Override
-    public boolean preHandle(HttpServletRequest req
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        String uri = getAbsUri(request.getRequestURI());
+        if (uri.startsWith("null") || uri.startsWith("swagger-ui.html")) {
+            uri = uri.replaceFirst("null", "/").replaceFirst("swagger-ui.html", "/");
+            response.sendRedirect("/" + getAbsUri(uri));
+            return false;
+        }
+        HandlerMethod handlerMethod = (HandlerMethod) handler;
+        String token = request.getHeader("Authorization");
+        Claims claim = JwtHelper.parseJWT(token);
+        NotLogin loginAnn = handlerMethod.getMethodA
