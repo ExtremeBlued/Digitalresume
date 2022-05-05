@@ -50,4 +50,19 @@ public class ServiceAuthRestInterceptor extends HandlerInterceptorAdapter {
         HandlerMethod handlerMethod = (HandlerMethod) handler;
         String token = request.getHeader("Authorization");
         Claims claim = JwtHelper.parseJWT(token);
-        NotLogin loginAnn = handlerMethod.getMethodA
+        NotLogin loginAnn = handlerMethod.getMethodAnnotation(NotLogin.class);
+        PermissionCheck permissionCheck = handlerMethod.getMethodAnnotation(PermissionCheck.class);
+        checkAnnotation(claim, loginAnn, request.getRequestURI());
+        checkPermission(claim, permissionCheck);
+        setUserInfo(claim);
+        return super.preHandle(request, response, handler);
+    }
+
+    private String getAbsUri(String requestURI) {
+        while (requestURI.startsWith("/")) {
+            requestURI = requestURI.replaceFirst("/", "");
+        }
+        return requestURI;
+    }
+
+    private void checkPermission(Claims claim, PermissionCheck permis
