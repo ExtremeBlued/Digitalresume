@@ -65,4 +65,17 @@ public class ServiceAuthRestInterceptor extends HandlerInterceptorAdapter {
         return requestURI;
     }
 
-    private void checkPermission(Claims claim, PermissionCheck permis
+    private void checkPermission(Claims claim, PermissionCheck permissionCheck) {
+        if (null == claim) {
+            return;
+        }
+        Integer userId = claim.get("userId", Integer.class);
+        if (BigInteger.ZERO.equals(userId) || null == permissionCheck) {
+            return;
+        }
+        String permissionStr = redisTemplate.opsForValue().get("ADMIN_PERMISSON_" + userId);
+        if (StringUtils.isBlank(permissionStr)) {
+            AdminDetailVO user = adminService.getAdminDetail(BigInteger.valueOf(userId));
+            permissionStr = user.getPermissions();
+            if (StringUtils.isBlank(permissionStr)) {
+                throw new IllegalArgument
