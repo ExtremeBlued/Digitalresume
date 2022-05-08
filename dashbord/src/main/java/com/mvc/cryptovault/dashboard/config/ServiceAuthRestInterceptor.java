@@ -92,4 +92,19 @@ public class ServiceAuthRestInterceptor extends HandlerInterceptorAdapter {
     //校验权限
     private void checkAnnotation(Claims claim, NotLogin loginAnn, String uri) throws LoginException {
         if (null == claim && null == loginAnn) {
-       
+            if (uri.indexOf("/refresh") > 0) {
+                throw new LoginException(MessageConstants.getMsg("TOKEN_EXPIRE"));
+            } else {
+                throw new TokenErrorException(MessageConstants.getMsg("TOKEN_EXPIRE"), MessageConstants.TOKEN_EXPIRE_CODE);
+            }
+        }
+        if (null != claim) {
+            JwtHelper.check(claim, uri);
+        }
+    }
+
+    //设置用户信息
+    public void setUserInfo(Claims userInfo) {
+        if (null != userInfo) {
+            String username = userInfo.get("username", String.class);
+          
