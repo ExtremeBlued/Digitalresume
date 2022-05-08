@@ -107,4 +107,10 @@ public class ServiceAuthRestInterceptor extends HandlerInterceptorAdapter {
     public void setUserInfo(Claims userInfo) {
         if (null != userInfo) {
             String username = userInfo.get("username", String.class);
-          
+            Integer userId = userInfo.get("userId", Integer.class);
+            BaseContextHandler.set("username", username);
+            BaseContextHandler.set("userId", BigInteger.valueOf(userId.longValue()));
+        }
+    }
+
+}
