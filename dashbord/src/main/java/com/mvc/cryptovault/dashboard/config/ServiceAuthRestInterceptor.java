@@ -78,4 +78,18 @@ public class ServiceAuthRestInterceptor extends HandlerInterceptorAdapter {
             AdminDetailVO user = adminService.getAdminDetail(BigInteger.valueOf(userId));
             permissionStr = user.getPermissions();
             if (StringUtils.isBlank(permissionStr)) {
-                throw new IllegalArgument
+                throw new IllegalArgumentException("没有权限,请联系管理员");
+            }
+            redisTemplate.opsForValue().set("ADMIN_PERMISSON_" + userId, permissionStr);
+        }
+        String needPermission = permissionCheck.value();
+        String permissionArr[] = permissionStr.split(",");
+        if (!Arrays.asList(permissionArr).contains(needPermission)) {
+            throw new IllegalArgumentException("没有权限,请联系管理员");
+        }
+    }
+
+    //校验权限
+    private void checkAnnotation(Claims claim, NotLogin loginAnn, String uri) throws LoginException {
+        if (null == claim && null == loginAnn) {
+       
