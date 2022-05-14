@@ -23,4 +23,26 @@ import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Paramet
+import springfox.documentation.service.Parameter;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+@Configuration
+@EnableSwagger2
+@SwaggerDefinition(basePath = "")
+public class SwaggerConfig extends WebMvcConfigurationSupport {
+
+    @Autowired
+    ServiceAuthRestInterceptor serviceAuthRestInterceptor;
+
+    /**
+     * 发现如果继承了WebMvcConfigurationSupport，则在yml中配置的相关内容会失效。
+     * 需要重新指定静态资源
+     *
+     * @param registry
+     */
