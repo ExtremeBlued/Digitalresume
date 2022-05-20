@@ -57,4 +57,17 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
     }
 
     @Override
-    public void addInterceptors(InterceptorRegistry registry)
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(localeChangeInterceptor());
+        InterceptorRegistration addInterceptor = registry.addInterceptor(serviceAuthRestInterceptor);
+        // 拦截配置
+        addInterceptor.addPathPatterns("/**");
+        // 排除配置
+        addInterceptor.excludePathPatterns("/error");
+        addInterceptor.excludePathPatterns("/login**");
+        addInterceptor.excludePathPatterns("/webjars/**");
+        addInterceptor.excludePathPatterns("/static/");
+        addInterceptor.excludePathPatterns("/");
+        addInterceptor.excludePathPatterns("/csrf");
+        String[] urls = {
+            
