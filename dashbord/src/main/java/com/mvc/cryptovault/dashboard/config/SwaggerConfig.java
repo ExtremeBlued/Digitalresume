@@ -70,4 +70,22 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
         addInterceptor.excludePathPatterns("/");
         addInterceptor.excludePathPatterns("/csrf");
         String[] urls = {
-            
+                "/v2/api-docs",
+                "/swagger-resources/**",
+                "/cache/**",
+                "/api/log/save",
+                "/swagger-resources",
+                "/swagger-ui.html"
+        };
+        addInterceptor.excludePathPatterns(urls);
+    }
+
+    @Bean
+    public Docket createRestApi() {
+        //可以添加多个header或参数
+        ParameterBuilder aParameterBuilder = new ParameterBuilder();
+        aParameterBuilder
+                .parameterType("header")
+                .name("Authorization")
+                .description("token")
+                .modelRef(new ModelRef("
