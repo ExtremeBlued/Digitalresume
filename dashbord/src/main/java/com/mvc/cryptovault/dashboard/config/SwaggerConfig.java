@@ -88,4 +88,19 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
                 .parameterType("header")
                 .name("Authorization")
                 .description("token")
-                .modelRef(new ModelRef("
+                .modelRef(new ModelRef("string"))
+                .required(false).build();
+        List<Parameter> aParameters = new ArrayList<>();
+        aParameters.add(aParameterBuilder.build());
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo())
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.mvc.cryptovault.dashboard"))
+                .paths(PathSelectors.any())
+                .build().globalOperationParameters(aParameters);
+    }
+
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title("app接口API")
+                .des
