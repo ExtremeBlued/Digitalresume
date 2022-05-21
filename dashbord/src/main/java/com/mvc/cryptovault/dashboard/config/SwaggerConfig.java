@@ -128,3 +128,17 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
     @Bean
     public Validator getValidator() {
         ResourceBundleMessageSource rbms = new ResourceBundleMessageSource();
+        rbms.setDefaultEncoding("UTF-8");
+        rbms.setBasenames("messages");
+        LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+        validator.setValidationMessageSource(rbms);
+        return validator;
+    }
+
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
+        converter.setFeatures(
+                SerializerFeature.WriteMapNullValue,
+                SerializerFeature.WriteNullStringAsEmpty,
+                SerializerFeature.
