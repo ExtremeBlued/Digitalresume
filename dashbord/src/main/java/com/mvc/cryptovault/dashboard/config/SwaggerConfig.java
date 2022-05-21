@@ -103,4 +103,28 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("app接口API")
-                .des
+                .description("myapp")
+                .version("1.0")
+                .build();
+    }
+
+    @Bean
+    public LocaleResolver localeResolver() {
+        AcceptHeaderLocaleResolver slr = new AcceptHeaderLocaleResolver();
+        // 默认语言
+        slr.setDefaultLocale(Locale.US);
+        return slr;
+    }
+
+    @Bean
+    public LocaleChangeInterceptor localeChangeInterceptor() {
+        LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
+        // 参数名
+        return lci;
+    }
+
+
+    @Override
+    @Bean
+    public Validator getValidator() {
+        ResourceBundleMessageSource rbms = new ResourceBundleMessageSource();
