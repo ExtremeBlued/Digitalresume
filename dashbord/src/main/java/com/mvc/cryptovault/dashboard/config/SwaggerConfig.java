@@ -141,4 +141,10 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
         converter.setFeatures(
                 SerializerFeature.WriteMapNullValue,
                 SerializerFeature.WriteNullStringAsEmpty,
-                SerializerFeature.
+                SerializerFeature.WriteNullBooleanAsFalse,
+                SerializerFeature.WriteNullNumberAsZero,
+                SerializerFeature.PrettyFormat
+        );
+        converters.add(converter);
+    }
+}
