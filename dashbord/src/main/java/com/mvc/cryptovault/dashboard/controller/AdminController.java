@@ -42,4 +42,22 @@ public class AdminController extends BaseController {
     @ApiOperation("获取管理员详情")
     @GetMapping("{id}")
     public Result<AdminDetailVO> getAdminDetail(@PathVariable BigInteger id) {
-        retu
+        return new Result<>(adminService.getAdminDetail(id));
+    }
+
+    @ApiOperation("新建管理员")
+    @PostMapping
+    public Result<Boolean> newAdmin(@RequestBody @Valid AdminDTO adminDTO) {
+        Boolean result = adminService.newAdmin(adminDTO);
+        return new Result<>(true);
+    }
+
+    @ApiOperation("编辑管理员(子管理员的权限修改将被忽略)")
+    @PutMapping("{id}")
+    public Result<Boolean> updateAdmin(@PathVariable BigInteger id, @RequestBody @Valid AdminDTO adminDTO) {
+        Boolean result = adminService.updateAdmin(adminDTO);
+        return new Result<>(true);
+    }
+
+    @ApiOperation("删除管理员(禁用)")
+    @
