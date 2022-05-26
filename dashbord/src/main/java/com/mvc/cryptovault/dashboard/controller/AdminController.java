@@ -19,4 +19,27 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
-import java.math.
+import java.math.BigInteger;
+import java.util.Map;
+
+/**
+ * @author qiyichen
+ * @create 2018/11/19 19:48
+ */
+@Api(tags = "管理员相关")
+@RestController
+@RequestMapping("admin")
+public class AdminController extends BaseController {
+
+    @Autowired
+    private OssService ossService;
+    @ApiOperation("获取所有管理员")
+    @GetMapping()
+    public Result<PageInfo<AdminVO>> getAdmins(@ModelAttribute @Valid PageDTO dto) {
+        return new Result<>(adminService.getAdmins(dto));
+    }
+
+    @ApiOperation("获取管理员详情")
+    @GetMapping("{id}")
+    public Result<AdminDetailVO> getAdminDetail(@PathVariable BigInteger id) {
+        retu
