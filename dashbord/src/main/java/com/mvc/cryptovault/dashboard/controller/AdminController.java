@@ -60,4 +60,20 @@ public class AdminController extends BaseController {
     }
 
     @ApiOperation("删除管理员(禁用)")
-    @
+    @DeleteMapping("{id}")
+    public Result<Boolean> deleteAdmin(@PathVariable BigInteger id) {
+        Boolean result = adminService.deleteAdmin(id);
+        return new Result<>(true);
+    }
+
+    @ApiOperation("修改密码")
+    @PutMapping("{id}/password")
+    public Result<Boolean> updatePwd(@PathVariable BigInteger id, @RequestBody @Valid AdminPasswordDTO adminPasswordDTO) {
+        Boolean result = adminService.updatePwd(id, adminPasswordDTO);
+        return new Result<>(true);
+    }
+
+    @ApiOperation("用户登录,缓存登录令牌.登录规则后续确定")
+    @PostMapping("login")
+    @NotLogin
+    publi
