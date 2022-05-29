@@ -76,4 +76,21 @@ public class AdminController extends BaseController {
     @ApiOperation("用户登录,缓存登录令牌.登录规则后续确定")
     @PostMapping("login")
     @NotLogin
-    publi
+    public Result<TokenVO> login(HttpServletResponse response, @RequestBody @Valid DUserDTO userDTO) {
+        TokenVO tokenVO = adminService.login(userDTO);
+        return new Result<>(tokenVO);
+    }
+
+    @PostMapping("refresh")
+    @ApiOperation("刷新令牌")
+    Result<String> refresh() {
+        String newToken = adminService.refresh();
+        return new Result<>(newToken);
+    }
+
+    @ApiOperation("获取下载签名,只能使用一次,5分钟内有效,一个签名只能使用一次")
+    @GetMapping("export/sign")
+    public Result<String> getExportSign() {
+        String sign = adminService.getSign();
+        return new Result<>(sign);
+    }
