@@ -94,3 +94,11 @@ public class AdminController extends BaseController {
         String sign = adminService.getSign();
         return new Result<>(sign);
     }
+
+    @ApiOperation("获取oss签名")
+    @GetMapping("signature")
+    Result<Map> doGetSignature(@RequestParam String dir) throws UnsupportedEncodingException {
+        return new Result<>(ossService.doGetSignature(dir));
+    }
+
+}
