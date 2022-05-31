@@ -30,4 +30,19 @@ public class BaseController {
     @Autowired
     TokenService tokenService;
     @Autowired
-    TransactionService tra
+    TransactionService transactionService;
+    @Autowired
+    UserService userService;
+
+    protected BigInteger getUserId() {
+        BigInteger userId = (BigInteger) BaseContextHandler.get("userId");
+        return userId;
+    }
+
+    protected BigInteger getUserIdBySign(String sign) {
+        Assert.isTrue(!StringUtils.isEmpty(sign) && sign.length() > 32, "请登录后下载");
+        String str = sign.substring(32);
+        BigInteger userId = new BigInteger(str);
+        String key = RedisConstant.EXPORT + userId;
+        String result = redisTemplate.opsForValue().get(key);
+        
