@@ -45,4 +45,10 @@ public class BaseController {
         BigInteger userId = new BigInteger(str);
         String key = RedisConstant.EXPORT + userId;
         String result = redisTemplate.opsForValue().get(key);
-        
+        Assert.isTrue(null != result && result.equalsIgnoreCase(sign), "请登录后下载");
+        BaseContextHandler.set("userId", userId);
+        redisTemplate.delete(key);
+        return userId;
+    }
+
+}
