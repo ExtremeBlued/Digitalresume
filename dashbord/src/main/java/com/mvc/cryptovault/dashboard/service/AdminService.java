@@ -59,4 +59,22 @@ public class AdminService extends BaseService {
         Assert.isTrue(passwordCheck, MessageConstants.getMsg("USER_PASS_WRONG"));
         Assert.isTrue(user.getStatus() == 1, "用户已冻结");
         String token = JwtHelper.createToken(userDTO.getUsername(), user.getId());
-        String refreshToken
+        String refreshToken = JwtHelper.createRefresh(userDTO.getUsername(), user.getId());
+        //密码正确后清空错误次数
+        vo.setRefreshToken(refreshToken);
+        vo.setToken(token);
+        vo.setUserId(user.getId());
+        return vo;
+    }
+
+    public String refresh() {
+        BigInteger userId = (BigInteger) BaseContextHandler.get("userId");
+        String username = (String) BaseContextHandler.get("username");
+        return JwtHelper.createToken(username, userId);
+    }
+
+    public String getSign() {
+        BigInteger userId = null;
+        try {
+            userId = (BigInteger) BaseContextHandler.get("userId");
+        } catch (
