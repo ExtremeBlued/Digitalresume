@@ -51,3 +51,12 @@ public class AdminService extends BaseService {
     }
 
     public TokenVO login(DUserDTO userDTO) {
+        TokenVO vo = new TokenVO();
+        Result<AdminUser> userResult = remoteService.getAdminByUsername(userDTO.getUsername());
+        AdminUser user = userResult.getData();
+        Assert.notNull(null != user, MessageConstants.getMsg("USER_NOT_EXIST"));
+        Boolean passwordCheck = user.getPassword().equals(userDTO.getPassword());
+        Assert.isTrue(passwordCheck, MessageConstants.getMsg("USER_PASS_WRONG"));
+        Assert.isTrue(user.getStatus() == 1, "用户已冻结");
+        String token = JwtHelper.createToken(userDTO.getUsername(), user.getId());
+        String refreshToken
