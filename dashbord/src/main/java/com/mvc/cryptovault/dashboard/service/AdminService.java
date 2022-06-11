@@ -12,4 +12,24 @@ import com.mvc.cryptovault.common.dashboard.bean.dto.DUserDTO;
 import com.mvc.cryptovault.common.dashboard.bean.vo.AdminDetailVO;
 import com.mvc.cryptovault.common.dashboard.bean.vo.AdminVO;
 import com.mvc.cryptovault.common.util.BaseContextHandler;
-import com.mvc.cryptovault.common.util.JwtHelp
+import com.mvc.cryptovault.common.util.JwtHelper;
+import com.mvc.cryptovault.common.util.MessageConstants;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+
+import java.math.BigInteger;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
+/**
+ * @author qiyichen
+ * @create 2018/11/19 19:58
+ */
+@Service
+@Transactional(rollbackFor = RuntimeException.class)
+public class AdminService extends BaseService {
+
+    public PageInfo<AdminVO> getAdmins(PageDTO dto) {
+        Result<PageInfo<AdminVO>> result = remoteService.getAdmins(getUserId(), dto);
+        return r
