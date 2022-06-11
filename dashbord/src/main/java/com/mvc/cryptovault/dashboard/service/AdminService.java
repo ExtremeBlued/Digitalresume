@@ -32,4 +32,22 @@ public class AdminService extends BaseService {
 
     public PageInfo<AdminVO> getAdmins(PageDTO dto) {
         Result<PageInfo<AdminVO>> result = remoteService.getAdmins(getUserId(), dto);
-        return r
+        return result.getData();
+    }
+
+    public AdminDetailVO getAdminDetail(BigInteger id) {
+        Result<AdminDetailVO> result = remoteService.getAdminDetail(id);
+        return result.getData();
+    }
+
+    public Boolean deleteAdmin(BigInteger id) {
+        Result<Boolean> result = remoteService.deleteAdmin(getUserId(), id);
+        return result.getData();
+    }
+
+    public Boolean updatePwd(BigInteger id, AdminPasswordDTO adminPasswordDTO) {
+        Result<Boolean> result = remoteService.updatePwd(getUserId(), adminPasswordDTO);
+        return result.getData();
+    }
+
+    public TokenVO login(DUserDTO userDTO) {
