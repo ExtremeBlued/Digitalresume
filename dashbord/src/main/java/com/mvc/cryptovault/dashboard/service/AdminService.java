@@ -77,4 +77,20 @@ public class AdminService extends BaseService {
         BigInteger userId = null;
         try {
             userId = (BigInteger) BaseContextHandler.get("userId");
-        } catch (
+        } catch (Exception e) {
+            userId = BigInteger.valueOf((Integer) BaseContextHandler.get("userId"));
+        }
+        String key = RedisConstant.EXPORT + userId;
+        String sign = UUID.randomUUID().toString().replace("-", "");
+        redisTemplate.opsForValue().set(key, sign + userId);
+        redisTemplate.expire(key, 5, TimeUnit.MINUTES);
+        return sign + userId;
+    }
+
+    public Boolean newAdmin(AdminDTO adminDTO) {
+        Result<Boolean> result = remoteService.newAdmin(adminDTO);
+        return result.getData();
+    }
+
+    public Boolean updateAdmin(AdminDTO adminDTO) {
+        Result<Bool
