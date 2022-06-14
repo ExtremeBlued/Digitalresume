@@ -93,4 +93,7 @@ public class AdminService extends BaseService {
     }
 
     public Boolean updateAdmin(AdminDTO adminDTO) {
-        Result<Bool
+        Result<Boolean> result = remoteService.updateAdmin(getUserId(), adminDTO);
+        return result.getData();
+    }
+}
