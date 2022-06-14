@@ -13,4 +13,16 @@ import java.math.BigInteger;
  * @create 2018/11/19 19:57
  */
 @Service
-public class BaseService
+public class BaseService {
+
+    @Autowired
+    protected ConsoleRemoteService remoteService;
+
+    @Autowired
+    protected StringRedisTemplate redisTemplate;
+
+    protected BigInteger getUserId() {
+        BigInteger userId = (BigInteger) BaseContextHandler.get("userId");
+        return userId;
+    }
+}
