@@ -42,4 +42,22 @@ public class BlockService extends BaseService {
 
     public Boolean setFee(List<DHoldVO> list) {
         Result<Boolean> result = remoteService.setFee(list);
-        retur
+        return result.getData();
+    }
+
+    public PageInfo<DBlockeTransactionVO> getTransactions(DBlockeTransactionDTO dBlockeTransactionDTO) {
+        Result<PageInfo<DBlockeTransactionVO>> result = remoteService.getTransactions(dBlockeTransactionDTO);
+        return result.getData();
+    }
+
+    public BigDecimal getBalance(BigInteger tokenId) {
+        Result<BigDecimal> result = remoteService.getBalance(tokenId);
+        return result.getData();
+    }
+
+    public Integer accountCount(String tokenType) {
+        Result<Integer> result = remoteService.accountCount(tokenType);
+        return result.getData();
+    }
+
+  
