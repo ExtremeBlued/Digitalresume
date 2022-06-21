@@ -21,4 +21,25 @@ import java.util.List;
  * @create 2018/11/19 19:58
  */
 @Service
-@Transactional(rollbackFor = RuntimeException.c
+@Transactional(rollbackFor = RuntimeException.class)
+public class BlockService extends BaseService {
+
+    public List<DHoldVO> getHold() {
+
+        Result<List<DHoldVO>> result = remoteService.getHold();
+        return result.getData();
+    }
+
+    public Boolean setHold(List<DHoldVO> list) {
+        Result<Boolean> result = remoteService.setHold(list);
+        return result.getData();
+    }
+
+    public List<DHoldVO> getFee() {
+        Result<List<DHoldVO>> result = remoteService.getFee();
+        return result.getData();
+    }
+
+    public Boolean setFee(List<DHoldVO> list) {
+        Result<Boolean> result = remoteService.setFee(list);
+        retur
