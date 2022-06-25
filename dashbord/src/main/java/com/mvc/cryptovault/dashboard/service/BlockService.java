@@ -60,4 +60,21 @@ public class BlockService extends BaseService {
         return result.getData();
     }
 
-  
+    public Boolean updateStatus(DBlockStatusDTO dBlockStatusDTO) {
+        Result<Boolean> result = remoteService.updateStatus(dBlockStatusDTO);
+        return result.getData();
+    }
+
+    public Boolean importAddress(List<CommonAddress> list, String fileName) {
+        remoteService.importAddress(list, fileName);
+        return true;
+    }
+
+    public Boolean importSign(List<BlockSign> list, String fileName) {
+        remoteService.importSign(list, fileName);
+        return true;
+    }
+
+    public AdminWalletVO getAdminWallet() {
+        Result<AdminWalletVO> result = remoteService.getAdminWallet();
+      
