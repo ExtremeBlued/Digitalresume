@@ -77,4 +77,6 @@ public class BlockService extends BaseService {
 
     public AdminWalletVO getAdminWallet() {
         Result<AdminWalletVO> result = remoteService.getAdminWallet();
-      
+        return result.getData();
+    }
+}
