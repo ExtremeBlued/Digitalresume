@@ -58,4 +58,17 @@ public class ProjectService extends BaseService {
 
     public Boolean cancel(BigInteger id) {
         Result<Boolean> result = remoteService.cancelProject(id);
-        return result.getData
+        return result.getData();
+    }
+
+    public List<ExportPartake> exportPartake(BigInteger id) {
+        Result<List<ExportPartake>> result = remoteService.exportPartake(id);
+        return result.getData();
+    }
+
+    @Async
+    public Boolean importPartake(BigInteger id,List<ImportPartake> list, String fileName) {
+        Result<Boolean> result = remoteService.importPartake(id, list, fileName);
+        return result.getData();
+    }
+}
