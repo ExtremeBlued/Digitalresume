@@ -42,4 +42,20 @@ public class ProjectService extends BaseService {
     }
 
     public Boolean updateProject(DProjectDTO dProjectDTO) {
-       
+        Result<Boolean> result = remoteService.updateProject(dProjectDTO);
+        return result.getData();
+    }
+
+    public Boolean deleteProject(BigInteger id) {
+        Result<Boolean> result = remoteService.deleteProject(id);
+        return result.getData();
+    }
+
+    public PageInfo<DProjectOrderVO> findOrders(DProjectOrderDTO dto) {
+        Result<PageInfo<DProjectOrderVO>> result = remoteService.findOrders(dto);
+        return result.getData();
+    }
+
+    public Boolean cancel(BigInteger id) {
+        Result<Boolean> result = remoteService.cancelProject(id);
+        return result.getData
