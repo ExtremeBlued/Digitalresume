@@ -26,4 +26,20 @@ import java.util.List;
 public class ProjectService extends BaseService {
 
 
-    public PageInfo<DProjec
+    public PageInfo<DProjectVO> projects(PageDTO pageDTO) {
+        Result<PageInfo<DProjectVO>> result = remoteService.projects(pageDTO);
+        return result.getData();
+    }
+
+    public DProjectDetailVO getDetail(BigInteger id) {
+        Result<DProjectDetailVO> result = remoteService.getDetail(id);
+        return result.getData();
+    }
+
+    public Boolean newProject(DProjectDTO dProjectDTO) {
+        Result<Boolean> result = remoteService.newProject(dProjectDTO);
+        return result.getData();
+    }
+
+    public Boolean updateProject(DProjectDTO dProjectDTO) {
+       
