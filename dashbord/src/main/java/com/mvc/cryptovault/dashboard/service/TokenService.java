@@ -11,4 +11,26 @@ import com.mvc.cryptovault.common.dashboard.bean.vo.DTokenTransSettingVO;
 import com.mvc.cryptovault.common.dashboard.bean.vo.DTokenVO;
 import com.mvc.cryptovault.common.dashboard.bean.vo.OverTransactionVO;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Tr
+import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigInteger;
+import java.util.List;
+
+/**
+ * @author qiyichen
+ * @create 2018/11/19 19:58
+ */
+@Service
+@Transactional(rollbackFor = RuntimeException.class)
+public class TokenService extends BaseService {
+
+
+    public List<DTokenVO> findTokens(String tokenName, Integer blockType) {
+        Result<List<DTokenVO>> result = remoteService.findTokens(tokenName, blockType);
+        return result.getData();
+    }
+
+    public Boolean newToken(DTokenDTO dTokenDTO) {
+        Result<Boolean> result = remoteService.newToken(dTokenDTO);
+        return result.getData();
+  
