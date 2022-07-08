@@ -50,4 +50,20 @@ public class TokenService extends BaseService {
         return result.getData();
     }
 
-    public DTokenSettingVO getTokenSetting(B
+    public DTokenSettingVO getTokenSetting(BigInteger id) {
+        Result<DTokenSettingVO> result = remoteService.getTokenSetting(id);
+        return result.getData();
+    }
+
+    public DTokenTransSettingVO getTransSetting(BigInteger id) {
+        Result<DTokenTransSettingVO> result = remoteService.getTransSetting(id);
+        return result.getData();
+    }
+
+    public Boolean setTransSetting(DTokenTransSettingVO dto) {
+        Result<Boolean> result = remoteService.setTransSetting(dto);
+        return result.getData();
+    }
+
+    public PageInfo<OverTransactionVO> overList(OverTransactionDTO overTransactionDTO) {
+   
