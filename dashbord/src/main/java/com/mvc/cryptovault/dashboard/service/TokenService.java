@@ -66,4 +66,17 @@ public class TokenService extends BaseService {
     }
 
     public PageInfo<OverTransactionVO> overList(OverTransactionDTO overTransactionDTO) {
-   
+        Result<PageInfo<OverTransactionVO>> result = remoteService.overList(overTransactionDTO);
+        return result.getData();
+    }
+
+    public DTokenDTO getToken(BigInteger id) {
+        Result<DTokenDTO> result = remoteService.getToken(id);
+        return result.getData();
+    }
+
+    public List<DPairVO> getPair() {
+        Result<List<DPairVO>> result = remoteService.getPair();
+        return result.getData();
+    }
+}
