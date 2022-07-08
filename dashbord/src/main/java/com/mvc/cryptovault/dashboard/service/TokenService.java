@@ -33,4 +33,21 @@ public class TokenService extends BaseService {
     public Boolean newToken(DTokenDTO dTokenDTO) {
         Result<Boolean> result = remoteService.newToken(dTokenDTO);
         return result.getData();
-  
+    }
+
+    public Boolean updateToken(DTokenDTO dTokenDTO) {
+        Result<Boolean> result = remoteService.updateToken(dTokenDTO);
+        return result.getData();
+    }
+
+    public Boolean tokenSetting(DTokenSettingVO dto) {
+        Result<Boolean> result = remoteService.tokenSetting(dto);
+        return result.getData();
+    }
+
+    public PageInfo<DTokenSettingVO> getTokenSettings(String tokenName, PageDTO pageDTO) {
+        Result<PageInfo<DTokenSettingVO>> result = remoteService.getTokenSettings(pageDTO, tokenName);
+        return result.getData();
+    }
+
+    public DTokenSettingVO getTokenSetting(B
