@@ -21,4 +21,20 @@ import java.util.List;
 public class TransactionService extends BaseService {
 
 
-    public PageInfo<DTransactionVO> f
+    public PageInfo<DTransactionVO> findTransaction(DTransactionDTO dTransactionDTO) {
+        Result<PageInfo<DTransactionVO>> result = remoteService.findTransaction(dTransactionDTO);
+        return result.getData();
+    }
+
+    public Boolean cancelTransaction(BigInteger id) {
+        Result<Boolean> result = remoteService.cancel(id);
+        return result.getData();
+    }
+
+    public List<ExportOrders> exportCollect() {
+        Result<List<ExportOrders>> result = remoteService.exportCollect();
+        return result.getData();
+    }
+
+    public List<ExportOrders> exportSign() {
+        Result<List<E
