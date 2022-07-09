@@ -37,4 +37,12 @@ public class TransactionService extends BaseService {
     }
 
     public List<ExportOrders> exportSign() {
-        Result<List<E
+        Result<List<ExportOrders>> result = remoteService.exportSign();
+        return result.getData();
+    }
+
+    public Boolean buy(AdminTransactionDTO dto) {
+        Result<Boolean> result = remoteService.buy(dto);
+        return result.getData();
+    }
+}
