@@ -18,4 +18,8 @@ public class ExcelException extends Exception {
    
     public ExcelException(String message, Throwable cause) {
         super(message, cause);  
-  
+        // TODO Auto-generated constructor stub  
+    }  
+   
+   
+}
