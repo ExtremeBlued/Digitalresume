@@ -56,4 +56,7 @@ public class EncryptionUtil {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        r
+        return bytes;
+    }
+
+}
