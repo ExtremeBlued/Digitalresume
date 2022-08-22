@@ -35,4 +35,23 @@ public class ExcelUtil {
             String sheetName,
             int sheetSize,
             OutputStream out
-    ) throws 
+    ) throws ExcelException {
+
+
+        if (list.size() == 0 || list == null) {
+            throw new ExcelException("数据源中没有任何数据");
+        }
+
+        if (sheetSize > 65535 || sheetSize < 1) {
+            sheetSize = 65535;
+        }
+
+        //创建工作簿并发送到OutputStream指定的地方  
+        WritableWorkbook wwb;
+        try {
+            wwb = Workbook.createWorkbook(out);
+
+            //因为2003的Excel一个工作表最多可以有65536条记录，除去列头剩下65535条  
+            //所以如果记录太多，需要放到多个工作表中，其实就是个分页的过程  
+            //1.计算一共有多少个工作表  
+            double sheetNum = Math.ceil(list.size() / new Integer(sheetSize).do
