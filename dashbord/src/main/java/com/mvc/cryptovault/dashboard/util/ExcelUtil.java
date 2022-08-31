@@ -114,4 +114,20 @@ public class ExcelUtil {
 
     /**
      * @param list      数据源
-     * 
+     * @param fieldMap  类的英文属性和Excel中的中文列名的对应关系
+     * @param sheetSize 每个工作表中记录的最大个数
+     * @param response  使用response可以导出到浏览器
+     * @throws ExcelException
+     * @MethodName : listToExcel
+     * @Description : 导出Excel（导出到浏览器，可以自定义工作表的大小）
+     */
+    public static <T> void listToExcel(
+            List<T> list,
+            LinkedHashMap<String, String> fieldMap,
+            String sheetName,
+            int sheetSize,
+            HttpServletResponse response
+    ) throws ExcelException {
+
+        //设置默认文件名为当前时间：年月日时分秒  
+        String fileName = new SimpleDateFormat("yyyyMMddhhmmss")
