@@ -93,4 +93,25 @@ public class ExcelUtil {
     }
 
     /**
-     
+     * @param list     数据源
+     * @param fieldMap 类的英文属性和Excel中的中文列名的对应关系
+     * @param out      导出流
+     * @throws ExcelException
+     * @MethodName : listToExcel
+     * @Description : 导出Excel（可以导出到本地文件系统，也可以导出到浏览器，工作表大小为2003支持的最大值）
+     */
+    public static <T> void listToExcel(
+            List<T> list,
+            LinkedHashMap<String, String> fieldMap,
+            String sheetName,
+            OutputStream out
+    ) throws ExcelException {
+
+        listToExcel(list, fieldMap, sheetName, 65535, out);
+
+    }
+
+
+    /**
+     * @param list      数据源
+     * 
