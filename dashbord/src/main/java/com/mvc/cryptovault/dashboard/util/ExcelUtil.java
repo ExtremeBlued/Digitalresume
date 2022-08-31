@@ -69,4 +69,28 @@ public class ExcelUtil {
 
                     //获取开始索引和结束索引  
                     int firstIndex = i * sheetSize;
-          
+                    int lastIndex = (i + 1) * sheetSize - 1 > list.size() - 1 ? list.size() - 1 : (i + 1) * sheetSize - 1;
+                    //填充工作表  
+                    fillSheet(sheet, list, fieldMap, firstIndex, lastIndex);
+                }
+            }
+
+            wwb.write();
+            wwb.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            //如果是ExcelException，则直接抛出  
+            if (e instanceof ExcelException) {
+                throw (ExcelException) e;
+
+                //否则将其它异常包装成ExcelException再抛出
+            } else {
+                throw new ExcelException("导出Excel失败");
+            }
+        }
+
+    }
+
+    /**
+     
