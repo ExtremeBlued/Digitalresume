@@ -54,4 +54,19 @@ public class ExcelUtil {
             //因为2003的Excel一个工作表最多可以有65536条记录，除去列头剩下65535条  
             //所以如果记录太多，需要放到多个工作表中，其实就是个分页的过程  
             //1.计算一共有多少个工作表  
-            double sheetNum = Math.ceil(list.size() / new Integer(sheetSize).do
+            double sheetNum = Math.ceil(list.size() / new Integer(sheetSize).doubleValue());
+
+            //2.创建相应的工作表，并向其中填充数据  
+            for (int i = 0; i < sheetNum; i++) {
+                //如果只有一个工作表的情况  
+                if (1 == sheetNum) {
+                    WritableSheet sheet = wwb.createSheet(sheetName, i);
+                    fillSheet(sheet, list, fieldMap, 0, list.size() - 1);
+
+                    //有多个工作表的情况
+                } else {
+                    WritableSheet sheet = wwb.createSheet(sheetName + (i + 1), i);
+
+                    //获取开始索引和结束索引  
+                    int firstIndex = i * sheetSize;
+          
