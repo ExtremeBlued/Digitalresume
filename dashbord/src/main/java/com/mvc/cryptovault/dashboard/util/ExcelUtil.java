@@ -130,4 +130,21 @@ public class ExcelUtil {
     ) throws ExcelException {
 
         //设置默认文件名为当前时间：年月日时分秒  
-        String fileName = new SimpleDateFormat("yyyyMMddhhmmss")
+        String fileName = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date()).toString();
+
+        //设置response头信息  
+        response.reset();
+        response.setContentType("application/vnd.ms-excel");        //改成输出excel文件  
+        response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xls");
+
+        //创建工作簿并发送到浏览器  
+        try {
+
+            OutputStream out = response.getOutputStream();
+            listToExcel(list, fieldMap, sheetName, sheetSize, out);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            //如果是ExcelException，则直接抛出  
+            if (e instanceo
