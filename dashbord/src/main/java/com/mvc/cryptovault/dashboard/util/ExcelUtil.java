@@ -188,4 +188,25 @@ public class ExcelUtil {
      */
     public static <T> List<T> excelToList(
             InputStream in,
-           
+            String sheetName,
+            Class<T> entityClass,
+            LinkedHashMap<String, String> fieldMap,
+            String[] uniqueFields
+    ) throws ExcelException {
+
+        //定义要返回的list  
+        List<T> resultList = new ArrayList<T>();
+
+        try {
+
+            //根据Excel数据源创建WorkBook  
+            Workbook wb = Workbook.getWorkbook(in);
+            //获取工作表  
+            Sheet sheet = wb.getSheet(sheetName);
+
+            //获取工作表的有效行数  
+            int realRows = 0;
+            for (int i = 0; i < sheet.getRows(); i++) {
+
+                int nullCols = 0;
+                for (int j = 0; j < sheet.getColumns(); 
