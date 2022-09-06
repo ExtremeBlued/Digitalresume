@@ -170,3 +170,22 @@ public class ExcelUtil {
             List<T> list,
             LinkedHashMap<String, String> fieldMap,
             String sheetName,
+            HttpServletResponse response
+    ) throws ExcelException {
+
+        listToExcel(list, fieldMap, sheetName, 65535, response);
+    }
+
+    /**
+     * @param in           ：承载着Excel的输入流
+     * @param entityClass  ：List中对象的类型（Excel中的每一行都要转化为该类型的对象）
+     * @param fieldMap     ：Excel中的中文列头和类的英文属性的对应关系Map
+     * @param uniqueFields ：指定业务主键组合（即复合主键），这些列的组合不能重复
+     * @return ：List
+     * @throws ExcelException
+     * @MethodName : excelToList
+     * @Description : 将Excel转化为List
+     */
+    public static <T> List<T> excelToList(
+            InputStream in,
+           
