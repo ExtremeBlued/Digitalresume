@@ -147,4 +147,26 @@ public class ExcelUtil {
             e.printStackTrace();
 
             //如果是ExcelException，则直接抛出  
-            if (e instanceo
+            if (e instanceof ExcelException) {
+                throw (ExcelException) e;
+
+                //否则将其它异常包装成ExcelException再抛出
+            } else {
+                throw new ExcelException("导出Excel失败");
+            }
+        }
+    }
+
+
+    /**
+     * @param list     数据源
+     * @param fieldMap 类的英文属性和Excel中的中文列名的对应关系
+     * @param response 使用response可以导出到浏览器
+     * @throws ExcelException
+     * @MethodName : listToExcel
+     * @Description : 导出Excel（导出到浏览器，工作表的大小是2003支持的最大值）
+     */
+    public static <T> void listToExcel(
+            List<T> list,
+            LinkedHashMap<String, String> fieldMap,
+            String sheetName,
