@@ -209,4 +209,27 @@ public class ExcelUtil {
             for (int i = 0; i < sheet.getRows(); i++) {
 
                 int nullCols = 0;
-                for (int j = 0; j < sheet.getColumns(); 
+                for (int j = 0; j < sheet.getColumns(); j++) {
+                    Cell currentCell = sheet.getCell(j, i);
+                    if (currentCell == null || "".equals(currentCell.getContents().toString())) {
+                        nullCols++;
+                    }
+                }
+
+                if (nullCols == sheet.getColumns()) {
+                    break;
+                } else {
+                    realRows++;
+                }
+            }
+
+
+            //如果Excel中没有数据则提示错误  
+            if (realRows <= 1) {
+                throw new ExcelException("Excel文件中没有任何数据");
+            }
+
+
+            Cell[] firstRow = sheet.getRow(0);
+
+          
