@@ -232,4 +232,21 @@ public class ExcelUtil {
 
             Cell[] firstRow = sheet.getRow(0);
 
-          
+            String[] excelFieldNames = new String[firstRow.length];
+
+            //获取Excel中的列名  
+            for (int i = 0; i < firstRow.length; i++) {
+                excelFieldNames[i] = firstRow[i].getContents().toString().trim();
+            }
+
+            //判断需要的字段在Excel中是否都存在  
+            boolean isExist = true;
+            List<String> excelFieldList = Arrays.asList(excelFieldNames);
+            for (String cnName : fieldMap.keySet()) {
+                if (!excelFieldList.contains(cnName)) {
+                    isExist = false;
+                    break;
+                }
+            }
+
+            //如果有列名不
