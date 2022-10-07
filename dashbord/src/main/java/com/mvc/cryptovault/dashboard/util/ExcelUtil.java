@@ -249,4 +249,20 @@ public class ExcelUtil {
                 }
             }
 
-            //如果有列名不
+            //如果有列名不存在，则抛出异常，提示错误  
+            if (!isExist) {
+                throw new ExcelException("Excel中缺少必要的字段，或字段名称有误");
+            }
+
+
+            //将列名和列号放入Map中,这样通过列名就可以拿到列号  
+            LinkedHashMap<String, Integer> colMap = new LinkedHashMap<String, Integer>();
+            for (int i = 0; i < excelFieldNames.length; i++) {
+                colMap.put(excelFieldNames[i], firstRow[i].getColumn());
+            }
+
+
+            //判断是否有重复行  
+            //1.获取uniqueFields指定的列  
+            Cell[][] uniqueCells = new Cell[uniqueFields.length][];
+            for (int i = 0; i <
