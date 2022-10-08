@@ -265,4 +265,16 @@ public class ExcelUtil {
             //判断是否有重复行  
             //1.获取uniqueFields指定的列  
             Cell[][] uniqueCells = new Cell[uniqueFields.length][];
-            for (int i = 0; i <
+            for (int i = 0; i < uniqueFields.length; i++) {
+                int col = colMap.get(uniqueFields[i]);
+                uniqueCells[i] = sheet.getColumn(col);
+            }
+
+            //2.从指定列中寻找重复行  
+            for (int i = 1; i < realRows; i++) {
+                int nullCols = 0;
+                for (int j = 0; j < uniqueFields.length; j++) {
+                    String currentContent = uniqueCells[j][i].getContents();
+                    Cell sameCell = sheet.findCell(currentContent,
+                            uniqueCells[j][i].getColumn(),
+                            uniqueCells[j][i].getRo
