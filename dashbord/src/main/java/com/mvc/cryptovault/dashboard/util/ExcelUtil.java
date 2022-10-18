@@ -277,4 +277,23 @@ public class ExcelUtil {
                     String currentContent = uniqueCells[j][i].getContents();
                     Cell sameCell = sheet.findCell(currentContent,
                             uniqueCells[j][i].getColumn(),
-                            uniqueCells[j][i].getRo
+                            uniqueCells[j][i].getRow() + 1,
+                            uniqueCells[j][i].getColumn(),
+                            uniqueCells[j][realRows - 1].getRow(),
+                            true);
+                    if (sameCell != null) {
+                        nullCols++;
+                    }
+                }
+
+                if (nullCols == uniqueFields.length) {
+                    throw new ExcelException("Excel中有重复行，请检查");
+                }
+            }
+
+            //将sheet转换为list  
+            for (int i = 1; i < realRows; i++) {
+                //新建要转换的对象  
+                T entity = entityClass.newInstance();
+
+    
