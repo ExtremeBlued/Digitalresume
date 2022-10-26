@@ -296,4 +296,18 @@ public class ExcelUtil {
                 //新建要转换的对象  
                 T entity = entityClass.newInstance();
 
-    
+                //给对象中的字段赋值  
+                for (Map.Entry<String, String> entry : fieldMap.entrySet()) {
+                    //获取中文字段名  
+                    String cnNormalName = entry.getKey();
+                    //获取英文字段名  
+                    String enNormalName = entry.getValue();
+                    //根据中文字段名获取列号  
+                    int col = colMap.get(cnNormalName);
+
+                    //获取当前单元格中的内容  
+                    String content = sheet.getCell(col, i).getContents().toString().trim();
+
+                    //给对象赋值  
+                    setFieldValueByName(enNormalName, content, entity);
+                
