@@ -310,4 +310,29 @@ public class ExcelUtil {
 
                     //给对象赋值  
                     setFieldValueByName(enNormalName, content, entity);
-                
+                }
+
+                resultList.add(entity);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            //如果是ExcelException，则直接抛出  
+            if (e instanceof ExcelException) {
+                throw (ExcelException) e;
+
+                //否则将其它异常包装成ExcelException再抛出
+            } else {
+                e.printStackTrace();
+                throw new ExcelException("导入Excel失败");
+            }
+        }
+        return resultList;
+    }
+
+
+
+
+
+    /*<-------------------------辅助的私有方法----------------------------------------------->*/
+
+    /*
