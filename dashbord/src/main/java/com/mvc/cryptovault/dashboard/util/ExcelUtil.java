@@ -396,4 +396,17 @@ public class ExcelUtil {
      * 根据带路径或不带路径的属性名获取属性值
      * 即接受简单属性名，如userName等，又接受带路径的属性名，如student.department.name等
      */
-    private static Object getFieldValueByNameSequence(String fieldNameSequence, Object o) throws Exc
+    private static Object getFieldValueByNameSequence(String fieldNameSequence, Object o) throws Exception {
+
+        Object value = null;
+
+        //将fieldNameSequence进行拆分  
+        String[] attributes = fieldNameSequence.split("\\.");
+        if (attributes.length == 1) {
+            value = getGetMethod(o, fieldNameSequence);
+//            value = getFieldValueByName(fieldNameSequence, o);
+        } else {
+            //根据属性名获取属性对象  
+            Object fieldObj = getFieldValueByName(attributes[0], o);
+            String subFieldNameSequence = fieldNameSequence.substring(fieldNameSequence.indexOf(".") + 1);
+            value = getFieldValueByNameSequence(subFieldNameSequenc
