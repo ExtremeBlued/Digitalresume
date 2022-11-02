@@ -409,4 +409,26 @@ public class ExcelUtil {
             //根据属性名获取属性对象  
             Object fieldObj = getFieldValueByName(attributes[0], o);
             String subFieldNameSequence = fieldNameSequence.substring(fieldNameSequence.indexOf(".") + 1);
-            value = getFieldValueByNameSequence(subFieldNameSequenc
+            value = getFieldValueByNameSequence(subFieldNameSequence, fieldObj);
+        }
+        return value;
+
+    }
+
+
+    /**
+     * @param fieldName  字段名
+     * @param fieldValue 字段值
+     * @param o          对象
+     * @MethodName : setFieldValueByName
+     * @Description : 根据字段名给对象的字段赋值
+     */
+    private static void setFieldValueByName(String fieldName, Object fieldValue, Object o) throws Exception {
+
+        Field field = getFieldByName(fieldName, o.getClass());
+        if (field != null) {
+            field.setAccessible(true);
+            //获取字段类型
+            Class<?> fieldType = field.getType();
+
+          
