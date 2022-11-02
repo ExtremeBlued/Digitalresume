@@ -441,4 +441,14 @@ public class ExcelUtil {
                     || (Long.class == fieldType)) {
                 Long time = Long.parseLong(fieldValue.toString());
                 field.set(o, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(time));
-            } else if ((Float.TYPE == fiel
+            } else if ((Float.TYPE == fieldType)
+                    || (Float.class == fieldType)) {
+                field.set(o, Float.valueOf(fieldValue.toString()));
+            } else if ((Short.TYPE == fieldType)
+                    || (Short.class == fieldType)) {
+                field.set(o, Short.valueOf(fieldValue.toString()));
+            } else if ((Double.TYPE == fieldType)
+                    || (Double.class == fieldType)) {
+                field.set(o, Double.valueOf(fieldValue.toString()));
+            } else if (Character.TYPE == fieldType) {
+                if ((fieldValue != null) && (fieldValue.toString(
