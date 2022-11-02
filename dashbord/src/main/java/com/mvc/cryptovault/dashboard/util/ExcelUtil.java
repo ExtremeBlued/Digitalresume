@@ -451,4 +451,24 @@ public class ExcelUtil {
                     || (Double.class == fieldType)) {
                 field.set(o, Double.valueOf(fieldValue.toString()));
             } else if (Character.TYPE == fieldType) {
-                if ((fieldValue != null) && (fieldValue.toString(
+                if ((fieldValue != null) && (fieldValue.toString().length() > 0)) {
+                    field.set(o, Character
+                            .valueOf(fieldValue.toString().charAt(0)));
+                }
+            } else if (Date.class == fieldType) {
+                field.set(o, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(fieldValue.toString()));
+            } else {
+                field.set(o, fieldValue);
+            }
+        } else {
+            throw new ExcelException(o.getClass().getSimpleName() + "类不存在字段名 " + fieldName);
+        }
+    }
+
+
+    /**
+     * @param ws
+     * @MethodName : setColumnAutoSize
+     * @Description : 设置工作表自动列宽和首行加粗
+     */
+    private static
