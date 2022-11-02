@@ -352,4 +352,28 @@ public class ExcelUtil {
             value = field.get(o);
         } else {
             throw new ExcelException(o.getClass().getSimpleName() + "类不存在字段名 " + fieldName);
- 
+        }
+
+        return value;
+    }
+
+    /**
+     * @param fieldName 字段名
+     * @param clazz     包含该字段的类
+     * @return 字段
+     * @MethodName : getFieldByName
+     * @Description : 根据字段名获取字段
+     */
+    private static Field getFieldByName(String fieldName, Class<?> clazz) {
+        //拿到本类的所有字段  
+        Field[] selfFields = clazz.getDeclaredFields();
+
+        //如果本类中存在该字段，则返回  
+        for (Field field : selfFields) {
+            if (field.getName().equals(fieldName)) {
+                return field;
+            }
+        }
+
+        //否则，查看父类中是否存在此字段，如果有则返回  
+        Class<?> superCl
