@@ -335,4 +335,21 @@ public class ExcelUtil {
 
     /*<-------------------------辅助的私有方法----------------------------------------------->*/
 
-    /*
+    /**
+     * @param fieldName 字段名
+     * @param o         对象
+     * @return 字段值
+     * @MethodName : getFieldValueByName
+     * @Description : 根据字段名获取字段值
+     */
+    private static Object getFieldValueByName(String fieldName, Object o) throws Exception {
+
+        Object value = null;
+        Field field = getFieldByName(fieldName, o.getClass());
+
+        if (field != null) {
+            field.setAccessible(true);
+            value = field.get(o);
+        } else {
+            throw new ExcelException(o.getClass().getSimpleName() + "类不存在字段名 " + fieldName);
+ 
