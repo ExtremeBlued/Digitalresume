@@ -431,4 +431,14 @@ public class ExcelUtil {
             //获取字段类型
             Class<?> fieldType = field.getType();
 
-          
+            //根据字段类型给字段赋值
+            if (String.class == fieldType) {
+                field.set(o, String.valueOf(fieldValue));
+            } else if ((Integer.TYPE == fieldType)
+                    || (Integer.class == fieldType)) {
+                field.set(o, Integer.parseInt(fieldValue.toString()));
+            } else if ((Long.TYPE == fieldType)
+                    || (Long.class == fieldType)) {
+                Long time = Long.parseLong(fieldValue.toString());
+                field.set(o, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(time));
+            } else if ((Float.TYPE == fiel
