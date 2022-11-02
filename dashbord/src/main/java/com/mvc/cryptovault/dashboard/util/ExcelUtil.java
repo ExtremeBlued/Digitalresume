@@ -471,4 +471,22 @@ public class ExcelUtil {
      * @MethodName : setColumnAutoSize
      * @Description : 设置工作表自动列宽和首行加粗
      */
-    private static
+    private static void setColumnAutoSize(WritableSheet ws, int extraWith) {
+        //获取本列的最宽单元格的宽度  
+        for (int i = 0; i < ws.getColumns(); i++) {
+            int colWith = 0;
+            for (int j = 0; j < ws.getRows(); j++) {
+                String content = ws.getCell(i, j).getContents().toString();
+                int cellWith = content.length();
+                if (colWith < cellWith) {
+                    colWith = cellWith;
+                }
+            }
+            //设置单元格的宽度为最宽宽度+额外宽度  
+            ws.setColumnView(i, colWith + extraWith);
+        }
+
+    }
+
+    /**
+   
