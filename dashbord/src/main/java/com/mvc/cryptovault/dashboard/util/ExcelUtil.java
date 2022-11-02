@@ -376,4 +376,24 @@ public class ExcelUtil {
         }
 
         //否则，查看父类中是否存在此字段，如果有则返回  
-        Class<?> superCl
+        Class<?> superClazz = clazz.getSuperclass();
+        if (superClazz != null && superClazz != Object.class) {
+            return getFieldByName(fieldName, superClazz);
+        }
+
+        //如果本类和父类都没有，则返回空  
+        return null;
+    }
+
+
+    /**
+     * @param fieldNameSequence 带路径的属性名或简单属性名
+     * @param o                 对象
+     * @return 属性值
+     * @throws Exception
+     * @MethodName : getFieldValueByNameSequence
+     * @Description :
+     * 根据带路径或不带路径的属性名获取属性值
+     * 即接受简单属性名，如userName等，又接受带路径的属性名，如student.department.name等
+     */
+    private static Object getFieldValueByNameSequence(String fieldNameSequence, Object o) throws Exc
