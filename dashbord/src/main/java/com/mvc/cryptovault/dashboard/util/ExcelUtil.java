@@ -510,4 +510,21 @@ public class ExcelUtil {
         String[] cnFields = new String[fieldMap.size()];
 
         //填充数组  
-       
+        int count = 0;
+        for (Map.Entry<String, String> entry : fieldMap.entrySet()) {
+            enFields[count] = entry.getKey();
+            cnFields[count] = entry.getValue();
+            count++;
+        }
+        //填充表头  
+        for (int i = 0; i < cnFields.length; i++) {
+            Label label = new Label(i, 0, cnFields[i]);
+            sheet.addCell(label);
+        }
+
+        //填充内容  
+        int rowNo = 1;
+        for (int index = firstIndex; index <= lastIndex; index++) {
+            //获取单个对象  
+            T item = list.get(index);
+            for (int i = 0; i < enFields.length; i++) {
