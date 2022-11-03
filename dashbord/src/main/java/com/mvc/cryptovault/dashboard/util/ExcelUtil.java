@@ -528,3 +528,14 @@ public class ExcelUtil {
             //获取单个对象  
             T item = list.get(index);
             for (int i = 0; i < enFields.length; i++) {
+                Object objValue = getFieldValueByNameSequence(enFields[i], item);
+                if (objValue instanceof Long) {
+                    String str = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date((Long) objValue));
+                    objValue = str;
+                }
+                String fieldValue = objValue == null ? "" : objValue.toString();
+                WritableCell cell = null;
+                if (isNumber(fieldValue)) {
+                    cell = new Number(i, rowNo, new Double(fieldValue));
+                } else {
+                    cell = new Label(i, rowNo
