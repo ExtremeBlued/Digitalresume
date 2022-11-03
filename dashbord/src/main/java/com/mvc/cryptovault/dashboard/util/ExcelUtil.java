@@ -489,4 +489,25 @@ public class ExcelUtil {
     }
 
     /**
-   
+     * @param sheet      工作表
+     * @param list       数据源
+     * @param fieldMap   中英文字段对应关系的Map
+     * @param firstIndex 开始索引
+     * @param lastIndex  结束索引
+     * @MethodName : fillSheet
+     * @Description : 向工作表中填充数据
+     */
+    private static <T> void fillSheet(
+            WritableSheet sheet,
+            List<T> list,
+            LinkedHashMap<String, String> fieldMap,
+            int firstIndex,
+            int lastIndex
+    ) throws Exception {
+
+        //定义存放英文字段名和中文字段名的数组  
+        String[] enFields = new String[fieldMap.size()];
+        String[] cnFields = new String[fieldMap.size()];
+
+        //填充数组  
+       
