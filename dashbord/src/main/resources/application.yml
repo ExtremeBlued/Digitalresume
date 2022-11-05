@@ -1,0 +1,22 @@
+spring:
+  redis:
+    database: 1
+    #aliyun server move to xxxz
+    host: 192.168.15.31
+    timeout: 1000ms
+    jedis:
+      pool:
+        max-idle: 8
+        max-active: 8
+        min-idle: 0
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
+  thymeleaf:
+    cache: false
+  mvc:
+    async:
+      request-timeout: 10ms
+  application:
+    name: DASHBOARD
