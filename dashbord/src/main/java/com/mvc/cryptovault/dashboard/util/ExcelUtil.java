@@ -538,4 +538,30 @@ public class ExcelUtil {
                 if (isNumber(fieldValue)) {
                     cell = new Number(i, rowNo, new Double(fieldValue));
                 } else {
-                    cell = new Label(i, rowNo
+                    cell = new Label(i, rowNo, fieldValue);
+                }
+                sheet.addCell(cell);
+            }
+            rowNo++;
+        }
+
+        //设置自动列宽  
+        setColumnAutoSize(sheet, 5);
+    }
+
+    public static boolean isNumber(String str) {
+        String reg = "^[0-9]+(.[0-9]+)?$";
+        return str.matches(reg);
+    }
+
+    /**
+     * 根据属性，获取get方法
+     *
+     * @param ob   对象
+     * @param name 属性名
+     * @return
+     * @throws Exception
+     */
+    public static Object getGetMethod(Object ob, String name) throws Exception {
+        Method[] m = ob.getClass().getMethods();
+        for (int i = 0;
