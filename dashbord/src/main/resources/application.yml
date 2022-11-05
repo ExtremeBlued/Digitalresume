@@ -20,3 +20,36 @@ spring:
       request-timeout: 10ms
   application:
     name: DASHBOARD
+logging:
+  level:
+    org: info
+    io.swagger.models.parameters.AbstractSerializableParameter: error
+
+server:
+  port: 10083
+  tomcat:
+    max-threads: 5000
+    min-spare-threads: 1000
+    max-connections: 5000
+  connection-timeout: 1000ms
+  servlet:
+    context-path: /
+
+cors.allowedOrigin: '*'
+
+service:
+  name: app
+  expire: 6048000
+  refresh: 604800000
+  base64Secret: LDk4ZjZ1iY2Q0NjIxZDM6M2hZGU0ZTgzMjYyN2I0ZjY=
+
+hystrix.command.default.execution:
+  isolation.thread.timeoutInMilliseconds: 500
+  timeout.enabled: true
+ribbon:
+  ReadTimeout: 30000
+  ConnectTimeout: 30000
+
+
+oss:
+  endpoint: oss-c
