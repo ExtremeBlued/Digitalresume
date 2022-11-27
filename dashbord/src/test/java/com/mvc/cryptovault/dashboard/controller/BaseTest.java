@@ -14,4 +14,23 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.ser
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+
+import java.lang.reflect.Field;
+import java.util.Arrays;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+
+/**
+ * @author qiyichen
+ * @create 2018/11/16 14:02
+ */
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class BaseTest {
+
+    protected final static String host = "http://localhost:10083";
+    
