@@ -33,4 +33,23 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 public class BaseTest {
 
     protected final static String host = "http://localhost:10083";
-    
+    protected final static Integer SEARCH_DIRECTION_UP = 0;
+    protected final static Integer SEARCH_DIRECTION_DOWN = 1;
+
+    @Autowired
+    public WebApplicationContext wac;
+    public MockMvc mockMvc;
+    //性能测试时开启
+//    @Rule
+//    public ContiPerfRule rule = new ContiPerfRule();
+
+    private static TokenVO vo = null;
+
+    @Before
+    public void setup() {
+        //让每个测试用例启动之前都构建这样一个启动项
+        mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+    }
+
+    public <T> T parseObject(MvcResult result, Class<T> clazz) throws Exception {
+        Result resultObj = JSON.parseObject(result.getResponse().getContentAsString(
