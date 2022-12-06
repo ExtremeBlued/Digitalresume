@@ -67,4 +67,12 @@ public class BaseTest {
 
     public TokenVO getToken() throws Exception {
         if (vo == null) {
-            U
+            UserDTO userDTO = new UserDTO();
+            userDTO.setPassword("admin");
+            userDTO.setUsername("admin");
+            MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(host + "/admin/login")
+                    .content(JSON.toJSONString(userDTO))
+                    .contentType(MediaType.APPLICATION_JSON_UTF8))
+                    .andExpect(MockMvcResultMatchers.status().isOk())
+                    .andExpect(MockMvcResultMatchers.jsonPath("data.userId").exists())
+                    .andExpect(MockMvcResultMatchers.jsonPath("data.token").exis
