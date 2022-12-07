@@ -75,4 +75,19 @@ public class BaseTest {
                     .contentType(MediaType.APPLICATION_JSON_UTF8))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andExpect(MockMvcResultMatchers.jsonPath("data.userId").exists())
-                    .andExpect(MockMvcResultMatchers.jsonPath("data.token").exis
+                    .andExpect(MockMvcResultMatchers.jsonPath("data.token").exists())
+                    .andExpect(MockMvcResultMatchers.jsonPath("data.refreshToken").exists())
+                    .andDo(print())
+                    .andReturn();
+            vo = parseObject(result, TokenVO.class);
+        }
+        return vo;
+    }
+
+    protected void addNullActionTest(ResultActions action, String str, Class clazz, String... ignoreFields) throws Exception {
+        Field[] fields = clazz.getDeclaredFields();
+        for (Field field : fields) {
+            if ("serialVersionUID".equals(field.getName()) || Arrays.asList(ignoreFields).contains(field.getName())) {
+                continue;
+            }
+ 
