@@ -90,4 +90,8 @@ public class BaseTest {
             if ("serialVersionUID".equals(field.getName()) || Arrays.asList(ignoreFields).contains(field.getName())) {
                 continue;
             }
- 
+            String jsonPath = str + "." + field.getName();
+            action.andExpect(MockMvcResultMatchers.jsonPath(jsonPath).exists());
+        }
+    }
+}
