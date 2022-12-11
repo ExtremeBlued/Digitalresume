@@ -19,4 +19,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 
 public class ProjectControllerTest extends BaseTest {
 
-    String contr
+    String controller = "/project";
+
+    @Test
+    public void projects() throws Exception {
+        String url = host + controller + "";
+        ResultActions action = mockMvc.perform(MockMvcRequestBuilders.get(url)
+                .header("Authorization", getToken().getToken())
+                .param("pageSize", "1")
+                .param("pageNum", "1")
+                .param("updatedStartAt", "")
+                .param("orderBy", "id desc")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status(
