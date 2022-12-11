@@ -32,4 +32,18 @@ public class ProjectControllerTest extends BaseTest {
                 .param("orderBy", "id desc")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
-                .andExpect(MockMvcResultMatchers.status(
+                .andExpect(MockMvcResultMatchers.status().isOk());
+        action.andExpect(MockMvcResultMatchers.jsonPath("data").isNotEmpty());
+        action.andExpect(MockMvcResultMatchers.jsonPath("data.list").isNotEmpty());
+        addNullActionTest(action, "data.list[0]", DProjectVO.class);
+        MvcResult result = action.andReturn();
+    }
+
+    @Test
+    public void getDetail() throws Exception {
+        String url = host + controller + "/1";
+        ResultActions action = mockMvc.perform(MockMvcRequestBuilders.get(url)
+                .header("Authorization", getToken().getToken())
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+             
