@@ -94,4 +94,14 @@ public class ProjectControllerTest extends BaseTest {
         dto.setStartedAt(System.currentTimeMillis());
         dto.setStopAt(System.currentTimeMillis());
         dto.setVisiable(0);
-  
+        dto.setTokenId(BigInteger.valueOf(4));
+        dto.setTokenName("USDT");
+        String url = host + controller + "";
+        ResultActions action = mockMvc.perform(MockMvcRequestBuilders.put(url)
+                .header("Authorization", getToken().getToken())
+                .content(JSON.toJSONString(dto))
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().isOk());
+        action.andExpect(MockMvcResultMatchers.jsonPath("data").isNotEmpty());
+        MvcResult result 
