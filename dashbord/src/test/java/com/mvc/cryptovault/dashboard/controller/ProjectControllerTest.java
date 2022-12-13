@@ -69,4 +69,18 @@ public class ProjectControllerTest extends BaseTest {
         dto.setTokenId(BigInteger.valueOf(4));
         dto.setTokenName("USDT");
         String url = host + controller + "";
-        ResultActions action = mockMvc.perform(MockMvcReque
+        ResultActions action = mockMvc.perform(MockMvcRequestBuilders.post(url)
+                .header("Authorization", getToken().getToken())
+                .content(JSON.toJSONString(dto))
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().isOk());
+        action.andExpect(MockMvcResultMatchers.jsonPath("data").isNotEmpty());
+        MvcResult result = action.andReturn();
+    }
+
+    @Test
+    public void updateProject() throws Exception {
+        DProjectDTO dto = new DProjectDTO();
+        dto.setId(BigInteger.ONE);
+        dto.setBaseTokenId(
