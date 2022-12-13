@@ -119,4 +119,16 @@ public class ProjectControllerTest extends BaseTest {
         MvcResult result = action.andReturn();
     }
 
-    @T
+    @Test
+    public void findOrders() throws Exception {
+        String url = host + controller + "/order";
+        ResultActions action = mockMvc.perform(MockMvcRequestBuilders.get(url)
+                .header("Authorization", getToken().getToken())
+                .param("projectName", "")
+                .param("cellphone", "")
+                .param("status", "")
+                .param("pageSize", "1")
+                .param("pageNum", "1")
+                .param("updatedStartAt", "")
+                .param("orderBy", "id desc")
+                .contentType(MediaType.APPL
