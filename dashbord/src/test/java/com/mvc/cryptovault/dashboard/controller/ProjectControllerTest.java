@@ -46,4 +46,15 @@ public class ProjectControllerTest extends BaseTest {
                 .header("Authorization", getToken().getToken())
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
-             
+                .andExpect(MockMvcResultMatchers.status().isOk());
+        action.andExpect(MockMvcResultMatchers.jsonPath("data").isNotEmpty());
+        addNullActionTest(action, "data", DProjectDetailVO.class);
+        MvcResult result = action.andReturn();
+    }
+
+    @Test
+    public void newProject() throws Exception {
+        DProjectDTO dto = new DProjectDTO();
+        dto.setBaseTokenId(BigInteger.ONE);
+        dto.setBaseTokenName("Vrt");
+        dto.setProjectImage("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1542378065226&di=513e584258d0bed94aea1be2b0
