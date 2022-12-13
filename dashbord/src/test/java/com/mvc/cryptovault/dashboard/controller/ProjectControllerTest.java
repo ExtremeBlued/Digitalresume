@@ -57,4 +57,16 @@ public class ProjectControllerTest extends BaseTest {
         DProjectDTO dto = new DProjectDTO();
         dto.setBaseTokenId(BigInteger.ONE);
         dto.setBaseTokenName("Vrt");
-        dto.setProjectImage("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1542378065226&di=513e584258d0bed94aea1be2b0
+        dto.setProjectImage("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1542378065226&di=513e584258d0bed94aea1be2b0fd5f11&imgtype=0&");
+        dto.setProjectLimit(BigDecimal.valueOf(1000));
+        dto.setProjectName(("测试项目" + Math.random()).substring(0, 15));
+        dto.setProjectTotal(BigDecimal.valueOf(500000));
+        dto.setRatio(0.02f);
+        dto.setReleaseValue(0.01f);
+        dto.setStartedAt(System.currentTimeMillis());
+        dto.setStopAt(System.currentTimeMillis());
+        dto.setVisiable(0);
+        dto.setTokenId(BigInteger.valueOf(4));
+        dto.setTokenName("USDT");
+        String url = host + controller + "";
+        ResultActions action = mockMvc.perform(MockMvcReque
