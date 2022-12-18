@@ -131,4 +131,16 @@ public class ProjectControllerTest extends BaseTest {
                 .param("pageNum", "1")
                 .param("updatedStartAt", "")
                 .param("orderBy", "id desc")
-                .contentType(MediaType.APPL
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().isOk());
+        action.andExpect(MockMvcResultMatchers.jsonPath("data").isNotEmpty());
+        action.andExpect(MockMvcResultMatchers.jsonPath("data.list").isNotEmpty());
+        addNullActionTest(action, "data.list[0]", DProjectOrderVO.class);
+        MvcResult result = action.andReturn();
+    }
+
+    @Test
+    public void cancelOrder() throws Exception {
+        String url = host + controller + "/order/1";
+        ResultActions action = mockMvc.perform(MockMvcRequestBuilders.delete(url
