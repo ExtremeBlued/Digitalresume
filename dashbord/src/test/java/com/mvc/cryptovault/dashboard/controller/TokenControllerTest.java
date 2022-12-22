@@ -26,4 +26,19 @@ public class TokenControllerTest extends BaseTest {
         ResultActions action = mockMvc.perform(MockMvcRequestBuilders.get(url)
                 .header("Authorization", getToken().getToken())
                 .param("tokenName", "")
-                .contentType(MediaType.APPLICATION_JS
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().isOk());
+        action.andExpect(MockMvcResultMatchers.jsonPath("data").isNotEmpty());
+        addNullActionTest(action, "data[0]", DTokenVO.class);
+        MvcResult result = action.andReturn();
+    }
+
+    @Test
+    public void newToken() throws Exception {
+        DTokenDTO dTokenDTO = new DTokenDTO();
+        dTokenDTO.setBlockType("ETH");
+        dTokenDTO.setContractAddress("");
+        dTokenDTO.setDecimals(10);
+        dTokenDTO.setTokenCnName("小牛");
+        dTokenDTO.setToke
