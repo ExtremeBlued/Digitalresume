@@ -13,4 +13,17 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.math.BigDecimal;
-import java
+import java.math.BigInteger;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+
+public class TokenControllerTest extends BaseTest {
+    String controller = "/token";
+
+    @Test
+    public void findTokens() throws Exception {
+        String url = host + controller + "";
+        ResultActions action = mockMvc.perform(MockMvcRequestBuilders.get(url)
+                .header("Authorization", getToken().getToken())
+                .param("tokenName", "")
+                .contentType(MediaType.APPLICATION_JS
