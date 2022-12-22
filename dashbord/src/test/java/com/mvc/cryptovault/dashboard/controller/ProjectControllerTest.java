@@ -143,4 +143,17 @@ public class ProjectControllerTest extends BaseTest {
     @Test
     public void cancelOrder() throws Exception {
         String url = host + controller + "/order/1";
-        ResultActions action = mockMvc.perform(MockMvcRequestBuilders.delete(url
+        ResultActions action = mockMvc.perform(MockMvcRequestBuilders.delete(url)
+                .header("Authorization", getToken().getToken())
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().isOk());
+        action.andExpect(MockMvcResultMatchers.jsonPath("data").isNotEmpty());
+        MvcResult result = action.andReturn();
+    }
+
+    @Test
+    public void overTransactionExport() throws Exception {
+        String url = host + controller + "/order/excel";
+    }
+}
