@@ -50,4 +50,19 @@ public class TokenControllerTest extends BaseTest {
                 .content(JSON.toJSONString(dTokenDTO))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
-       
+                .andExpect(MockMvcResultMatchers.status().isOk());
+        action.andExpect(MockMvcResultMatchers.jsonPath("data").isNotEmpty());
+        MvcResult result = action.andReturn();
+    }
+
+    @Test
+    public void updateToken() throws Exception {
+        DTokenDTO dTokenDTO = new DTokenDTO();
+        dTokenDTO.setTokenId(BigInteger.valueOf(5));
+        dTokenDTO.setBlockType("ETH");
+        dTokenDTO.setContractAddress("");
+        dTokenDTO.setDecimals(10);
+        dTokenDTO.setTokenCnName("小牛");
+        dTokenDTO.setTokenEnName("MVC");
+        dTokenDTO.setTokenName("MVC");
+        dTokenDTO.setTokenImage("https://timgsa.baidu.com/timg?image&qu
