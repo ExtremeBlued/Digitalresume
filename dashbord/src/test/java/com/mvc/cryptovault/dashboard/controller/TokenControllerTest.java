@@ -65,4 +65,14 @@ public class TokenControllerTest extends BaseTest {
         dTokenDTO.setTokenCnName("小牛");
         dTokenDTO.setTokenEnName("MVC");
         dTokenDTO.setTokenName("MVC");
-        dTokenDTO.setTokenImage("https://timgsa.baidu.com/timg?image&qu
+        dTokenDTO.setTokenImage("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1542378065226&di=513e584258d0bed94aea1be2b0fd5f11&imgtype=0&");
+        String url = host + controller + "/5";
+        ResultActions action = mockMvc.perform(MockMvcRequestBuilders.put(url)
+                .header("Authorization", getToken().getToken())
+                .content(JSON.toJSONString(dTokenDTO))
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().isOk());
+        action.andExpect(MockMvcResultMatchers.jsonPath("data").isNotEmpty());
+        MvcResult result = action.andReturn();
+   
