@@ -116,4 +116,16 @@ public class TokenControllerTest extends BaseTest {
                 .andDo(print())
                 .andExpect(MockMvcResultMatchers.status().isOk());
         action.andExpect(MockMvcResultMatchers.jsonPath("data").isNotEmpty());
-        action
+        action.andExpect(MockMvcResultMatchers.jsonPath("data.list").isNotEmpty());
+        addNullActionTest(action, "data.list[0]", DTokenSettingVO.class);
+        MvcResult result = action.andReturn();
+    }
+
+    @Test
+    public void getTokenSetting() throws Exception {
+        String url = host + controller + "/setting/1";
+        ResultActions action = mockMvc.perform(MockMvcRequestBuilders.get(url)
+                .header("Authorization", getToken().getToken())
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect
