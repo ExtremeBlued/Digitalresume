@@ -105,4 +105,15 @@ public class TokenControllerTest extends BaseTest {
     @Test
     public void getTokenSettings() throws Exception {
         String url = host + controller + "/setting";
-        ResultActions act
+        ResultActions action = mockMvc.perform(MockMvcRequestBuilders.get(url)
+                .header("Authorization", getToken().getToken())
+                .param("tokenName", "")
+                .param("pageSize", "1")
+                .param("pageNum", "1")
+                .param("updatedStartAt", "")
+                .param("orderBy", "id desc")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().isOk());
+        action.andExpect(MockMvcResultMatchers.jsonPath("data").isNotEmpty());
+        action
