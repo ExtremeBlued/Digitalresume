@@ -75,4 +75,20 @@ public class TokenControllerTest extends BaseTest {
                 .andExpect(MockMvcResultMatchers.status().isOk());
         action.andExpect(MockMvcResultMatchers.jsonPath("data").isNotEmpty());
         MvcResult result = action.andReturn();
-   
+    }
+
+    @Test
+    public void tokenSetting() throws Exception {
+        DTokenSettingVO vo = new DTokenSettingVO();
+        vo.setBalance(1);
+        vo.setVrt(1);
+        vo.setRecharge(1);
+        vo.setId(BigInteger.valueOf(10));
+        vo.setFee(0.01f);
+        vo.setTokenName(("MVC" + Math.random()).substring(0, 15));
+        vo.setVisible(1);
+        vo.setWithdraw(1);
+        vo.setWithdrawDay(BigDecimal.valueOf(1111));
+        vo.setWithdrawMax(BigDecimal.valueOf(100));
+        vo.setWithdrawMin(BigDecimal.valueOf(10));
+        String url = host + controller + "/settin
