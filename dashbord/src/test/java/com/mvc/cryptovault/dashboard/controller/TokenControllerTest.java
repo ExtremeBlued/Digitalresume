@@ -91,4 +91,18 @@ public class TokenControllerTest extends BaseTest {
         vo.setWithdrawDay(BigDecimal.valueOf(1111));
         vo.setWithdrawMax(BigDecimal.valueOf(100));
         vo.setWithdrawMin(BigDecimal.valueOf(10));
-        String url = host + controller + "/settin
+        String url = host + controller + "/setting/10";
+        ResultActions action = mockMvc.perform(MockMvcRequestBuilders.put(url)
+                .header("Authorization", getToken().getToken())
+                .content(JSON.toJSONString(vo))
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().isOk());
+        action.andExpect(MockMvcResultMatchers.jsonPath("data").isNotEmpty());
+        MvcResult result = action.andReturn();
+    }
+
+    @Test
+    public void getTokenSettings() throws Exception {
+        String url = host + controller + "/setting";
+        ResultActions act
