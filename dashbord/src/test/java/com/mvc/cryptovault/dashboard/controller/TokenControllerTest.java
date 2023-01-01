@@ -141,4 +141,20 @@ public class TokenControllerTest extends BaseTest {
                 .header("Authorization", getToken().getToken())
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
-                .andExp
+                .andExpect(MockMvcResultMatchers.status().isOk());
+        action.andExpect(MockMvcResultMatchers.jsonPath("data").isNotEmpty());
+        addNullActionTest(action, "data", DTokenTransSettingVO.class);
+        MvcResult result = action.andReturn();
+    }
+
+    @Test
+    public void setTransSetting() throws Exception {
+        DTokenTransSettingVO dto = new DTokenTransSettingVO();
+        dto.setBuyMax(100f);
+        dto.setBuyMin(10f);
+        dto.setDecreaseMax(0.6f);
+        dto.setDecreaseMin(0.3f);
+        dto.setIncreaseMax(1f);
+        dto.setIncreaseMin(0.5f);
+        dto.setNextPrice(BigDecimal.ZERO);
+        dto.setPriceBase(BigDecimal.value
