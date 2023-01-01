@@ -170,4 +170,7 @@ public class TokenControllerTest extends BaseTest {
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
                 .andExpect(MockMvcResultMatchers.status().isOk());
-        action.andExpect(MockMvcResultMatchers.jsonPath("data").isNot
+        action.andExpect(MockMvcResultMatchers.jsonPath("data").isNotEmpty());
+        MvcResult result = action.andReturn();
+    }
+}
