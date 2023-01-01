@@ -35,4 +35,20 @@ public class TransactionControllerTest extends BaseTest {
         action.andExpect(MockMvcResultMatchers.jsonPath("data").isNotEmpty());
         action.andExpect(MockMvcResultMatchers.jsonPath("data.list").isNotEmpty());
         addNullActionTest(action, "data.list[0]", DTransactionVO.class);
-        MvcResult result = action.andReturn
+        MvcResult result = action.andReturn();
+    }
+
+    @Test
+    public void cancel() throws Exception {
+        String url = host + controller + "/1";
+        ResultActions action = mockMvc.perform(MockMvcRequestBuilders.delete(url)
+                .header("Authorization", getToken().getToken())
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().isOk());
+        action.andExpect(MockMvcResultMatchers.jsonPath("data").isNotEmpty());
+        MvcResult result = action.andReturn();
+    }
+
+    @Test
+    public void
