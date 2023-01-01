@@ -128,4 +128,17 @@ public class TokenControllerTest extends BaseTest {
                 .header("Authorization", getToken().getToken())
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
-                .andExpect
+                .andExpect(MockMvcResultMatchers.status().isOk());
+        action.andExpect(MockMvcResultMatchers.jsonPath("data").isNotEmpty());
+        addNullActionTest(action, "data", DTokenSettingVO.class);
+        MvcResult result = action.andReturn();
+    }
+
+    @Test
+    public void getTransSetting() throws Exception {
+        String url = host + controller + "/transaction/1";
+        ResultActions action = mockMvc.perform(MockMvcRequestBuilders.get(url)
+                .header("Authorization", getToken().getToken())
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExp
