@@ -157,4 +157,17 @@ public class TokenControllerTest extends BaseTest {
         dto.setIncreaseMax(1f);
         dto.setIncreaseMin(0.5f);
         dto.setNextPrice(BigDecimal.ZERO);
-        dto.setPriceBase(BigDecimal.value
+        dto.setPriceBase(BigDecimal.valueOf(1000));
+        dto.setSellMax(100f);
+        dto.setSellMin(10f);
+        dto.setWaveMax(0.2f);
+        dto.setWaveMin(0.1f);
+        dto.setTokenId(BigInteger.ONE);
+        String url = host + controller + "/transaction";
+        ResultActions action = mockMvc.perform(MockMvcRequestBuilders.put(url)
+                .header("Authorization", getToken().getToken())
+                .content(JSON.toJSONString(dto))
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().isOk());
+        action.andExpect(MockMvcResultMatchers.jsonPath("data").isNot
