@@ -45,4 +45,18 @@ public class UserControllerTest extends BaseTest {
                 .andExpect(MockMvcResultMatchers.status().isOk());
         action.andExpect(MockMvcResultMatchers.jsonPath("data").isNotEmpty());
         addNullActionTest(action, "data", DUSerDetailVO.class);
-        MvcResult 
+        MvcResult result = action.andReturn();
+    }
+
+    @Test
+    public void getBalance() throws Exception {
+        String url = host + controller + "/1/balance";
+        ResultActions action = mockMvc.perform(MockMvcRequestBuilders.get(url)
+                .header("Authorization", getToken().getToken())
+                .param("pageSize", "1")
+                .param("pageNum", "1")
+                .param("updatedStartAt", "")
+                .param("orderBy", "id desc")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+       
