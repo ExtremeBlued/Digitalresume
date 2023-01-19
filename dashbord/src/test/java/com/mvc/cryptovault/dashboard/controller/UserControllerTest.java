@@ -59,4 +59,16 @@ public class UserControllerTest extends BaseTest {
                 .param("orderBy", "id desc")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
-       
+                .andExpect(MockMvcResultMatchers.status().isOk());
+        action.andExpect(MockMvcResultMatchers.jsonPath("data").isNotEmpty());
+        addNullActionTest(action, "data[0]", DUserBalanceVO.class);
+        MvcResult result = action.andReturn();
+    }
+
+    @Test
+    public void getUserLog() throws Exception {
+        String url = host + controller + "/1/log";
+        ResultActions action = mockMvc.perform(MockMvcRequestBuilders.get(url)
+                .header("Authorization", getToken().getToken())
+                .param("pageSize", "1")
+                .param
