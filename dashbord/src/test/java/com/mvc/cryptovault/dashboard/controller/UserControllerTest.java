@@ -84,4 +84,8 @@ public class UserControllerTest extends BaseTest {
     }
 
     @Test
-    public void userLogExport() throws
+    public void userLogExport() throws Exception {
+        String url = host + controller + "/1/log/excel";
+
+    }
+}
