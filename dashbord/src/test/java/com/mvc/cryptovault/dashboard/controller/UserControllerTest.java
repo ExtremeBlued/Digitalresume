@@ -71,4 +71,17 @@ public class UserControllerTest extends BaseTest {
         ResultActions action = mockMvc.perform(MockMvcRequestBuilders.get(url)
                 .header("Authorization", getToken().getToken())
                 .param("pageSize", "1")
-                .param
+                .param("pageNum", "1")
+                .param("updatedStartAt", "")
+                .param("orderBy", "id desc")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().isOk());
+        action.andExpect(MockMvcResultMatchers.jsonPath("data").isNotEmpty());
+        action.andExpect(MockMvcResultMatchers.jsonPath("data.list").isNotEmpty());
+        addNullActionTest(action, "data.list[0]", DUserLogVO.class);
+        MvcResult result = action.andReturn();
+    }
+
+    @Test
+    public void userLogExport() throws
