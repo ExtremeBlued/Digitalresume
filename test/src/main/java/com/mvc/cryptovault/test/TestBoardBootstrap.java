@@ -23,3 +23,5 @@ public class TestBoardBootstrap {
     public static void main(String[] args) {
         SpringApplication.run(TestBoardBootstrap.class, args);
     }
+
+}
